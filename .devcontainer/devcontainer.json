@@ -1,0 +1,20 @@
+{
+  "name": "arch-ansible",
+  "dockerFile": "Dockerfile",
+  "extensions": [
+    "redhat.vscode-yaml",
+    "vscoss.vscode-ansible",
+    "wholroyd.jinja",
+    "coolbear.systemd-unit-file"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "remoteUser": "dev",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "mounts": [
+    "source=${env:HOME}${env:USERPROFILE}/.ssh,target=/home/dev/.ssh,type=bind,consistency=cached",
+    "source=${env:HOME}${env:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind,consistency=cached"
+  ]
+}
