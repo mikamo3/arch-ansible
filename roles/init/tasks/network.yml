@@ -1,0 +1,11 @@
+---
+- name: install networkmanager
+  pacman:
+    name: 
+      - networkmanager
+      - network-manager-applet
+
+- name: enable networkmanager
+  service:
+    name: NetworkManager.service
+    enabled: yes

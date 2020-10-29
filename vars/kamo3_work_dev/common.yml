@@ -1,0 +1,23 @@
+---
+kernel:
+  ucode: intel
+
+hwclock: local
+
+hostname: kamo3_work
+
+keyboard:
+  layout: jp
+  keymap: jp106
+
+bootloader:
+  loader:
+    default: arch
+  entries:
+    - title: arch
+      filename: arch.conf
+      linux: /vmlinuz-linux
+      initrds:
+        - /{{kernel.ucode}}-ucode.img
+        - /initramfs-linux.img
+      options: root=PARTLABEL=arch rootflags=subvol=@ rw

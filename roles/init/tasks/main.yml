@@ -1,0 +1,21 @@
+---
+- include: timezone.yml
+  tags: timezone
+- include: locale.yml
+  tags: locale
+- include: hostname.yml
+  tags: hostname
+- include: pacman.yml
+  tags: pacman
+- include: basepackages.yml
+  tags: basepackages
+- include: user.yml
+  tags: user
+- include: network.yml
+  tags: network
+- include: initramfs.yml
+  tags: initramfs
+- include: bootloader.yml
+  tags: bootloader
+- include: shell.yml
+  tags: shell

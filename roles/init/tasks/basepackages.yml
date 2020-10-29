@@ -1,0 +1,11 @@
+---
+- name: install base packages
+  pacman:
+    name: 
+      - base
+      - base-devel
+      - linux
+      - linux-headers
+      - btrfs-progs
+      - "{{ kernel.ucode }}-ucode"
+      - openssh

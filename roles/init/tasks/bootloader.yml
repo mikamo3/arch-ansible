@@ -1,0 +1,15 @@
+---
+  - name: install bootmanager
+    command: bootctl install
+
+  - name: copy loader.conf
+    template:
+      src: loader.conf.j2
+      dest: /boot/loader/loader.conf
+
+  - name: copy entries
+    template:
+      src: entry.conf.j2
+      dest: /boot/loader/entries/{{ item.filename }}
+    with_items: 
+    - "{{ bootloader.entries }}"
