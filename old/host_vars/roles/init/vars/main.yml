@@ -1,4 +1,9 @@
 ---
+kernel:
+  ucode: intel
+
+hwclock: local
+
 user:
   uid: 1000
   shell: /usr/bin/zsh

@@ -1,0 +1,13 @@
+---
+- hosts: kamo3work
+  remote_user: "{{ secret.user.name }}"
+  become: true
+  gather_facts: no
+  vars_files:
+    - vars/common.yml
+    - vars/kamo3_work_dev/common.yml
+    - vars/kamo3_work_dev/secret.yml
+  roles:
+    - { role: debug,tags: ["never", "debug"] }
+    - { role: packagemanager,tags: ["packagemanager"] }
+    - { role: shell,tags: ["shell"] }

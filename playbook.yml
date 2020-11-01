@@ -1,10 +1,13 @@
 ---
-- hosts: kamo3_work
+- hosts: kamo3work
+  remote_user: "ansible"
+  become: true
   gather_facts: no
   vars_files:
-    - vars/common.yml
-    - vars/kamo3_work_dev/common.yml
-    - vars/kamo3_work_dev/secret.yml
+    - vars/secret.yml
   roles:
     - { role: debug,tags: ["never", "debug"] }
-    - { role: init,tags: ["never", "init"] }
+    - { role: base, tags: ["base"]}
+    - { role: gui/displayserver, tags: ["gui","displayserver"]}
+    - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
+    - { role: gui/windowmanager, tags: ["gui","windowmanager"]}

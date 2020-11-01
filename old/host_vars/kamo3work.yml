@@ -1,14 +1,5 @@
 ---
-kernel:
-  ucode: intel
-
-hwclock: local
-
-hostname: kamo3_work
-
-keyboard:
-  layout: jp
-  keymap: jp106
+hostname: kamo3work
 
 bootloader:
   loader:

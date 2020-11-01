@@ -1,0 +1,6 @@
+---
+- name: include_vers
+  include_vars: timezone.yml
+- name: set timezone
+  timezone:
+    name: "{{timezone}}"

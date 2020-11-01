@@ -2,7 +2,7 @@ all:
   children:
     localmachine:
       hosts:
-        kamo3_work:
+        kamo3work:
           ansible_connection: local
   vars:
     stage: develop

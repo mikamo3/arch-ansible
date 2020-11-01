@@ -1,0 +1,10 @@
+hostname: kamo3work
+kernel:
+  ucode: intel
+user:
+  uid: 1000
+  shell: /usr/bin/zsh
+
+driver:
+  display: virtualbox
+  virtualbox: yes

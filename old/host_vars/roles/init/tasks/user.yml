@@ -2,7 +2,7 @@
 - name: set root password
   user:
     name: root
-    password: "{{ secret.user.password | password_hash('sha512') }}"
+    password: "{{ secret.user.password | password_hash('sha512')}}"
 - name: add user
   user:
     name: "{{ secret.user.name }}"

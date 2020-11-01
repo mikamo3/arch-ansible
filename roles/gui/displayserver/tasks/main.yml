@@ -1,0 +1,3 @@
+- name: install x
+  pacman:
+    name: mesa,xorg-server,xorg-apps,xorg-xinit,xorg-twm,xorg-xclock,xterm

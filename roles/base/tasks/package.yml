@@ -1,0 +1,30 @@
+- name: install base package
+  pacman:
+    name:
+      - base
+      - base-devel
+      - linux
+      - linux-headers
+      - btrfs-progs
+      - "{{ kernel.ucode }}-ucode"
+      - sudo
+      - openssh
+      - zsh
+      - ansible
+
+- name: add user for exec yay
+  block:
+    - user:
+        name: aur
+        group: wheel
+    - lineinfile:
+        path: /etc/sudoers
+        line: 'aur ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        validate: 'visudo -cf %s'
+
+- name: install yay
+  become: yes
+  become_user: aur
+  aur: 
+    use: makepkg
+    name: yay

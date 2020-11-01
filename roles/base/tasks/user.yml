@@ -1,0 +1,26 @@
+---
+- name: set root password
+  user:
+    name: root
+    password: "{{ secret.user.password | password_hash('sha512')}}"
+- name: add user
+  user:
+    name: "{{ secret.user.name }}"
+    append: yes
+    groups:
+      - wheel
+    uid: "{{ user.uid }}"
+    shell: "{{ user.shell }}"
+    password: "{{ secret.user.password | password_hash('sha512')}}"
+    generate_ssh_key: yes
+    ssh_key_bits: 521
+    ssh_key_type: ecdsa
+    ssh_key_file: .ssh/id_ecdsa
+    ssh_key_passphrase: "{{ secret.user.password | password_hash('sha512')}}"
+- name: sudo config
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '%wheel ALL=\(ALL\) ALL'
+    line: '%wheel ALL=(ALL) ALL'
+    validate: /usr/sbin/visudo -cf %s
