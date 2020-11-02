@@ -27,3 +27,4 @@
   aur:
     name:
       - zplug
+      - procs
