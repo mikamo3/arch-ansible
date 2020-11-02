@@ -1,0 +1,29 @@
+- name: install commandline utilities
+  pacman:
+    name:
+      - fzf
+      - powerline
+      - unrar
+      - wnzip
+      - p7zip
+      - lha
+      - xz
+      - bash-completion
+      - zsh-completions
+      - bat
+      - htop
+      - exa
+      - ripgrep
+      - neofetch
+      - unarchiver
+      - xsel
+      - aria2
+      - pkgfile
+      - lm_sensors
+      - neovim
+- name: install commandline utilities (from aur)
+  become: yes
+  become_user: aur
+  aur:
+    name:
+      - zplug

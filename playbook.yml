@@ -11,3 +11,4 @@
     - { role: gui/displayserver, tags: ["gui","displayserver"]}
     - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
     - { role: gui/windowmanager, tags: ["gui","windowmanager"]}
+    - { role: utilities/cui, tags: ["utilites","utilities_cui","cui"]}
