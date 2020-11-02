@@ -1,0 +1,5 @@
+---
+- name: install nerd-fonts
+  pacman:
+    name:
+      - ttf-nerd-fonts-symbols

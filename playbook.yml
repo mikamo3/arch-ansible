@@ -11,5 +11,7 @@
     - { role: gui/displayserver, tags: ["gui","displayserver"]}
     - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
     - { role: gui/windowmanager, tags: ["gui","windowmanager"]}
+    - { role: fonts, tags: ["fonts"]}
+    - { role: gui/desktop, tags: ["gui","desktop"]}
     - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
     - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}

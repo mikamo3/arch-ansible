@@ -1,0 +1,7 @@
+---
+- name: install fontconfig
+  pacman:
+    name: fontconfig
+- name: install gnome unicode charmap
+  pacman:
+    name: gucharmap
