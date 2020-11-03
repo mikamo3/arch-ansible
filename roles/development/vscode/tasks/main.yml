@@ -1,0 +1,6 @@
+---
+- name: install vscode
+  become: yes
+  become_user: aur
+  aur:
+    name: visual-studio-code-bin

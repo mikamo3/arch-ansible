@@ -19,3 +19,9 @@
     - { role: browser/chromium, tags: ["browser","chromium"]}
     - { role: browser/googlechrome, tags: ["browser","googlechrome"]}
     - { role: browser/profileSyncDaemon, tags: ["browser","profileSyncDaemon"]}
+
+    - { role: development/vscode, tags: ["development","vscode"]}
+    - { role: development/git, tags: ["development","git"]}
+    - { role: development/github-cli, tags: ["development","github-cli"]}
+    - { role: development/virtualbox, tags: ["development","virtualbox"]}
+    - { role: development/docker, tags: ["development","docker"]}
