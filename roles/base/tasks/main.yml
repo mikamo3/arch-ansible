@@ -9,5 +9,7 @@
 - include: user.yml
 - include: package.yml
 - include: driver.yml
+- include: printer.yml
+  tags: printer
 - include: man.yml
   tags: man

@@ -1,0 +1,12 @@
+---
+- name: install
+  pacman:
+    name: 
+      - cups
+      - ghostscript
+      - gutenprint
+- name: enable
+  service:
+    name: org.cups.cupsd.service
+    enabled: yes
+    state: started
