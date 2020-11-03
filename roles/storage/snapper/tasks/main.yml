@@ -1,0 +1,12 @@
+---
+- name: install snapper
+  pacman:
+    name: snapper
+  register: snapper_installed
+- name: stat configfile
+  stat:
+    path: /etc/snapper/configs/root
+  register: snapper_config
+- name: configure root
+  command: snapper -c root create-config -f btrfs /
+  when: not snapper_config.stat.exists

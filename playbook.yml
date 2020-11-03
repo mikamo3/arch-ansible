@@ -52,3 +52,7 @@
     - { role: security/authy, tags: ["security", "authy"]}
     - { role: security/firejail, tags: ["security", "firejail"]}
     - { role: security/keepassxc, tags: ["security", "keepassxc"]}
+
+    - { role: storage/dropbox, tags: ["storage", "dropbox"]}
+    - { role: storage/grive, tags: ["storage", "grive"]}
+    - { role: storage/snapper, tags: ["storage", "snapper"]}

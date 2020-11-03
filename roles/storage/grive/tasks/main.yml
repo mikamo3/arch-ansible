@@ -1,0 +1,5 @@
+- name: install grive
+  become: yes
+  become_user: aur
+  aur:
+    name: grive-git

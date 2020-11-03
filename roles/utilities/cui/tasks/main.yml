@@ -27,4 +27,4 @@
   aur:
     name:
       - zplug
-      - procs
+      - procs-bin
