@@ -15,3 +15,7 @@
     - { role: gui/desktop, tags: ["gui","desktop"]}
     - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
     - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
+    - { role: browser/firefox, tags: ["browser","firefox"]}
+    - { role: browser/chromium, tags: ["browser","chromium"]}
+    - { role: browser/googlechrome, tags: ["browser","googlechrome"]}
+    - { role: browser/profileSyncDaemon, tags: ["browser","profileSyncDaemon"]}

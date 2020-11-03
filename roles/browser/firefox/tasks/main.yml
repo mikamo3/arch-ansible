@@ -1,0 +1,3 @@
+- name: install firefox
+  pacman:
+    name: firefox,firefox-i18n-{{firefox.lang}}

@@ -1,0 +1,6 @@
+---
+- name: install profile-sync-daemon
+  become: yes
+  become_user: aur
+  aur:
+    name: profile-sync-daemon
