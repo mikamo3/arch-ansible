@@ -2,3 +2,8 @@
 - name: install git
   pacman:
     name: git
+- name: install ghq
+  become: yes
+  become_user: aur
+  aur:
+    name: ghq
