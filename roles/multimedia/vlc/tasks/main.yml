@@ -1,0 +1,4 @@
+---
+- name: vlc
+  pacman:
+    name: vlc

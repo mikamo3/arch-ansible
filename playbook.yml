@@ -32,3 +32,8 @@
 
     - { role: document/libreoffice, tags: ["document","libreoffice"]}
     - { role: document/okular, tags: ["document","okular"]}
+    
+    - { role: multimedia/vlc, tags: ["multimedia","vlc"]}
+    - { role: multimedia/ffmpeg, tags: ["multimedia","ffmpeg"]}
+    - { role: multimedia/inkscape, tags: ["multimedia","inkscape"]}
+    - { role: multimedia/gimp, tags: ["multimedia","gimp"]}

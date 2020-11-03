@@ -1,4 +1,6 @@
 ---
+- include: update.yml
+  tags: update
 - include: timezone.yml
 - include: host.yml
 - include: locale.yml
