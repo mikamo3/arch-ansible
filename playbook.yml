@@ -43,3 +43,6 @@
     - { role: cad/freecad, tags: ["cad","freecad"]}
     - { role: cad/kicad, tags: ["cad","kicad"]}
     - { role: cad/librecad, tags: ["cad","librecad"]}
+
+    - { role: communication/slack, tags: ["communication", "slack"]}
+    - { role: communication/zoom, tags: ["communication", "zoom"]}

@@ -1,0 +1,5 @@
+- name: install zoom
+  become: yes
+  become_user: aur
+  aur:
+    name: zoom
