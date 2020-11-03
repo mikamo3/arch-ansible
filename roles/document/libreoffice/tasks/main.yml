@@ -1,0 +1,6 @@
+---
+- name: install
+  pacman:
+    name: 
+      - libreoffice-still
+      - libreoffice-still-ja
