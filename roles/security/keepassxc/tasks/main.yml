@@ -1,0 +1,4 @@
+---
+- name: install keepassxc
+  pacman:
+    name: keepassxc

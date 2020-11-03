@@ -1,0 +1,12 @@
+---
+- name: install keyring
+  pacman:
+    name:
+      - gnome-keyring
+      - seahorse
+- name: configure xprofile
+  copy:
+    src: 70-run-gnome-keyring.sh
+    dest: /etc/X11/xinit/xinitrc.d/70-run-gnome-keyring.sh
+    mode: '0755'
+

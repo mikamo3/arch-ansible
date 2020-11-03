@@ -48,3 +48,7 @@
 
     - { role: communication/slack, tags: ["communication", "slack"]}
     - { role: communication/zoom, tags: ["communication", "zoom"]}
+
+    - { role: security/authy, tags: ["security", "authy"]}
+    - { role: security/firejail, tags: ["security", "firejail"]}
+    - { role: security/keepassxc, tags: ["security", "keepassxc"]}
