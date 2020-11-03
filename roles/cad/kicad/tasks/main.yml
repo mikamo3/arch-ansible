@@ -1,0 +1,4 @@
+---
+- name: install kicad
+  pacman:
+    name: kicad

@@ -38,3 +38,8 @@
     - { role: multimedia/ffmpeg, tags: ["multimedia","ffmpeg"]}
     - { role: multimedia/inkscape, tags: ["multimedia","inkscape"]}
     - { role: multimedia/gimp, tags: ["multimedia","gimp"]}
+
+    - { role: cad/cura, tags: ["cad","cura"]}
+    - { role: cad/freecad, tags: ["cad","freecad"]}
+    - { role: cad/kicad, tags: ["cad","kicad"]}
+    - { role: cad/librecad, tags: ["cad","librecad"]}
