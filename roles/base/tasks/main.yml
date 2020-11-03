@@ -1,4 +1,6 @@
 ---
+- include: timesyncd.yml
+  tags: timesyncd
 - include: update.yml
   tags: update
 - include: timezone.yml
@@ -8,3 +10,4 @@
 - include: package.yml
 - include: driver.yml
 - include: man.yml
+  tags: man
