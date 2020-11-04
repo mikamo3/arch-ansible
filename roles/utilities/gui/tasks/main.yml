@@ -1,7 +1,6 @@
 - name: install gui utilities
   pacman:
     name:
-      - alacritty
       - xarchiver
       - catfish
       - gparted

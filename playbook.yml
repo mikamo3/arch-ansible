@@ -56,3 +56,7 @@
     - { role: storage/dropbox, tags: ["storage", "dropbox"]}
     - { role: storage/grive, tags: ["storage", "grive"]}
     - { role: storage/snapper, tags: ["storage", "snapper"]}
+
+    - { role: terminal, tags: ["terminal"]}
+
+    - { role: dotfiles, tags: ["dotfiles"]}

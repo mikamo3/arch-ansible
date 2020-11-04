@@ -1,0 +1,19 @@
+- name: check kawazu installed
+  stat:
+    path: /usr/lib/kawazu
+  register: kawazu_path
+
+- name: kawazu
+  become: yes
+  become_user: aur
+  block:
+    - name: clone
+      git:
+        repo: https://github.com/mikamo3/kawazu-git.git
+        dest: /tmp/kawazu
+    - name: install
+      aur:
+        name: kawazu
+        use: makepkg
+        local_pkgbuild: /tmp/kawazu
+  when: kawazu_path.stat.exists == false
