@@ -1,12 +1,15 @@
 - name: include_vers
   include_vars: locale.yml
+
 - name: copy locale.gen
   template:
     src: locale.gen.j2
     dest: /etc/locale.gen
     mode: 0644
+  register: copy_locale_result
 - name: generate locale
   command: locale-gen
+  when: copy_locale_result.changed == true
 - name: copy locale.conf
   template:
     src: locale.conf.j2

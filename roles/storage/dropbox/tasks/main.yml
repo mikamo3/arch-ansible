@@ -4,6 +4,7 @@
   shell: gpg -k |grep 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
   register: gpgresult
   failed_when: false 
+  changed_when: false
 
 - name: import gpg
   become: yes

@@ -6,7 +6,9 @@
 - include: timezone.yml
 - include: host.yml
 - include: locale.yml
+  tags: locale
 - include: user.yml
+  tags: user
 - include: package.yml
 - include: driver.yml
 - include: printer.yml

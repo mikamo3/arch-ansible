@@ -7,3 +7,4 @@
   become_user: aur
   aur:
     name: man-pages-ja
+  tags: never
