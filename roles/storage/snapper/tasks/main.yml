@@ -1,4 +1,3 @@
----
 - name: install snapper
   pacman:
     name: snapper

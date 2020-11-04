@@ -1,4 +1,3 @@
----
 - name: install alacritty
   pacman:
     name: alacritty

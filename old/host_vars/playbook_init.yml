@@ -1,8 +1,0 @@
----
-- hosts: kamo3work
-  gather_facts: no
-  vars_files:
-    - vars/kamo3work/secret.yml
-  roles:
-    - { role: debug,tags: ["never", "debug"] }
-    - { role: init,tags: ["never", "init"] }

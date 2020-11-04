@@ -1,4 +1,3 @@
----
 - name: install docker
   pacman:
     name: docker,docker-compose

@@ -1,4 +1,3 @@
----
 - name: install gimp
   pacman:
     name: gimp

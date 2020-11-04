@@ -1,7 +1,0 @@
----
-- name: install yay
-  become: yes
-  become_user: "{{secret.user.name}}"
-  aur: 
-    use: makepkg
-    name: yay

@@ -1,6 +1,0 @@
----
-- name: install bash,zsh
-  pacman:
-    name:
-      - bash
-      - zsh

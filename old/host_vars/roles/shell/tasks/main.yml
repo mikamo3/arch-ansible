@@ -1,5 +1,0 @@
----
-  - include: bash.yml
-    tags: bash
-  - include: zsh.yml
-    tags: zsh

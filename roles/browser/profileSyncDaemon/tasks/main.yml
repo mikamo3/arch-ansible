@@ -1,4 +1,3 @@
----
 - name: install profile-sync-daemon
   become: yes
   become_user: aur

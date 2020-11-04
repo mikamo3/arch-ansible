@@ -1,4 +1,3 @@
----
 - name: chromium
   pacman:
     name: chromium

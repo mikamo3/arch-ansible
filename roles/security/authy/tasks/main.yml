@@ -1,4 +1,3 @@
----
 - name: install authy
   become: yes
   become_user: aur

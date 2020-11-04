@@ -1,4 +1,0 @@
----
-- name: install bash
-  pacman:
-    name: bash,bash-completion
