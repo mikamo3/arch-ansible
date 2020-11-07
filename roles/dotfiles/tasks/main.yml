@@ -17,3 +17,37 @@
         use: makepkg
         local_pkgbuild: /tmp/kawazu
   when: kawazu_path.stat.exists == false
+
+- name: set rc (user:"{{secret.user.name}}")
+  become: yes
+  become_user: "{{secret.user.name}}"
+  block:
+    - lineinfile:
+        create: yes
+        path: '/home/{{secret.user.name}}/.zshrc'
+        regexp: 'source +/usr/lib/kawazu/kawazu.sh'
+        line: 'source /usr/lib/kawazu/kawazu.sh'
+
+    - lineinfile:
+        create: yes
+        path: '/home/{{secret.user.name}}/.zshrc'
+        regexp: 'export +KAWAZU_ROOT_DIR=/usr/lib/kawazu'
+        line: 'export KAWAZU_ROOT_DIR=/usr/lib/kawazu'
+  when: user.shell == "/usr/bin/zsh"
+
+- name: set rc (user:"{{secret.user.name}}")
+  become: yes
+  become_user: "{{secret.user.name}}"
+  block:
+    - lineinfile:
+        create: yes
+        path: '/home/{{secret.user.name}}/.bashrc'
+        regexp: 'source +/usr/lib/kawazu/kawazu.sh'
+        line: 'source /usr/lib/kawazu/kawazu.sh'
+
+    - lineinfile:
+        create: yes
+        path: '/home/{{secret.user.name}}/.bashrc'
+        regexp: 'export +KAWAZU_ROOT_DIR=/usr/lib/kawazu'
+        line: 'export KAWAZU_ROOT_DIR=/usr/lib/kawazu'
+  when: user.shell == "/usr/bin/bash"

@@ -1,3 +1,6 @@
 - name: install alacritty
   pacman:
     name: alacritty
+- name: install tmux
+  pacman:
+    name: tmux

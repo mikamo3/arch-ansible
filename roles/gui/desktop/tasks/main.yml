@@ -12,6 +12,7 @@
       - fcitx-gtk3
       - fcitx-mozc
       - fcitx-qt5
+      - xdg-user-dirs
 
 - name: install desktop environments(from aur)
   become: yes

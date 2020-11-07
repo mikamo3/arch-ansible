@@ -10,6 +10,7 @@
   tags: user
 - include: package.yml
 - include: driver.yml
+  tags: driver
 - include: printer.yml
   tags: printer
 - include: man.yml

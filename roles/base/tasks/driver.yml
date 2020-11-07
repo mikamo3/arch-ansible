@@ -38,7 +38,7 @@
         name: vboxservice
         enabled: yes
       notify: restart vboxservice
-  when: driver.virtualbox is defined and driver.virtualbox == "yes"
+  when: driver.virtualbox == true
 
 - name: install pulse audio
   pacman:
