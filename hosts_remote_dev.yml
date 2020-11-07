@@ -1,0 +1,6 @@
+all:
+  children:
+    localmachine:
+      hosts:
+        kamo3work_dev:
+          ansible_host: 192.168.56.104

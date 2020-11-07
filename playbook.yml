@@ -1,4 +1,6 @@
-- hosts: kamo3work
+- hosts: 
+    - kamo3work
+    - kamo3work_dev
   remote_user: "ansible"
   become: true
   gather_facts: no
