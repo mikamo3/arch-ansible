@@ -28,3 +28,21 @@
   aur: 
     use: makepkg
     name: yay
+
+- name: install reflector
+  pacman:
+    name: reflector
+
+- name: reflector hook
+  block:
+    - name: create hooks directory
+      file:
+        path: /etc/pacman.d/hooks
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+    - name: copy pacman hooks
+      copy:
+        src: mirrorupgrade.hook
+        dest: /etc/pacman.d/hooks/mirrorupgrade.hook
