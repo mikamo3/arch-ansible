@@ -5,7 +5,10 @@
 
 - name: install video driver (amdgpu)
   pacman:
-    name: xf86-video-amdgpu
+    name: 
+    - xf86-video-amdgpu
+    - libva-mesa-driver
+    - lib32-libva-mesa-driver
   when: driver.display == "amd"
 
 - name: install video driver (catalyst)
@@ -39,6 +42,10 @@
         enabled: yes
       notify: restart vboxservice
   when: driver.virtualbox == true
+
+- name: install libva-utils
+  pacman:
+    name: libva-utils
 
 - name: install pulse audio
   pacman:
