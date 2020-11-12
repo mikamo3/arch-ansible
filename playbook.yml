@@ -63,3 +63,5 @@
     - { role: dotfiles, tags: ["dotfiles"]}
     
     - { role: python, tags: ["python"]}
+
+    - { role: ansible, tags: ["ansible"]}
