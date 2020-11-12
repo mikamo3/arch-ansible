@@ -3,3 +3,6 @@
   become_user: aur
   aur:
     name: grive-git
+- name: install inotify-tools
+  pacman:
+    name: inotify-tools
