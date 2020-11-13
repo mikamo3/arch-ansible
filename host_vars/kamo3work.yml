@@ -6,5 +6,5 @@ user:
   shell: /usr/bin/zsh
 
 driver:
-  display: amdgpu
+  display: amd
   virtualbox: no

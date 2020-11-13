@@ -2,3 +2,12 @@
   service:
     name: vboxservice
     state: restarted
+
+- name: run sensors-detect
+  command: /usr/sbin/sensors-detect --auto
+
+- name: restart lm-sensors
+  service:
+    name: lm-sensors
+    enabled: yes
+    state: restarted

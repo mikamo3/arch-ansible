@@ -19,7 +19,6 @@
       - xsel
       - aria2
       - pkgfile
-      - lm_sensors
       - neovim
 - name: install commandline utilities (from aur)
   become: yes
