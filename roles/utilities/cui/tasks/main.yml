@@ -1,6 +1,7 @@
 - name: install commandline utilities
   pacman:
     name:
+      - vi
       - fzf
       - powerline
       - unrar
