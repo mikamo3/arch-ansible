@@ -1,5 +1,9 @@
 - name: install profile-sync-daemon
-  become: yes
-  become_user: aur
-  aur:
+  pacman:
     name: profile-sync-daemon
+
+- name: add sudo for use overlayfs
+  lineinfile:
+    path: /etc/sudoers
+    line: '{{ secret.user.name }} ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper'
+    validate: 'visudo -cf %s'
