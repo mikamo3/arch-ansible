@@ -1,0 +1,6 @@
+- name: install avrdude
+  pacman:
+    name: 
+      - avrdude
+      - avr-gcc
+      - dfu-programmer

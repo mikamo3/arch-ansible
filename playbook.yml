@@ -32,6 +32,7 @@
     - { role: development/github-cli, tags: ["development","github-cli"]}
     - { role: development/virtualbox, tags: ["development","virtualbox"]}
     - { role: development/docker, tags: ["development","docker"]}
+    - { role: development/avr, tags: ["development","avr"]}
 
     - { role: document/libreoffice, tags: ["document","libreoffice"]}
     - { role: document/okular, tags: ["document","okular"]}
