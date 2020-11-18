@@ -21,6 +21,7 @@
       - aria2
       - pkgfile
       - neovim
+      - usbutils
 - name: install commandline utilities (from aur)
   become: yes
   become_user: aur
