@@ -4,3 +4,7 @@
       - avrdude
       - avr-gcc
       - dfu-programmer
+      - gcc 
+      - avr-binutils 
+      - avr-libc 
+      - dfu-util
