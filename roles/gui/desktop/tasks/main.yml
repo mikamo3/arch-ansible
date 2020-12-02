@@ -6,6 +6,8 @@
       - thunar
       - thunar-volman
       - gvfs
+      - gvfs-smb
+      - gvfs
       - fcitx
       - fcitx-configtool
       - fcitx-gtk2

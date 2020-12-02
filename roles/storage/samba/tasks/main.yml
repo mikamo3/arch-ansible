@@ -1,0 +1,31 @@
+- name: install
+  pacman:
+    name: samba
+
+- name: configure
+  template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+    mode: 0644
+
+- name: add group sambashare
+  group:
+    name: sambashare
+
+- name: add {{ secret.user.name }} to group sambashare
+  user:
+    name: "{{ secret.user.name }}"
+    groups: sambashare
+    append: yes
+
+- name: enable smb
+  service:
+    name: smb
+    enabled: yes
+    state: started
+
+- name: enable nmb
+  service:
+    name: nmb
+    enabled: yes
+    state: started
