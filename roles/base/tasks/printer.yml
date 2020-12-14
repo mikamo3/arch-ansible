@@ -6,6 +6,6 @@
       - gutenprint
 - name: enable
   service:
-    name: org.cups.cupsd.service
+    name: cups.service
     enabled: yes
     state: started
