@@ -15,7 +15,8 @@
       - fcitx-mozc
       - fcitx-qt5
       - xdg-user-dirs
-
+      - network-manager-applet
+      - autorandr
 - name: install desktop environments(from aur)
   become: yes
   become_user: aur
