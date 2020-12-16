@@ -11,6 +11,7 @@
       - openssh
       - zsh
       - ansible
+      - fuse
 
 - name: add user for exec yay
   block:
