@@ -12,6 +12,7 @@
       - zsh
       - ansible
       - fuse
+      - fish
 
 - name: add user for exec yay
   block:
