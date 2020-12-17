@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 set -x
 if [[ "$1" != "" ]]; then
   TAGS="--tags=$1"
