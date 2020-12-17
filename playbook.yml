@@ -65,6 +65,5 @@
     - { role: dotfiles, tags: ["dotfiles"]}
     
     - { role: python, tags: ["python"]}
-    - { role: java, tags: ["java"]}
 
     - { role: ansible, tags: ["ansible"]}
