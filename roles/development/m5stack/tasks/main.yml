@@ -1,0 +1,13 @@
+- name: install arduino IDE
+  pacman:
+    name: 
+      - arduino
+      - arduino-avr-core
+
+- name: join lock uucp groups
+  user:
+    name: "{{ secret.user.name }}"
+    append: yes
+    groups:
+      - lock
+      - uucp

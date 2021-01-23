@@ -33,6 +33,7 @@
     - { role: development/virtualbox, tags: ["development","virtualbox"]}
     - { role: development/docker, tags: ["development","docker"]}
     - { role: development/avr, tags: ["development","avr"]}
+    - { role: development/m5stack, tags: ["development","m5stack"]}
 
     - { role: document/libreoffice, tags: ["document","libreoffice"]}
     - { role: document/okular, tags: ["document","okular"]}
