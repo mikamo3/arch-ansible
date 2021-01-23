@@ -24,6 +24,7 @@
     name:
       - deadd-notification-center-bin
       - polybar
+      - volantes-cursors
 
 - name: configure thunar
   lineinfile:
