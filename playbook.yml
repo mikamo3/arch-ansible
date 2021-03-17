@@ -50,6 +50,7 @@
     - { role: cad/librecad, tags: ["cad","librecad"]}
 
     - { role: communication/slack, tags: ["communication", "slack"]}
+    - { role: communication/discord, tags: ["communication", "discord"]}
     - { role: communication/zoom, tags: ["communication", "zoom"]}
 
     - { role: security/authy, tags: ["security", "authy"]}
