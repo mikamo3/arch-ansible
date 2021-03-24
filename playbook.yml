@@ -62,6 +62,7 @@
     - { role: storage/grive, tags: ["storage", "grive"]}
     - { role: storage/snapper, tags: ["storage", "snapper"]}
     - { role: storage/samba, tags: ["storage", "samba"]}
+    - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
 
     - { role: terminal, tags: ["terminal"]}
 
