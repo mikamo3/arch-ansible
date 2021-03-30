@@ -6,7 +6,7 @@
       - noto-fonts-emoji
 - name: configure noto
   file:
-    src: /etc/fonts/conf.avail/{{ item }}
+    src: /usr/share/fontconfig/conf.default/{{ item }}
     dest: /etc/fonts/conf.d/{{ item }}
     state: link
   with_items:
