@@ -1,0 +1,4 @@
+- name: install
+  pacman:
+    name:
+      - ntfs-3g

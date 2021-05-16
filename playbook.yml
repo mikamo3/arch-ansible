@@ -63,6 +63,7 @@
     - { role: storage/snapper, tags: ["storage", "snapper"]}
     - { role: storage/samba, tags: ["storage", "samba"]}
     - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
+    - { role: storage/filesystem, tags: ["storage", "filesystem"]}
 
     - { role: terminal, tags: ["terminal"]}
 
