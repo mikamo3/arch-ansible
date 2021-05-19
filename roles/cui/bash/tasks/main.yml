@@ -1,0 +1,6 @@
+- name: install
+  pacman:
+    name: bash-completion
+  tags:
+    - cui
+    - bash

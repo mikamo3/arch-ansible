@@ -11,8 +11,7 @@
     - role: base/common
     - role: base/graphic_driver
     - role: base/sound
-  #  - { role: base/common, tags: ["base","common"]}
-#    - { role: base/graphic_driver, tags: ["base","graphic_driver"]}
+    - role: cui/common
 #    - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
 #    - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
 #

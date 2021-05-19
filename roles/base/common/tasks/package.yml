@@ -3,25 +3,12 @@
     update_cache: yes
   changed_when: False
 
-- name: install base package
-  pacman:
-    name:
-      - base
-      - base-devel
-      - linux
-      - linux-headers
-      - btrfs-progs
-      - sudo
-      - openssh
-      - zsh
-      - ansible
-      - fuse
-      - fish
 - name: install ucode
   pacman:
     name:
       - "{{ kernel.ucode }}-ucode"
   when: kernel.ucode is defined
+
 - name: add user for exec yay
   block:
     - user:
