@@ -1,8 +1,6 @@
-
 - name: install openjdk
   pacman:
     name: jdk-openjdk
-
-- name: install pyenv
-  pacman:
-    name: pyenv
+  tags:
+    - executon_env
+    - java

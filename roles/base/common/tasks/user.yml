@@ -3,6 +3,7 @@
     name: root
     password: "{{ secret.user.password | password_hash('sha512')}}"
     update_password: on_create
+
 - name: add user
   user:
     name: "{{ secret.user.name }}"
@@ -18,6 +19,7 @@
     ssh_key_file: .ssh/id_ecdsa
     ssh_key_passphrase: "{{ secret.user.password | password_hash('sha512')}}"
     update_password: on_create
+
 - name: sudo config
   lineinfile:
     path: /etc/sudoers

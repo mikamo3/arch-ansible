@@ -1,0 +1,15 @@
+- block:
+  - name: install
+    pacman:
+      name: 
+        - cups
+        - ghostscript
+        - gutenprint
+  - name: enable
+    service:
+      name: cups.service
+      enabled: yes
+      state: started
+  tags:
+    - base
+    - printer

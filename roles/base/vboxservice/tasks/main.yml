@@ -1,0 +1,12 @@
+- block:
+  - name: install virtualbox-guest-utils
+    pacman:
+      name: virtualbox-guest-utils
+  - name: enable virtualbox-guest-utils
+    service:
+      name: vboxservice
+      enabled: yes
+    notify: restart vboxservice
+  tags: 
+    - base
+    - vboxservice

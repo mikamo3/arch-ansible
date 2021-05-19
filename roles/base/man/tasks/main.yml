@@ -1,0 +1,14 @@
+- block:
+  - name: install man
+    pacman:
+      name: man
+
+  - name: install man-pages-ja
+    become: yes
+    become_user: aur
+    aur:
+      name: man-pages-ja
+    tags: never
+  tags:
+    - base
+    - man

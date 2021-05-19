@@ -1,0 +1,5 @@
+- name: restart lm-sensors
+  service:
+    name: lm-sensors
+    enabled: yes
+    state: restarted

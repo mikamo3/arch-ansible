@@ -1,0 +1,15 @@
+- block:
+  - name: install pulse audio
+    pacman:
+      name: 
+        - pulseaudio
+        - pavucontrol
+        - pulseaudio-alsa
+  - name: install alsa
+    pacman:
+      name:
+        - alsa-utils 
+        - alsa-firmware
+  tags:
+    - base
+    - sound

@@ -8,27 +8,30 @@
     - vars/secret.yml
   roles:
     - { role: debug,tags: ["never", "debug"] }
-
-    - { role: base, tags: ["base"]}
-    - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
-    - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
-
-    - { role: gui/displayserver, tags: ["gui","displayserver"]}
-    - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
-    - { role: gui/desktop, tags: ["gui","desktop"]}
-    - { role: gui/desktop_environment, tags: ["gui","desktop_environment"]}
-    - { role: fonts, tags: ["fonts"]}
-
-
-    - { role: network-clients, tags: ["network-clients"]}
-
-    - { role: multimedia/vlc, tags: ["multimedia","vlc"]}
-    - { role: multimedia/mcomix, tags: ["multimedia","mcomix"]}
-
-    - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
-    - { role: storage/open-iscsi, tags: ["storage", "open-iscsi"]}
-
-
-    - { role: system/overlayfs, tags: ["system", "overlayfs"]}
-    - { role: system/disable_ipv6, tags: ["system", "disable_ipv6"]}
-    - { role: security/iptables, tags: ["security", "iptables"]}
+    - role: base/common
+    - role: base/graphic_driver
+    - role: base/sound
+  #  - { role: base/common, tags: ["base","common"]}
+#    - { role: base/graphic_driver, tags: ["base","graphic_driver"]}
+#    - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
+#    - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
+#
+#    - { role: gui/displayserver, tags: ["gui","displayserver"]}
+#    - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
+#    - { role: gui/desktop, tags: ["gui","desktop"]}
+#    - { role: gui/desktop_environment, tags: ["gui","desktop_environment"]}
+#    - { role: fonts, tags: ["fonts"]}
+#
+#
+#    - { role: network-clients, tags: ["network-clients"]}
+#
+#    - { role: multimedia/vlc, tags: ["multimedia","vlc"]}
+#    - { role: multimedia/mcomix, tags: ["multimedia","mcomix"]}
+#
+#    - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
+#    - { role: storage/open-iscsi, tags: ["storage", "open-iscsi"]}
+#
+#
+#    - { role: system/overlayfs, tags: ["system", "overlayfs"]}
+#    - { role: system/disable_ipv6, tags: ["system", "disable_ipv6"]}
+#    - { role: security/iptables, tags: ["security", "iptables"]}

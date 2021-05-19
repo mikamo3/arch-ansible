@@ -1,0 +1,8 @@
+- block:
+  - include: timesyncd.yml
+  - include: update.yml
+  - include: timezone.yml
+  - include: host.yml
+  - include: locale.yml
+  - include: user.yml
+  tags: ["base","common"]
