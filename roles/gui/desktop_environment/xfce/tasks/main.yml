@@ -1,0 +1,7 @@
+- name: install xfce
+  pacman:
+    name: xfce4
+  tags:
+    - gui
+    - desktop_environment
+    - xfce

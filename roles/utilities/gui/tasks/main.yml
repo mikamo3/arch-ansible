@@ -1,7 +1,0 @@
-- name: install gui utilities
-  pacman:
-    name:
-      - xarchiver
-      - catfish
-      - gparted
-      - leafpad

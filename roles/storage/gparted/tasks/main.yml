@@ -1,0 +1,7 @@
+- name: install
+  pacman:
+    name:
+      - gparted
+  tags:
+    - storage
+    - gparted

@@ -12,13 +12,11 @@
     - role: base/graphic_driver
     - role: base/sound
     - role: cui/common
-#    - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
-#    - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
-#
-#    - { role: gui/displayserver, tags: ["gui","displayserver"]}
-#    - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
-#    - { role: gui/desktop, tags: ["gui","desktop"]}
-#    - { role: gui/desktop_environment, tags: ["gui","desktop_environment"]}
+    - role: cui/bash
+    - role: gui/displayserver/xorg
+    - role: gui/displaymanager/lightdm
+    - role: gui/desktop_environment/xfce
+    - role: gui/utilities
 #    - { role: fonts, tags: ["fonts"]}
 #
 #

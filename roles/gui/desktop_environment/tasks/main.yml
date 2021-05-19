@@ -1,3 +1,0 @@
-- name: install xfce
-  pacman:
-    name: xfce4
