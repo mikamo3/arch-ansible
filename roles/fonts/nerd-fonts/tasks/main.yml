@@ -2,3 +2,6 @@
   pacman:
     name:
       - ttf-nerd-fonts-symbols
+  tags:
+    - font
+    - nerd-fonts

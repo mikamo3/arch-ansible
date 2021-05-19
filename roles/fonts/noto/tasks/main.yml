@@ -1,0 +1,20 @@
+- block:
+  - name: install noto-fonts
+    pacman:
+      name:
+        - noto-fonts
+        - noto-fonts-cjk
+        - noto-fonts-emoji
+  - name: configure noto
+    file:
+      src: /usr/share/fontconfig/conf.default/{{ item }}
+      dest: /etc/fonts/conf.d/{{ item }}
+      state: link
+    with_items:
+      - 66-noto-mono.conf
+      - 66-noto-sans.conf
+      - 66-noto-serif.conf
+      - 70-noto-cjk.conf
+  tags:
+    - font
+    - noto

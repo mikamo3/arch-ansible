@@ -17,6 +17,9 @@
     - role: gui/displaymanager/lightdm
     - role: gui/desktop_environment/xfce
     - role: gui/utilities
+    - role: fonts/noto
+    - role: fonts/cica
+    - role: fonts/setfont
 #    - { role: fonts, tags: ["fonts"]}
 #
 #

@@ -1,0 +1,8 @@
+- name: install
+  pacman:
+    name: 
+      - fontconfig
+      - gucharmap
+  tags:
+    - font
+    - utilities

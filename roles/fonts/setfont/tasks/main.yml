@@ -1,12 +1,9 @@
-- name: install fonts (aur)
-  become: yes
-  become_user: aur
-  aur:
-    name:
-      - ttf-cica
-
+# TODO: set variable
 - name: configure alias for monospace fonts
   copy:
     src: local.conf
     dest: /etc/fonts/local.conf
     mode: "0644"
+  tags:
+    - font
+    - setfont

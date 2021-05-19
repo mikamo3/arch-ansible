@@ -1,0 +1,9 @@
+- name: install fonts (aur)
+  become: yes
+  become_user: aur
+  aur:
+    name:
+      - ttf-cica
+  tags:
+    - font
+    - cica

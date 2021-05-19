@@ -3,3 +3,6 @@
   become_user: aur
   aur:
     name: ttf-mplus
+  tags:
+    - font
+    - mplus
