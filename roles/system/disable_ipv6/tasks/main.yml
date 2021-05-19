@@ -1,0 +1,5 @@
+- name: copy configure
+  copy:
+    src: 40-ipv6.conf
+    dest: /etc/sysctl.d/40-ipv6.conf
+    mode: "644"

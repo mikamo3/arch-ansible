@@ -1,0 +1,10 @@
+- name: block all network exclude icsci
+  copy: 
+    src: iscsionly.rules
+    dest: /etc/iptables/iptables.rules
+
+- name: enable 
+  service:
+    name: iptables
+    enabled: yes
+    state: started

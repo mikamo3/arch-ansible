@@ -1,6 +1,3 @@
-- name: include_vers
-  include_vars: locale.yml
-
 - name: copy locale.gen
   template:
     src: locale.gen.j2

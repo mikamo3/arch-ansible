@@ -1,3 +1,0 @@
-timesyncd:
-  ntp: ntp.nict.jp
-  fallbackNtp: 0.jp.pool.ntp.org

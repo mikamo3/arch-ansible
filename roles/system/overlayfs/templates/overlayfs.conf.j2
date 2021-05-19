@@ -1,0 +1,4 @@
+title overlayfs
+linux /vmlinuz-linux
+initrd /initramfs-overlay.img
+options cryptdevice={{partuuid.stdout}}:luksdev root=/dev/mapper/luksdev rw intel_pstate=ho_hwp

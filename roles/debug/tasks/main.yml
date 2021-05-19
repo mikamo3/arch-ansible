@@ -2,3 +2,5 @@
   debug: var=groups
 - name: load host_vars
   debug: var=hostvars
+- name: user
+  debug: var=user

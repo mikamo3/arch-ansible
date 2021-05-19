@@ -32,6 +32,10 @@
   pacman:
     name: nvidia,nvidia-utils
   when: driver.display == "nvidia"
+- name: install multiplue video driver (for usb)
+  pacman:
+    name: xf86-video-vesa,xf86-video-ati,xf86-video-intel,xf86-video-nouveau
+  when: driver.display == "usb"
 
 - name: virtualbox-guest-utils
   block:

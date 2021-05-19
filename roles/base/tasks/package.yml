@@ -6,14 +6,17 @@
       - linux
       - linux-headers
       - btrfs-progs
-      - "{{ kernel.ucode }}-ucode"
       - sudo
       - openssh
       - zsh
       - ansible
       - fuse
       - fish
-
+- name: install ucode
+  pacman:
+    name:
+      - "{{ kernel.ucode }}-ucode"
+  when: kernel.ucode is defined
 - name: add user for exec yay
   block:
     - user:

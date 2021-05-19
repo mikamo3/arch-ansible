@@ -1,0 +1,9 @@
+ALL_config="/etc/mkinitcpio_overlay.conf"
+ALL_kver="/boot/vmlinuz-linux"
+
+PRESETS=('default' 'fallback')
+
+default_image="/boot/initramfs-overlay.img"
+
+fallback_image="/boot/initramfs-fallback-overlay.img"
+fallback_options="-S autodetect"

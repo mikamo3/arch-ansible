@@ -29,5 +29,5 @@
   aur:
     name:
       - zplug
-      - procs-bin
+      - procs
       - fisher
