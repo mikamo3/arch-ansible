@@ -2,7 +2,6 @@
   "name": "arch-ansible",
   "dockerFile": "Dockerfile",
   "extensions": [
-    "redhat.vscode-yaml",
     "vscoss.vscode-ansible",
     "wholroyd.jinja",
     "coolbear.systemd-unit-file"

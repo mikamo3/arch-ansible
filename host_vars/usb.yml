@@ -1,0 +1,8 @@
+hostname: usb
+user:
+  uid: 1000
+  shell: /bin/bash
+driver:
+  display: usb
+overlayfs:
+  dev: /dev/sdd2

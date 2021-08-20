@@ -11,27 +11,26 @@
     - role: base/common
     - role: base/graphic_driver
     - role: base/sound
+
     - role: cui/common
     - role: cui/bash
+
     - role: gui/displayserver/xorg
     - role: gui/displaymanager/lightdm
     - role: gui/desktop_environment/xfce
     - role: gui/utilities
+
     - role: fonts/noto
     - role: fonts/cica
     - role: fonts/setfont
-#    - { role: fonts, tags: ["fonts"]}
-#
-#
-#    - { role: network-clients, tags: ["network-clients"]}
-#
-#    - { role: multimedia/vlc, tags: ["multimedia","vlc"]}
-#    - { role: multimedia/mcomix, tags: ["multimedia","mcomix"]}
-#
-#    - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
-#    - { role: storage/open-iscsi, tags: ["storage", "open-iscsi"]}
-#
-#
-#    - { role: system/overlayfs, tags: ["system", "overlayfs"]}
-#    - { role: system/disable_ipv6, tags: ["system", "disable_ipv6"]}
-#    - { role: security/iptables, tags: ["security", "iptables"]}
+
+    - role: multimedia/vlc
+    - role: multimedia/mcomix
+
+    - role: storage/veracrypt
+    - role: storage/open-iscsi
+
+    - role: system/overlayfs
+    - role: system/disable_ipv6
+
+    - role: custom/usb

@@ -3,4 +3,6 @@ all:
     localmachine:
       hosts:
         kamo3work:
+          ansible_host: 192.168.100.105
+        usb:
           ansible_host: 192.168.100.103

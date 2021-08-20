@@ -1,3 +1,7 @@
 - name: vlc
   pacman:
     name: vlc
+  
+  tags:
+    - multimedia
+    - vlc
