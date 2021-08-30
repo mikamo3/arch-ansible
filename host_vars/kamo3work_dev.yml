@@ -1,10 +1,16 @@
 hostname: kamo3work
-kernel:
-  ucode: intel
-user:
-  uid: 1000
-  shell: /usr/bin/zsh
 
-driver:
-  display: virtualbox
+gui:
+  displaydriver: virtualbox
   virtualbox: yes
+
+boot:
+  loader:
+    default: default
+  entries:
+    - {
+        filename: default,
+        title: Arch Linux,
+        id: PARTLABEL=primary,
+        options: intel_pstate=no_hup,
+      }

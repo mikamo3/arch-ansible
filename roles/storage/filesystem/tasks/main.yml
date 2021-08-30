@@ -2,3 +2,6 @@
   pacman:
     name:
       - ntfs-3g
+  tags:
+    - storage
+    - filesystem

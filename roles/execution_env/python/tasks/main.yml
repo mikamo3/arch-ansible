@@ -1,6 +1,0 @@
-- name: install pyenv
-  pacman:
-    name: pyenv
-  tags:
-    - execution_env
-    - python

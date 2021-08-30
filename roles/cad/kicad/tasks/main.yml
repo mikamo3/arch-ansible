@@ -1,6 +1,9 @@
-- name: install kicad
+- name: install
   pacman:
     name: 
       - kicad
       - kicad-library 
       - kicad-library-3d
+  tags:
+    - cad
+    - kicad

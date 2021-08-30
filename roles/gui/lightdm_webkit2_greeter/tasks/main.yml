@@ -1,0 +1,14 @@
+- block:
+  - name: install lightdm-webkit2-greeter
+    pacman:
+      name: lightdm-webkit2-greeter
+
+  - name: configure lightdm.conf
+    lineinfile: 
+      path: /etc/lightdm/lightdm.conf
+      regexp: '^\s*greeter-session=.*'
+      line: 'greeter-session=lightdm-webkit2-greeter'
+      insertafter: '\[Seat:\*\]'
+  tags:
+    - gui
+    - lightdm

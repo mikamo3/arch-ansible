@@ -1,0 +1,9 @@
+- name: install (from aur)
+  become: yes
+  become_user: aur
+  aur:
+    name:
+      - volantes-cursors
+  tags:
+    - gui
+    - cursor

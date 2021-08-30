@@ -1,0 +1,6 @@
+- name: install
+  pacman:
+    name: mesa,xorg-server,xorg-apps,xorg-xinit,xorg-twm,xorg-xclock,xterm
+  tags:
+    - gui
+    - xorg

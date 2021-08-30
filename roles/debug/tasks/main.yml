@@ -4,3 +4,5 @@
   debug: var=hostvars
 - name: user
   debug: var=user
+- debug: var=ansible_facts
+  tags: debug

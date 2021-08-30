@@ -1,6 +1,5 @@
 hostname: kamo3work
-kernel:
-  ucode: amd
+microcode: amd
 user:
   uid: 1000
   shell: /usr/bin/zsh

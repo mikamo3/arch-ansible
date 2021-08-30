@@ -1,3 +1,0 @@
-- name: install github-cli
-  pacman:
-    name: github-cli

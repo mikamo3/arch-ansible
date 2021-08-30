@@ -1,0 +1,15 @@
+- block:
+  - name: install
+    pacman:
+      name:
+        - fish
+
+  - name: install fisher
+    become: yes
+    become_user: aur
+    aur:
+      name:
+        - fisher
+  tags:
+    - shell
+    - fish

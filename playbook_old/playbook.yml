@@ -1,0 +1,74 @@
+- hosts: 
+    - kamo3work
+    - kamo3work_dev
+  remote_user: "ansible"
+  become: true
+  gather_facts: no
+  vars_files:
+    - vars/secret.yml
+  roles:
+    - { role: debug,tags: ["never", "debug"] }
+
+    - { role: base, tags: ["base"]}
+
+    - { role: gui/displayserver, tags: ["gui","displayserver"]}
+    - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
+    - { role: gui/windowmanager, tags: ["gui","windowmanager"]}
+    - { role: gui/desktop, tags: ["gui","desktop"]}
+    - { role: fonts, tags: ["fonts"]}
+
+    - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
+    - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
+
+    - { role: browser/firefox, tags: ["browser","firefox"]}
+    - { role: browser/chromium, tags: ["browser","chromium"]}
+    - { role: browser/googlechrome, tags: ["browser","googlechrome"]}
+    - { role: browser/profileSyncDaemon, tags: ["browser","profileSyncDaemon"]}
+
+    - { role: network-clients, tags: ["network-clients"]}
+
+    - { role: development/vscode, tags: ["development","vscode"]}
+    - { role: development/git, tags: ["development","git"]}
+    - { role: development/github-cli, tags: ["development","github-cli"]}
+    - { role: development/virtualbox, tags: ["development","virtualbox"]}
+    - { role: development/docker, tags: ["development","docker"]}
+    - { role: development/avr, tags: ["development","avr"]}
+    - { role: development/m5stack, tags: ["development","m5stack"]}
+
+    - { role: document/libreoffice, tags: ["document","libreoffice"]}
+    - { role: document/okular, tags: ["document","okular"]}
+    
+    - { role: multimedia/vlc, tags: ["multimedia","vlc"]}
+    - { role: multimedia/imagemagick, tags: ["multimedia","imagemagick"]}
+    - { role: multimedia/ffmpeg, tags: ["multimedia","ffmpeg"]}
+    - { role: multimedia/inkscape, tags: ["multimedia","inkscape"]}
+    - { role: multimedia/gimp, tags: ["multimedia","gimp"]}
+    - { role: multimedia/gthumb, tags: ["multimedia","gthumb"]}
+
+    - { role: cad/cura, tags: ["cad","cura"]}
+    - { role: cad/kicad, tags: ["cad","kicad"]}
+    - { role: cad/librecad, tags: ["cad","librecad"]}
+
+    - { role: communication/slack, tags: ["communication", "slack"]}
+    - { role: communication/discord, tags: ["communication", "discord"]}
+    - { role: communication/zoom, tags: ["communication", "zoom"]}
+
+    - { role: security/authy, tags: ["security", "authy"]}
+    - { role: security/firejail, tags: ["security", "firejail"]}
+    - { role: security/keepassxc, tags: ["security", "keepassxc"]}
+    - { role: security/gnome-keyring, tags: ["security", "gnome-keyring"]}
+
+    - { role: storage/dropbox, tags: ["storage", "dropbox"]}
+    - { role: storage/grive, tags: ["storage", "grive"]}
+    - { role: storage/snapper, tags: ["storage", "snapper"]}
+    - { role: storage/samba, tags: ["storage", "samba"]}
+    - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
+    - { role: storage/filesystem, tags: ["storage", "filesystem"]}
+
+    - { role: terminal, tags: ["terminal"]}
+
+    - { role: dotfiles, tags: ["dotfiles"]}
+    
+    - { role: python, tags: ["python"]}
+
+    - { role: ansible, tags: ["ansible"]}

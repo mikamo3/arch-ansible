@@ -1,9 +1,0 @@
-- name: install
-  pacman:
-    name: open-iscsi
-
-- name: enable
-  service:
-    name: iscsid
-    enabled: yes
-    state: started

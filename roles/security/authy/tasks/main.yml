@@ -1,5 +1,8 @@
-- name: install authy
+- name: install
   become: yes
   become_user: aur
   aur:
     name: authy
+  tags:
+    - security
+    - authy

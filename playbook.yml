@@ -1,4 +1,4 @@
-- hosts: 
+- hosts:
     - kamo3work
     - kamo3work_dev
   remote_user: "ansible"
@@ -7,68 +7,78 @@
   vars_files:
     - vars/secret.yml
   roles:
-    - { role: debug,tags: ["never", "debug"] }
+    - role: system/user
+    - role: system/package
+    - role: system/locale
+    - role: system/host
+    - role: system/boot
 
-    - { role: base, tags: ["base"]}
+    - role: system/driver/virtualbox
+    - role: gui/xorg
+    - role: gui/i3_gaps
+    - role: gui/lightdm
+    - role: gui/lightdm_webkit2_greeter
+    - role: gui/lightdm_webkit_theme_litarvan
+    - role: gui/thunar
+    - role: gui/volantes-cursors
+    - role: gui/utils
 
-    - { role: gui/displayserver, tags: ["gui","displayserver"]}
-    - { role: gui/displaymanager, tags: ["gui","displaymanager"]}
-    - { role: gui/windowmanager, tags: ["gui","windowmanager"]}
-    - { role: gui/desktop, tags: ["gui","desktop"]}
-    - { role: fonts, tags: ["fonts"]}
+    - role: cui/utils
+    - role: cui/kawazu
 
-    - { role: utilities/cui, tags: ["utilities","utilities_cui","cui"]}
-    - { role: utilities/gui, tags: ["utilities","utilities_gui","gui"]}
+    - role: shell/bash
+    - role: shell/fish
+    - role: shell/zsh
 
-    - { role: browser/firefox, tags: ["browser","firefox"]}
-    - { role: browser/chromium, tags: ["browser","chromium"]}
-    - { role: browser/googlechrome, tags: ["browser","googlechrome"]}
-    - { role: browser/profileSyncDaemon, tags: ["browser","profileSyncDaemon"]}
+    - role: browser/firefox
+    - role: browser/chromium
+    - role: browser/profilesyncdaemon
 
-    - { role: network-clients, tags: ["network-clients"]}
+    - role: cad/cura
+    - role: cad/librecad
+    - role: cad/freecad
+    - role: cad/kicad
+    - role: development/avr
+    - role: development/docker
+    - role: development/git
+    - role: development/m5stack
+    - role: development/virtualbox
+    - role: development/vscode
 
-    - { role: development/vscode, tags: ["development","vscode"]}
-    - { role: development/git, tags: ["development","git"]}
-    - { role: development/github-cli, tags: ["development","github-cli"]}
-    - { role: development/virtualbox, tags: ["development","virtualbox"]}
-    - { role: development/docker, tags: ["development","docker"]}
-    - { role: development/avr, tags: ["development","avr"]}
-    - { role: development/m5stack, tags: ["development","m5stack"]}
+    - role: runtime/python
+    - role: runtime/java
+    - role: runtime/nodejs
 
-    - { role: document/libreoffice, tags: ["document","libreoffice"]}
-    - { role: document/okular, tags: ["document","okular"]}
-    
-    - { role: multimedia/vlc, tags: ["multimedia","vlc"]}
-    - { role: multimedia/imagemagick, tags: ["multimedia","imagemagick"]}
-    - { role: multimedia/ffmpeg, tags: ["multimedia","ffmpeg"]}
-    - { role: multimedia/inkscape, tags: ["multimedia","inkscape"]}
-    - { role: multimedia/gimp, tags: ["multimedia","gimp"]}
-    - { role: multimedia/gthumb, tags: ["multimedia","gthumb"]}
+    - role: font/cica
+    - role: font/mplus
+    - role: font/nerd-fonts
+    - role: font/noto
+    - role: font/setfont
+    - role: font/utilities
 
-    - { role: cad/cura, tags: ["cad","cura"]}
-    - { role: cad/kicad, tags: ["cad","kicad"]}
-    - { role: cad/librecad, tags: ["cad","librecad"]}
+    - role: multimedia/ffmpeg
+    - role: multimedia/gimp
+    - role: multimedia/gthumb
+    - role: multimedia/imagemagick
+    - role: multimedia/inkscape
+    - role: multimedia/mcomix
+    - role: multimedia/vlc
 
-    - { role: communication/slack, tags: ["communication", "slack"]}
-    - { role: communication/discord, tags: ["communication", "discord"]}
-    - { role: communication/zoom, tags: ["communication", "zoom"]}
+    - role: network_client/filezilla
+    - role: network_client/remmina
+    - role: network_client/qbittorrent
 
-    - { role: security/authy, tags: ["security", "authy"]}
-    - { role: security/firejail, tags: ["security", "firejail"]}
-    - { role: security/keepassxc, tags: ["security", "keepassxc"]}
-    - { role: security/gnome-keyring, tags: ["security", "gnome-keyring"]}
+    - role: security/authy
+    - role: security/firejail
+    - role: security/gnome_keyring
+    - role: security/keepassxc
 
-    - { role: storage/dropbox, tags: ["storage", "dropbox"]}
-    - { role: storage/grive, tags: ["storage", "grive"]}
-    - { role: storage/snapper, tags: ["storage", "snapper"]}
-    - { role: storage/samba, tags: ["storage", "samba"]}
-    - { role: storage/veracrypt, tags: ["storage", "veracrypt"]}
-    - { role: storage/filesystem, tags: ["storage", "filesystem"]}
+    - role: storage/dropbox
+    - role: storage/filesystem
+    - role: storage/gparted
+    - role: storage/grive
+    - role: storage/samba
+    - role: storage/veracrypt
 
-    - { role: terminal, tags: ["terminal"]}
-
-    - { role: dotfiles, tags: ["dotfiles"]}
-    
-    - { role: python, tags: ["python"]}
-
-    - { role: ansible, tags: ["ansible"]}
+    - role: cui/alacritty
+    - role: cui/tmux

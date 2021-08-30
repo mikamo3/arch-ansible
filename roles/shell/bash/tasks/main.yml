@@ -1,0 +1,6 @@
+- name: install bash-completion
+  pacman:
+    name: bash-completion
+  tags:
+    - shell
+    - bash

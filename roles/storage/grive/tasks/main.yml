@@ -1,8 +1,12 @@
-- name: install grive
-  become: yes
-  become_user: aur
-  aur:
-    name: grive-git
-- name: install inotify-tools
-  pacman:
-    name: inotify-tools
+- block:
+  - name: install grive
+    become: yes
+    become_user: aur
+    aur:
+      name: grive-git
+  - name: install inotify-tools
+    pacman:
+      name: inotify-tools
+  tags:
+    - storage
+    - grive

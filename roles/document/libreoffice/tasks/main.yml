@@ -3,3 +3,6 @@
     name: 
       - libreoffice-still
       - libreoffice-still-ja
+  tags:
+    - document
+    - libreoffice

@@ -1,4 +1,4 @@
-- name: install avrdude
+- name: install development for avr
   pacman:
     name: 
       - avrdude
@@ -8,3 +8,6 @@
       - avr-binutils 
       - avr-libc 
       - dfu-util
+  tags:
+    - development
+    - avr

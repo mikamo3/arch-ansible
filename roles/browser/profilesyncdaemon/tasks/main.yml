@@ -1,0 +1,13 @@
+- block:
+  - name: install
+    pacman:
+      name: profile-sync-daemon
+
+  - name: add sudo for use overlayfs
+    lineinfile:
+      path: /etc/sudoers
+      line: '{{ secret.user.name }} ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper'
+      validate: 'visudo -cf %s'
+  tags:
+    - browser
+    - profilesyncdaemon

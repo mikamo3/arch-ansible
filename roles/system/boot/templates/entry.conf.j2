@@ -1,0 +1,5 @@
+title {{ item.title }}
+linux /vmlinuz-linux
+initrd /initramfs-linux.img
+{% if item.microcode is defined %}initrd /{ item.microcode }-ucode.img{% endif %}
+options root={{ item.id }}{% if item.options is defined %} {item.options}{% endif %} rw

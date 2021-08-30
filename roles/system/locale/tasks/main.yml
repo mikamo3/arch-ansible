@@ -1,0 +1,26 @@
+- block:
+  - name: set timezone
+    timezone:
+      name: "{{timezone}}"
+  - name: copy locale.gen
+    template:
+      src: locale.gen.j2
+      dest: /etc/locale.gen
+      mode: 0644
+    register: copy_locale_result
+  - name: generate locale
+    command: locale-gen
+    when: copy_locale_result.changed == true
+  - name: copy locale.conf
+    template:
+      src: locale.conf.j2
+      dest: /etc/locale.conf
+      mode: 0644
+  - name: copy vconsole.conf
+    template:
+      src: vconsole.conf.j2
+      dest: /etc/vconsole.conf
+      mode: 0644
+  tags:
+    - system
+    - locale

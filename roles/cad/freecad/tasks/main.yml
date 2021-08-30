@@ -1,5 +1,8 @@
-- name: install freecad
+- name: install
   become: yes
   become_user: aur
   aur:
     name: freecad
+  tags:
+    - cad
+    - freecad

@@ -1,9 +1,0 @@
-# TODO: set variable
-- name: configure alias for monospace fonts
-  copy:
-    src: local.conf
-    dest: /etc/fonts/local.conf
-    mode: "0644"
-  tags:
-    - font
-    - setfont

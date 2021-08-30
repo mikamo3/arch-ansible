@@ -1,0 +1,15 @@
+- block:
+  - name: install
+    pacman:
+      name:
+        - feh
+        - xarchiver
+        - catfish
+        - leafpad
+        - xdg-user-dirs
+        - network-manager-applet
+        - autorandr
+
+  tags:
+    - gui
+    - utils

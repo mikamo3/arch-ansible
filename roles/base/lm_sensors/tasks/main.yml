@@ -1,9 +1,0 @@
-- name: install lm_sensors
-  pacman: 
-    name: lm_sensors
-  notify:
-    - run sensors-detect
-    - restart lm-sensors
-  tags:
-   - base
-   - lm_sensors

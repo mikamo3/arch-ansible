@@ -1,0 +1,16 @@
+- block:
+  - name: install
+    pacman:
+      name:
+        - zsh
+        - zsh-completions
+
+  - name: install zplug
+    become: yes
+    become_user: aur
+    aur:
+      name:
+        - zplug
+  tags:
+    - shell
+    - zsh

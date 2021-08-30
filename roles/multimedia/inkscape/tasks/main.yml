@@ -1,3 +1,6 @@
-- name: install inkscape
+- name: install
   pacman:
     name: inkscape
+  tags:
+    - multimedia
+    - inkscape

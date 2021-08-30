@@ -1,0 +1,53 @@
+- block:
+  - name: update pacman cache
+    pacman:
+      update_cache: yes
+    changed_when: False
+
+  - name: add user for exec yay
+    block:
+      - name: create user aur
+        user:
+          name: aur
+          group: wheel
+      - name: edit sudoers file
+        lineinfile:
+          path: /etc/sudoers
+          line: 'aur ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+          validate: 'visudo -cf %s'
+
+  - name: install yay
+    become: yes
+    become_user: aur
+    aur: 
+      use: makepkg
+      name: yay
+
+  - name: install reflector
+    pacman:
+      name: reflector
+
+  - name: reflector hook
+    block:
+      - name: create hooks directory
+        file:
+          path: /etc/pacman.d/hooks
+          state: directory
+          owner: root
+          group: root
+          mode: 0755
+      - name: copy pacman hooks
+        copy:
+          src: mirrorupgrade.hook
+          dest: /etc/pacman.d/hooks/mirrorupgrade.hook
+
+  - name: install base packages
+    pacman:
+      name:
+        - base
+        - base-devel
+        - archlinux-keyring
+        - networkmanager
+  tags: 
+    - system
+    - package

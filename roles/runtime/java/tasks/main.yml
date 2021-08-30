@@ -1,0 +1,6 @@
+- name: install openjdk
+  pacman:
+    name: jdk-openjdk
+  tags:
+    - runtime
+    - java

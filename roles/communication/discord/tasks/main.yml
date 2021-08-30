@@ -1,3 +1,6 @@
-- name: install discord
+- name: install
   pacman:
     name: discord
+  tags:
+    - communication
+    - discord

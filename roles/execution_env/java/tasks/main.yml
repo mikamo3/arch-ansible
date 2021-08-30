@@ -1,6 +1,0 @@
-- name: install openjdk
-  pacman:
-    name: jdk-openjdk
-  tags:
-    - executon_env
-    - java

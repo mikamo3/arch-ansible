@@ -1,5 +1,8 @@
-- name: install google-chrome
+- name: install
   become: yes
   become_user: aur 
   aur:
     name: google-chrome
+  tags:
+    - browser
+    - googlechrome

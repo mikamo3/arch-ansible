@@ -1,8 +1,0 @@
-- name: install mplus
-  become: yes
-  become_user: aur
-  aur:
-    name: ttf-mplus
-  tags:
-    - font
-    - mplus

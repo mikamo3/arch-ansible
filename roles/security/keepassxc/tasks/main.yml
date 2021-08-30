@@ -1,3 +1,6 @@
-- name: install keepassxc
+- name: install
   pacman:
     name: keepassxc
+  tags:
+    - security
+    - keepassxc

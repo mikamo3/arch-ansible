@@ -1,4 +1,0 @@
-- name: restart vboxservice
-  service:
-    name: vboxservice
-    state: restarted

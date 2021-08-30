@@ -1,0 +1,9 @@
+- block:
+  - name: install
+    pacman:
+      name:
+        - "{{ microcode }}-ucode"
+  when: microcode is defined
+  tags:
+    - system
+    - microcode

@@ -1,0 +1,6 @@
+- name: install
+  pacman:
+    name: tmux
+  tags:
+    - cui
+    - tmux

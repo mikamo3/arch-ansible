@@ -1,0 +1,13 @@
+- block:
+  - name: install
+    pacman:
+      name: lightdm
+
+  - name: enable
+    service:
+      name: lightdm.service
+      enabled: yes
+
+  tags:
+    - gui
+    - lightdm

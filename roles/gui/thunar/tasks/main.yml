@@ -1,0 +1,18 @@
+- block:
+    - name: install
+      pacman:
+        name:
+          - thunar
+          - thunar-volman
+          - gvfs-smb
+
+    - name: configure
+      lineinfile:
+        path: /usr/share/gvfs/mounts/network.mount
+        regexp: "^AutoMount="
+        line: "AutoMount=false"
+        insertafter: EOF
+
+  tags:
+    - gui
+    - thunar

@@ -1,0 +1,6 @@
+- name: install
+  pacman:
+    name: filezilla
+  tags:
+    - network_client
+    - filezilla

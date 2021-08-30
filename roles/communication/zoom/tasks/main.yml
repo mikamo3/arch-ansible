@@ -1,5 +1,8 @@
-- name: install zoom
+- name: install
   become: yes
   become_user: aur
   aur:
     name: zoom
+  tags:
+    - communication
+    - zoom
