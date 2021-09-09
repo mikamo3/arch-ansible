@@ -4,6 +4,14 @@
       update_cache: yes
     changed_when: False
 
+  - name: install base packages
+    pacman:
+      name:
+        - base
+        - base-devel
+        - archlinux-keyring
+        - networkmanager
+        - inetutils
   - name: add user for exec yay
     block:
       - name: create user aur
@@ -41,13 +49,6 @@
           src: mirrorupgrade.hook
           dest: /etc/pacman.d/hooks/mirrorupgrade.hook
 
-  - name: install base packages
-    pacman:
-      name:
-        - base
-        - base-devel
-        - archlinux-keyring
-        - networkmanager
   tags: 
     - system
     - package

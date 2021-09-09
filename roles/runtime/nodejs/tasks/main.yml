@@ -1,6 +1,6 @@
 - name: install
   pacman:
-    name: nodejs,yarn
+    name: nodejs,yarn,npm
   tags:
     - runtime
     - nodejs

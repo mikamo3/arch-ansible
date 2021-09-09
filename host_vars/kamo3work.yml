@@ -2,7 +2,7 @@ hostname: kamo3work
 microcode: amd
 user:
   uid: 1000
-  shell: /usr/bin/zsh
+  shell: /bin/bash
 
 driver:
   display: amd

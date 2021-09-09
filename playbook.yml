@@ -1,6 +1,6 @@
+---
 - hosts:
-    - kamo3work
-    - kamo3work_dev
+  - all
   remote_user: "ansible"
   become: true
   gather_facts: no
@@ -11,9 +11,7 @@
     - role: system/package
     - role: system/locale
     - role: system/host
-    - role: system/boot
 
-    - role: system/driver/virtualbox
     - role: gui/xorg
     - role: gui/i3_gaps
     - role: gui/lightdm
@@ -56,6 +54,7 @@
     - role: font/setfont
     - role: font/utilities
 
+    - role: multimedia/pulseaudio
     - role: multimedia/ffmpeg
     - role: multimedia/gimp
     - role: multimedia/gthumb
@@ -82,3 +81,23 @@
 
     - role: cui/alacritty
     - role: cui/tmux
+
+- hosts:
+  - kamo3work_dev
+  remote_user: "ansible"
+  become: true
+  gather_facts: no
+  vars_files:
+    - vars/secret.yml
+  roles:
+    - role: system/driver/virtualbox
+
+- hosts:
+  - kamo3work
+  remote_user: "ansible"
+  become: true
+  gather_facts: no
+  vars_files:
+    - vars/secret.yml
+  roles:
+    - role: system/driver/amdgpu

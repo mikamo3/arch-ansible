@@ -1,0 +1,10 @@
+- name: install video driver
+  pacman:
+    name: 
+    - xf86-video-amdgpu
+    - mesa
+    - mesa-vdpau 
+    - libva-mesa-driver
+  tags:
+    - system
+    - driver
