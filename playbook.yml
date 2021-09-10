@@ -20,6 +20,7 @@
     - role: gui/thunar
     - role: gui/volantes-cursors
     - role: gui/utils
+    - role: gui/fcitx
 
     - role: cui/utils
     - role: cui/kawazu
