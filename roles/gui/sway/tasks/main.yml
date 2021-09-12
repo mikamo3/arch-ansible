@@ -1,3 +1,16 @@
 - name: install
   pacman:
-    name: sway,wlroots,dmenu,alacritty
+    name: 
+      - sway
+      - wlroots
+      - swayidle
+      - wallutils
+      - waybar
+      - xorg-xwayland
+      - mako
+      - qt5-wayland
+      - qt5ct
+      - clutter
+  tags:
+    - gui
+    - sway

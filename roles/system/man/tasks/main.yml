@@ -1,0 +1,10 @@
+- name: install
+  become: yes
+  become_user: aur
+  aur:
+    name: 
+      - man
+      - man-pages-ja
+  tags:
+    - system
+    - man
