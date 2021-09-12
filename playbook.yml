@@ -15,6 +15,7 @@
     - role: system/man
     - role: system/ananicy
     - role: system/irqbalance
+    - role: system/timesync
 
     - role: gui/xorg
     - role: gui/i3_gaps

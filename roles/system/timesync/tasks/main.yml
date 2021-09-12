@@ -1,0 +1,8 @@
+---
+  - name: enable systemd-timesyncd
+    service:
+      name: systemd-timesyncd
+      enabled: yes
+    tags:
+      - system
+      - timesync
