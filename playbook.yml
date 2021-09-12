@@ -9,10 +9,11 @@
   roles:
     - role: system/user
     - role: system/package
+    - role: system/makepkg
     - role: system/locale
     - role: system/host
     - role: system/man
-    - role: system/makepkg
+    - role: system/ananicy
 
     - role: gui/xorg
     - role: gui/i3_gaps
