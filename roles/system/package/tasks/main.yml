@@ -27,14 +27,6 @@
             src: mirrorupgrade.hook
             dest: /etc/pacman.d/hooks/mirrorupgrade.hook
 
-    - name: install base packages
-      pacman:
-        name:
-          - base
-          - base-devel
-          - archlinux-keyring
-          - networkmanager
-          - inetutils
     - name: add user for exec yay
       block:
         - name: create user aur
@@ -53,6 +45,30 @@
       aur:
         use: makepkg
         name: yay
+    - name: install powerpill
+      become: yes
+      become_user: aur
+      aur: 
+        name: powerpill
+      register: powerpill_output
+    - name: config pacman.conf for powerpill
+      lineinfile:
+        path: /etc/pacman.conf
+        regexp: "^ .*SigLevel"
+        line: "SigLevel = PackageRequired"
+    - name: enable powerpill for aur user
+      become: yes
+      become_user: aur
+      command: yay --save --pacman powerpill
+      when: powerpill_output.changed
+    - name: install base packages
+      pacman:
+        name:
+          - base
+          - base-devel
+          - archlinux-keyring
+          - networkmanager
+          - inetutils
 
   tags:
     - system
