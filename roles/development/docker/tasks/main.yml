@@ -1,18 +1,18 @@
 - block:
-  - name: install
-    pacman:
-      name: docker,docker-compose
+    - name: install
+      pacman:
+        name: docker,docker-compose
 
-  - name: enable
-    service:
-      name: docker.service
-      enabled: yes
+    - name: enable
+      service:
+        name: docker.service
+        enabled: yes
 
-  - name: add {{ secret.user.name }} to group docker
-    user:
-      name: "{{ secret.user.name }}"
-      groups: docker
-      append: yes
+    - name: add {{ secret.user.name }} to group docker
+      user:
+        name: "{{ secret.user.name }}"
+        groups: docker
+        append: yes
   tags:
     - development
     - docker

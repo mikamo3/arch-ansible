@@ -1,19 +1,19 @@
 - block:
-  - name: install virtualbox
-    pacman:
-      name: virtualbox,virtualbox-host-dkms,virtualbox-guest-iso,
+    - name: install virtualbox
+      pacman:
+        name: virtualbox,virtualbox-host-dkms,virtualbox-guest-iso,
 
-  - name: install extension pack
-    become: yes
-    become_user: aur
-    aur:
-      name:  virtualbox-ext-oracle
+    - name: install extension pack
+      become: yes
+      become_user: aur
+      aur:
+        name: virtualbox-ext-oracle
 
-  - name: add {{ secret.user.name }} to group vboxusers
-    user:
-      name: "{{ secret.user.name }}"
-      groups: vboxusers
-      append: yes
+    - name: add {{ secret.user.name }} to group vboxusers
+      user:
+        name: "{{ secret.user.name }}"
+        groups: vboxusers
+        append: yes
   tags:
     - development
     - virtualbox

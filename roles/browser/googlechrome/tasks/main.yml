@@ -1,6 +1,6 @@
 - name: install
   become: yes
-  become_user: aur 
+  become_user: aur
   aur:
     name: google-chrome
   tags:

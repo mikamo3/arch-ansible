@@ -1,12 +1,12 @@
 - name: install development for avr
   pacman:
-    name: 
+    name:
       - avrdude
       - avr-gcc
       - dfu-programmer
-      - gcc 
-      - avr-binutils 
-      - avr-libc 
+      - gcc
+      - avr-binutils
+      - avr-libc
       - dfu-util
   tags:
     - development

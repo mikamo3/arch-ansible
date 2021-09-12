@@ -1,13 +1,13 @@
 - hosts:
-  - usb
-  - usb_dev
+    - usb
+    - usb_dev
   remote_user: "ansible"
   become: true
   gather_facts: yes
   vars_files:
     - vars/secret.yml
   roles:
-    - { role: debug,tags: ["never", "debug"] }
+    - { role: debug, tags: ["never", "debug"] }
     - role: base/common
     - role: base/graphic_driver
     - role: base/sound

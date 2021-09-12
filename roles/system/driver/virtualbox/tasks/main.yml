@@ -1,11 +1,11 @@
 - block:
-  - name: install virtualbox-guest-utils
-    pacman:
-      name: virtualbox-guest-utils
-  - name: enable vboxservice
-    service:
-      name: vboxservice
-      enabled: yes
-  tags: 
+    - name: install virtualbox-guest-utils
+      pacman:
+        name: virtualbox-guest-utils
+    - name: enable vboxservice
+      service:
+        name: vboxservice
+        enabled: yes
+  tags:
     - system
     - driver

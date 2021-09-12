@@ -6,14 +6,13 @@
       - mkinitcpio-overlayfs
 
 - name: copy configure
-  copy: 
+  copy:
     src: mkinitcpio_overlay.conf
     dest: /etc/mkinitcpio_overlay.conf
     mode: "0644"
 
-
 - name: copy preset
-  copy: 
+  copy:
     src: overlay.preset
     dest: /etc/mkinitcpio.d/overlay.preset
     mode: "0644"

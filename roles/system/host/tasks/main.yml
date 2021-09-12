@@ -1,15 +1,15 @@
 - block:
-  - name: copy hostname
-    template:
-      src: hostname.j2
-      dest: /etc/hostname
-      mode: 0644
+    - name: copy hostname
+      template:
+        src: hostname.j2
+        dest: /etc/hostname
+        mode: 0644
 
-  - name: copy hosts
-    template:
-      src: hosts.j2
-      dest: /etc/hosts
-      mode: 0644
+    - name: copy hosts
+      template:
+        src: hosts.j2
+        dest: /etc/hosts
+        mode: 0644
   tags:
     - system
     - host

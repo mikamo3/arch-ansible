@@ -1,14 +1,14 @@
 - block:
-  - name: add entries
-    template:
-      dest: /boot/loader/entries/{{ item.filename }}.conf
-      src: entry.conf.j2
-    loop : "{{ boot.entries }}"
+    - name: add entries
+      template:
+        dest: /boot/loader/entries/{{ item.filename }}.conf
+        src: entry.conf.j2
+      loop: "{{ boot.entries }}"
 
-  - name: configure loader.conf
-    template:
-      dest: /boot/loader/loader.conf
-      src: loader.conf.j2
+    - name: configure loader.conf
+      template:
+        dest: /boot/loader/loader.conf
+        src: loader.conf.j2
   tags:
     - system
     - boot

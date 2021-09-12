@@ -2,10 +2,10 @@
 - block:
     - name: install
       become: yes
-      become_user: aur 
+      become_user: aur
       aur:
         name: ananicy-git
-    - name: enable 
+    - name: enable
       service:
         name: ananicy.service
         enabled: yes

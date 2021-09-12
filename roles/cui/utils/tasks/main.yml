@@ -1,33 +1,34 @@
 - block:
-  - name: install
-    pacman:
-      name:
-        - vi
-        - fzf
-        - powerline
-        - unrar
-        - unzip
-        - p7zip
-        - lha
-        - xz
-        - bat
-        - htop
-        - exa
-        - ripgrep
-        - neofetch
-        - unarchiver
-        - xsel
-        - aria2
-        - pkgfile
-        - neovim
-        - usbutils
-        - the_silver_searcher 
-  - name: install (from aur)
-    become: yes
-    become_user: aur
-    aur:
-      name:
-        - procs
+    - name: install
+      pacman:
+        name:
+          - vi
+          - fzf
+          - powerline
+          - unrar
+          - unzip
+          - p7zip
+          - lha
+          - xz
+          - bat
+          - htop
+          - exa
+          - ripgrep
+          - neofetch
+          - unarchiver
+          - xsel
+          - aria2
+          - pkgfile
+          - vim
+          - neovim
+          - usbutils
+          - the_silver_searcher
+    - name: install (from aur)
+      become: yes
+      become_user: aur
+      aur:
+        name:
+          - procs
   tags:
     - cui
     - utils

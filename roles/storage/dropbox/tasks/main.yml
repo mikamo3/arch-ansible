@@ -1,29 +1,29 @@
 - block:
-  - name: check gpgkey imported
-    become: yes
-    become_user: aur
-    shell: gpg -k |grep 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
-    register: gpgresult
-    failed_when: false 
-    changed_when: false
+    - name: check gpgkey imported
+      become: yes
+      become_user: aur
+      shell: gpg -k |grep 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+      register: gpgresult
+      failed_when: false
+      changed_when: false
 
-  - name: import gpg
-    become: yes
-    become_user: aur
-    block:
-      - name: download pubkey
-        get_url: 
-          url: https://linux.dropbox.com/fedora/rpm-public-key.asc
-          dest: /tmp/pubkey.asc
-      - name: import pubkey
-        command: gpg --import /tmp/pubkey.asc
-    when: gpgresult.rc == 1
+    - name: import gpg
+      become: yes
+      become_user: aur
+      block:
+        - name: download pubkey
+          get_url:
+            url: https://linux.dropbox.com/fedora/rpm-public-key.asc
+            dest: /tmp/pubkey.asc
+        - name: import pubkey
+          command: gpg --import /tmp/pubkey.asc
+      when: gpgresult.rc == 1
 
-  - name: install
-    become: yes
-    become_user: aur
-    aur:
-      name: dropbox
+    - name: install
+      become: yes
+      become_user: aur
+      aur:
+        name: dropbox
   tags:
     - storage
     - dropbox

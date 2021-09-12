@@ -1,6 +1,6 @@
 ---
 - hosts:
-  - all
+    - all
   remote_user: "ansible"
   become: true
   gather_facts: no
@@ -88,7 +88,7 @@
     - role: cui/tmux
 
 - hosts:
-  - kamo3work_dev
+    - kamo3work_dev
   remote_user: "ansible"
   become: true
   gather_facts: no
@@ -98,7 +98,7 @@
     - role: system/driver/virtualbox
 
 - hosts:
-  - kamo3work
+    - kamo3work
   remote_user: "ansible"
   become: true
   gather_facts: no

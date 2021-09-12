@@ -48,7 +48,7 @@
     - name: install powerpill
       become: yes
       become_user: aur
-      aur: 
+      aur:
         name: powerpill
       register: powerpill_output
     - name: config pacman.conf for powerpill

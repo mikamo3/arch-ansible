@@ -1,20 +1,20 @@
 - block:
-  - name: install git
-    pacman:
-      name: git
-  - name: install utils
-    become: yes
-    become_user: aur
-    aur:
-      name: ghq,github-cli
-  - name: install commitizen
-    yarn:
-      name: commitizen
-      global: yes
-  - name: install cz-emoji
-    yarn:
-      name: cz-emoji
-      global: yes
+    - name: install git
+      pacman:
+        name: git
+    - name: install utils
+      become: yes
+      become_user: aur
+      aur:
+        name: ghq,github-cli
+    - name: install commitizen
+      yarn:
+        name: commitizen
+        global: yes
+    - name: install cz-emoji
+      yarn:
+        name: cz-emoji
+        global: yes
   tags:
     - development
     - git
