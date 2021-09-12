@@ -2,12 +2,18 @@
   "name": "arch-ansible",
   "dockerFile": "Dockerfile",
   "extensions": [
-    "vscoss.vscode-ansible",
+    "tomaciazek.ansible",
     "wholroyd.jinja",
-    "coolbear.systemd-unit-file"
+    "coolbear.systemd-unit-file",
+    "esbenp.prettier-vscode"
   ],
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "bash",
+        "icon": "terminal-bash"
+      }
+    }
   },
   "remoteUser": "dev",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
