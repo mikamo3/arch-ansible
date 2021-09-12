@@ -14,6 +14,7 @@
     - role: system/host
     - role: system/man
     - role: system/ananicy
+    - role: system/irqbalance
 
     - role: gui/xorg
     - role: gui/i3_gaps
