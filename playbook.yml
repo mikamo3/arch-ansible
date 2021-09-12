@@ -12,6 +12,7 @@
     - role: system/locale
     - role: system/host
     - role: system/man
+    - role: system/makepkg
 
     - role: gui/xorg
     - role: gui/i3_gaps
