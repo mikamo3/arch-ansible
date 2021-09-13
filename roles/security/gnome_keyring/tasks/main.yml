@@ -4,6 +4,7 @@
         name:
           - gnome-keyring
           - seahorse
+          - libgnome-keyring
     - name: configure xprofile
       copy:
         src: 70-run-gnome-keyring.sh
