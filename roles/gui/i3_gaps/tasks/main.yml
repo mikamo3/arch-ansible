@@ -8,7 +8,7 @@
       - dmenu
       - picom
       - dex
-      - deadd-notification-center-bin
+      - dunst
       - polybar
       - rofi
   tags:
