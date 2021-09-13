@@ -69,6 +69,7 @@
           - archlinux-keyring
           - networkmanager
           - inetutils
+          - pacman-contrib
 
   tags:
     - system
