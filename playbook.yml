@@ -59,6 +59,7 @@
     - role: font/nerd-fonts
     - role: font/noto
     - role: font/setfont
+    - role: font/ibm_plex
     - role: font/utilities
 
     - role: multimedia/pulseaudio

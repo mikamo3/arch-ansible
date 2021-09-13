@@ -1,0 +1,7 @@
+---
+- name: install
+  pacman:
+    name: ttf-ibm-plex
+  tags:
+    - font
+    - ibm_plex
