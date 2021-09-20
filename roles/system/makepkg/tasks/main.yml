@@ -6,12 +6,6 @@
         regexp: " *MAKEFLAGS"
         line: MAKEFLAGS="-j $(nproc)"
         insertafter: "#MAKEFLAGS="
-    - name: configure
-      lineinfile:
-        path: /etc/makepkg.conf
-        regexp: " *BUILDDIR"
-        line: BUILDDIR=/tmp/makepkg
-        insertafter: "pecify a directory for package building."
   tags:
     - system
     - makepkg

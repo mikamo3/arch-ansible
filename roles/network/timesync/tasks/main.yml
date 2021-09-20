@@ -4,5 +4,5 @@
     name: systemd-timesyncd
     enabled: yes
   tags:
-    - system
+    - network
     - timesync

@@ -4,6 +4,20 @@
         update_cache: yes
       changed_when: False
 
+    - name: install base packages
+      pacman:
+        name:
+          - base
+          - base-devel
+          - archlinux-keyring
+          - networkmanager
+          - inetutils
+          - iperf
+          - pacman-contrib
+          - sshpass
+          - net-tools
+          - tcpdump
+
     - name: install reflector
       pacman:
         name: reflector
@@ -33,10 +47,11 @@
           user:
             name: aur
             group: wheel
-        - name: edit sudoers file
-          lineinfile:
-            path: /etc/sudoers
-            line: "aur ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        - name: configure sudoers file
+          copy:
+            src: aur
+            dest: /etc/sudoers.d/aur
+            mode: "440"
             validate: "visudo -cf %s"
 
     - name: install yay
@@ -61,15 +76,6 @@
       become_user: aur
       command: yay --save --pacman powerpill
       when: powerpill_output.changed
-    - name: install base packages
-      pacman:
-        name:
-          - base
-          - base-devel
-          - archlinux-keyring
-          - networkmanager
-          - inetutils
-          - pacman-contrib
 
   tags:
     - system

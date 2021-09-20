@@ -15,8 +15,10 @@
     - role: system/man
     - role: system/ananicy
     - role: system/irqbalance
-    - role: system/timesync
     - role: system/benchmark
+
+    - role: network/timesync
+    - role: network/networkmanager
 
     - role: gui/xorg
     - role: gui/i3_gaps
@@ -33,7 +35,6 @@
 
     - role: shell/bash
     - role: shell/fish
-    - role: shell/zsh
 
     - role: browser/firefox
     - role: browser/chromium
@@ -43,12 +44,14 @@
     - role: cad/librecad
     - role: cad/freecad
     - role: cad/kicad
+
     - role: development/avr
     - role: development/docker
     - role: development/git
     - role: development/m5stack
     - role: development/virtualbox
     - role: development/vscode
+    - role: development/qemu
 
     - role: runtime/python
     - role: runtime/java

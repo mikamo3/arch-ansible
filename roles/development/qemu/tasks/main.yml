@@ -1,0 +1,11 @@
+---
+- name: install
+  pacman: 
+    name:
+      - qemu
+      - virt-manager
+      - libvirt
+      - qemu-arch-extra
+  tags: 
+    - development
+    - qemu

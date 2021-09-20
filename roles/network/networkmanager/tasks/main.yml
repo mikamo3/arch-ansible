@@ -1,0 +1,17 @@
+---
+- block:
+    - name: install
+      pacman:
+        name: networkmanager
+    - name: configure timesyncd
+      copy:
+        src: 10-update-timesyncd
+        dest: /etc/NetworkManager/dispatcher.d/10-update-timesyncd
+        mode: "0700"
+    - name: enable
+      service:
+        name: NetworkManager
+        enabled: yes
+  tags:
+    - network
+    - networkmanager

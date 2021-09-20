@@ -1,10 +1,7 @@
 - name: install
-  become: yes
-  become_user: aur
-  aur:
+  pacman:
     name:
       - man
-      # - man-pages-ja
   tags:
     - system
     - man
