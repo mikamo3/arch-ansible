@@ -6,6 +6,13 @@
         regexp: " *MAKEFLAGS"
         line: MAKEFLAGS="-j $(nproc)"
         insertafter: "#MAKEFLAGS="
+    - name: configure
+      lineinfile:
+        path: /etc/makepkg.conf
+        regexp: " *COMPRESSXZ="
+        line: COMPRESSXZ=(xz -c -T 0 -z -)
+
+        insertafter: "#MAKEFLAGS="
   tags:
     - system
     - makepkg
