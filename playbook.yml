@@ -73,6 +73,7 @@
     - role: multimedia/inkscape
     - role: multimedia/mcomix
     - role: multimedia/vlc
+    - role: multimedia/utils
 
     - role: network_client/filezilla
     - role: network_client/remmina
@@ -91,6 +92,12 @@
 
     - role: cui/alacritty
     - role: cui/tmux
+
+    - role: communication/slack
+    - role: communication/discord
+    - role: communication/zoom
+
+    - role: printer
 
 - hosts:
     - kamo3work_dev

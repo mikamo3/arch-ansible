@@ -1,0 +1,13 @@
+---
+- block:
+    - name: install
+      pacman:
+        name:
+          - cups
+          - gutenprint
+    - name: enable
+      service:
+        name: cups
+        enabled: yes
+  tags:
+    - printer
