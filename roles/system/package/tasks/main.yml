@@ -46,7 +46,6 @@
         - name: create user aur
           user:
             name: aur
-            group: wheel
         - name: configure sudoers file
           copy:
             src: aur
@@ -60,23 +59,6 @@
       aur:
         use: makepkg
         name: yay
-    - name: install powerpill
-      become: yes
-      become_user: aur
-      aur:
-        name: powerpill
-      register: powerpill_output
-    - name: config pacman.conf for powerpill
-      lineinfile:
-        path: /etc/pacman.conf
-        regexp: "^ .*SigLevel"
-        line: "SigLevel = PackageRequired"
-    - name: enable powerpill for aur user
-      become: yes
-      become_user: aur
-      command: yay --save --pacman powerpill
-      when: powerpill_output.changed
-
   tags:
     - system
     - package
