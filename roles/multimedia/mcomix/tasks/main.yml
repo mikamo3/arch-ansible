@@ -1,5 +1,7 @@
 - name: install
-  pacman:
+  become: yes
+  become_user: aur
+  aur:
     name: mcomix
   tags:
     - multimedia
