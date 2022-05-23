@@ -1,0 +1,44 @@
+- hosts:
+    - usb
+    - usb_dev
+  remote_user: "ansible"
+  become: true
+  gather_facts: yes
+  vars_files:
+    - vars/secret.yml
+  roles:
+    - role: system/user
+    - role: system/package
+    - role: system/makepkg
+    - role: system/locale
+    - role: system/host
+
+    - role: network/timesync
+    - role: network/networkmanager
+
+    - role: shell/bash
+
+    - role: gui/xorg
+    - role: gui/xfce
+    - role: gui/lightdm
+    - role: gui/lightdm_webkit2_greeter
+    - role: gui/lightdm_webkit_theme_litarvan
+    - role: gui/utils
+    - role: gui/fcitx
+
+    - role: font/noto
+    - role: font/cica
+    - role: font/setfont
+
+    - role: multimedia/vlc
+    - role: multimedia/mcomix
+    - role: multimedia/pulseaudio
+    - role: multimedia/ffmpeg
+
+    - role: storage/veracrypt
+    - role: storage/open_iscsi
+
+    - role: system/overlayfs
+    - role: system/disable_ipv6
+
+    - role: custom/usb
