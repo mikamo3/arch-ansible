@@ -13,8 +13,6 @@
     - role: system/locale
     - role: system/host
     - role: system/man
-    - role: system/ananicy
-    - role: system/irqbalance
     - role: system/benchmark
 
     - role: network/timesync
@@ -86,7 +84,7 @@
 
     - role: storage/filesystem
     - role: storage/gparted
-    - role: storage/grive
+    #- role: storage/grive
     - role: storage/samba
     - role: storage/veracrypt
 
