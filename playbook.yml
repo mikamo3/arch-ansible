@@ -51,6 +51,8 @@
     - role: development/vscode
     - role: development/qemu
 
+    - role: document/libreoffice
+
     - role: runtime/python
     - role: runtime/java
     - role: runtime/nodejs
