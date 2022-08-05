@@ -73,6 +73,7 @@
     - role: multimedia/inkscape
     - role: multimedia/mcomix
     - role: multimedia/vlc
+    - role: multimedia/spotify
     - role: multimedia/utils
 
     - role: network_client/filezilla
