@@ -1,0 +1,6 @@
+- name: install
+  pacman:
+    name: rclone
+  tags:
+    - storage
+    - rclone

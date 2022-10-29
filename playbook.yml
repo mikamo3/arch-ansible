@@ -87,9 +87,9 @@
 
     - role: storage/filesystem
     - role: storage/gparted
-    #- role: storage/grive
     - role: storage/samba
     - role: storage/veracrypt
+    - role: storage/rclone
 
     - role: cui/alacritty
     - role: cui/tmux
