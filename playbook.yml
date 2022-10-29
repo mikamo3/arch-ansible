@@ -63,6 +63,7 @@
     - role: font/noto
     - role: font/setfont
     - role: font/ibm_plex
+    - role: font/plemoljp
     - role: font/utilities
 
     - role: multimedia/pulseaudio
