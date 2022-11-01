@@ -1,6 +1,6 @@
 - name: install
   pacman:
-    name: cura
+    name: cura-bin
   tags:
     - cad
     - cura
