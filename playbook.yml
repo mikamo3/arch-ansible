@@ -24,6 +24,7 @@
     - role: gui/lightdm_webkit2_greeter
     - role: gui/lightdm_webkit_theme_litarvan
     - role: gui/thunar
+    - role: gui/nemo
     - role: gui/volantes-cursors
     - role: gui/utils
     - role: gui/fcitx
