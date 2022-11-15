@@ -21,8 +21,7 @@
     - role: gui/xorg
     - role: gui/i3_gaps
     - role: gui/lightdm
-    - role: gui/lightdm_webkit2_greeter
-    - role: gui/lightdm_webkit_theme_litarvan
+    - role: gui/lightdm_gtk_greeter
     - role: gui/thunar
     - role: gui/nemo
     - role: gui/volantes-cursors
