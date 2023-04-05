@@ -1,9 +1,9 @@
 ---
 - hosts:
-    - all
+    - work
   remote_user: "ansible"
   become: true
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - vars/secret.yml
   roles:
@@ -18,8 +18,20 @@
     - role: network/timesync
     - role: network/networkmanager
 
+    - role: runtime/python
+    - role: runtime/java
+    - role: runtime/nodejs
+
+    - role: cui/utils
+    - role: cui/kawazu
+    - role: cui/alacritty
+    - role: cui/tmux
+
+    - role: shell/bash
+    - role: shell/fish
+
     - role: gui/xorg
-    - role: gui/i3_gaps
+    - role: gui/i3
     - role: gui/lightdm
     - role: gui/lightdm_gtk_greeter
     - role: gui/thunar
@@ -27,12 +39,6 @@
     - role: gui/volantes-cursors
     - role: gui/utils
     - role: gui/fcitx
-
-    - role: cui/utils
-    - role: cui/kawazu
-
-    - role: shell/bash
-    - role: shell/fish
 
     - role: browser/firefox
     - role: browser/chromium
@@ -52,18 +58,15 @@
     - role: development/qemu
 
     - role: document/libreoffice
-
-    - role: runtime/python
-    - role: runtime/java
-    - role: runtime/nodejs
+    - role: document/okular
 
     - role: font/cica
     - role: font/mplus
     - role: font/nerd-fonts
     - role: font/noto
     - role: font/setfont
-    - role: font/ibm_plex
-    - role: font/plemoljp
+    #    - role: font/ibm_plex
+    #    - role: font/plemoljp
     - role: font/utilities
 
     - role: multimedia/pulseaudio
@@ -74,7 +77,7 @@
     - role: multimedia/inkscape
     - role: multimedia/mcomix
     - role: multimedia/vlc
-    - role: multimedia/spotify
+    #    - role: multimedia/spotify
     - role: multimedia/utils
 
     - role: network_client/filezilla
@@ -92,20 +95,19 @@
     - role: storage/veracrypt
     - role: storage/rclone
 
-    - role: cui/alacritty
-    - role: cui/tmux
-
     - role: communication/slack
-    - role: communication/discord
+    #    - role: communication/discord
     - role: communication/zoom
 
     - role: printer
+
+    - role: homedir
 
 - hosts:
     - kamo3work_dev
   remote_user: "ansible"
   become: true
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - vars/secret.yml
   roles:
@@ -115,7 +117,7 @@
     - kamo3work
   remote_user: "ansible"
   become: true
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - vars/secret.yml
   roles:

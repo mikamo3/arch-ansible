@@ -1,2 +1,1 @@
-aur ALL=(ALL) NOPASSWD: /usr/bin/powerpill
 aur ALL=(ALL) NOPASSWD: /usr/bin/pacman

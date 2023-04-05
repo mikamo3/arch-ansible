@@ -17,6 +17,7 @@
           - sshpass
           - net-tools
           - tcpdump
+          - libxml2
 
     - name: install reflector
       pacman:
@@ -54,7 +55,7 @@
             validate: "visudo -cf %s"
 
     - name: install yay
-      become: yes
+      become: true
       become_user: aur
       aur:
         use: makepkg

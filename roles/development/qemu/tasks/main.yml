@@ -12,16 +12,20 @@
   - name: load virtio
     modprobe:
       name: virtio
+    changed_when: False
+
   - name: configure libvirt
     copy:
       src: libvirt-qemu.conf
       dest: /etc/libvirt/qemu.conf
       mode: "0755"
+
   - name: configure libvirtd
     lineinfile:
       path: /etc/libvirt/libvirtd.conf
       regexp: "^#? *unix_sock_group"
       line: "unix_sock_group = \"libvirt\""
+
   - name: configure libvirtd
     lineinfile:
       path: /etc/libvirt/libvirtd.conf

@@ -1,8 +1,9 @@
-all:
-  children:
-    localmachine:
-      hosts:
-        kamo3work_dev:
-          ansible_host: 192.168.56.106
-        usb_dev:
-          ansible_host: 192.168.56.104
+---
+work:
+  hosts:
+    kamo3work_dev:
+      ansible_host: 192.168.56.107
+media:
+  hosts:
+    usb_dev:
+      ansible_host: 192.168.56.104

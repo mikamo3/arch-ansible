@@ -8,11 +8,11 @@
       aur:
         name: ghq,github-cli
     - name: install commitizen
-      yarn:
+      npm:
         name: commitizen
         global: yes
     - name: install cz-emoji
-      yarn:
+      npm:
         name: cz-emoji
         global: yes
   tags:

@@ -1,5 +1,7 @@
 - name: install
-  pacman:
+  become: true
+  become_user: aur
+  aur:
     name: cura-bin
   tags:
     - cad

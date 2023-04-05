@@ -2,12 +2,8 @@
     - name: install
       pacman:
         name:
-          - fcitx
-          - fcitx-configtool
-          - fcitx-gtk2
-          - fcitx-gtk3
-          - fcitx-mozc
-          - fcitx-qt5
+          - fcitx5-im
+          - fcitx5-mozc
 
     - name: configure fcitx
       copy:

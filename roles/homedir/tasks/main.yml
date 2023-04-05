@@ -1,0 +1,60 @@
+---
+- name: hoge
+  block:
+    - name: clone dotfiles
+      become: true
+      become_user: "{{ secret.user.name }}"
+      git:
+        repo: https://github.com/mikamo3/dotfiles
+        dest: "/home/{{ secret.user.name }}/.kawazu/dotfiles"
+        update: no
+
+    - name: apply dotfiles
+      become: true
+      become_user: "{{ secret.user.name }}"
+      command: "bash -c 'source /usr/lib/kawazu/kawazu.sh;yes | KAWAZU_ROOT_DIR=/usr/lib/kawazu kawazu -f link'"
+      register: result
+      ignore_errors: true
+
+    - name: xdg-user-dirs-update
+      become: true
+      become_user: "{{ secret.user.name }}"
+      shell: LC_ALL=C xdg-user-dirs-update --force
+    - name: Remove user dir (jp)
+      become: true
+      become_user: "{{ secret.user.name }}"
+      file:
+        path: "/home/{{ secret.user.name }}/{{ item }}"
+        state: absent
+      with_items:
+        - ダウンロード
+        - テンプレート
+        - デスクトップ
+        - ドキュメント
+        - ビデオ
+        - 音楽
+        - 画像
+        - 公開
+    - name: create dirs
+      become: true
+      become_user: "{{ secret.user.name }}"
+      file:
+        path: "/home/{{ secret.user.name }}/{{ item }}"
+        state: directory
+      with_items:
+        - Pictures/wallpapers
+        - Pictures/screenshot
+        - .local/log
+    - name: install tpm plugin
+      become: true
+      become_user: "{{ secret.user.name }}"
+      git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: "/home/{{ secret.user.name }}/.tmux/plugins/tpm"
+        update: no
+    - name: update fish plugin
+      become: true
+      become_user: "{{ secret.user.name }}"
+      command: "fish -c 'fisher update'"
+  tags:
+    - homedir
