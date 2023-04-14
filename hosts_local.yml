@@ -1,6 +1,5 @@
-all:
-  children:
-    localmachine:
-      hosts:
-        kamo3work:
-          ansible_connection: local
+---
+work:
+  hosts:
+    kamo3work_dev:
+      ansible_connection: local
