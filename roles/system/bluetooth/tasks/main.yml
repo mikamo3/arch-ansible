@@ -1,0 +1,11 @@
+---
+- block:
+    - name: install
+      pacman:
+        name:
+          - bluez
+          - bluez-utils
+          - blueman
+  tags:
+    - system
+    - bluetooth
