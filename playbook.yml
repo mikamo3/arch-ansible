@@ -3,10 +3,11 @@
     - work
   remote_user: "ansible"
   become: true
-  gather_facts: false
+  gather_facts: true
   vars_files:
     - vars/secret.yml
   roles:
+    - role: debug
     - role: system/user
     - role: system/package
     - role: system/makepkg
