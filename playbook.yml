@@ -16,6 +16,7 @@
     - role: system/man
     - role: system/benchmark
     - role: system/bluetooth
+    - role: system/driver/virtualbox
 
     - role: network/timesync
     - role: network/networkmanager
@@ -104,16 +105,6 @@
     - role: printer
 
     - role: homedir
-
-- hosts:
-    - kamo3work_dev
-  remote_user: "ansible"
-  become: true
-  gather_facts: false
-  vars_files:
-    - vars/secret.yml
-  roles:
-    - role: system/driver/virtualbox
 
 - hosts:
     - kamo3work

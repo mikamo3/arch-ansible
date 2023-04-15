@@ -6,6 +6,7 @@
       service:
         name: vboxservice
         enabled: yes
+  when: ansible_facts['virtualization_type'] == 'virtualbox'
   tags:
     - system
     - driver
