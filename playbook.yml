@@ -17,6 +17,7 @@
     - role: system/benchmark
     - role: system/bluetooth
     - role: system/driver/virtualbox
+    - role: system/defaultapplication
 
     - role: network/timesync
     - role: network/networkmanager
@@ -68,8 +69,8 @@
     - role: font/nerd-fonts
     - role: font/noto
     - role: font/setfont
-    #    - role: font/ibm_plex
-    #    - role: font/plemoljp
+    - role: font/ibm_plex
+    - role: font/plemoljp
     - role: font/utilities
 
     - role: multimedia/pulseaudio

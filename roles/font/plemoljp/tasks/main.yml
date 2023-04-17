@@ -1,8 +1,16 @@
-- name: install
-  become: yes
+- name: kawazu
+  become: true
   become_user: aur
-  aur:
-    name: ttf-plemoljp 
+  block:
+    - name: clone
+      git:
+        repo: https://github.com/mikamo3/ttf-plemoljp-release.git
+        dest: /tmp/ttf-plemol
+    - name: install
+      aur:
+        name: kawazu
+        use: makepkg
+        local_pkgbuild: /tmp/ttf-plemol
   tags:
     - font
     - plemoljp
