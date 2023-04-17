@@ -1,0 +1,9 @@
+---
+- name: install
+  become: yes
+  become_user: aur
+  aur: 
+    name: mimeo
+  tags:
+    - system
+    - defaultapplication
