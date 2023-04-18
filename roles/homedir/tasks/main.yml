@@ -56,5 +56,14 @@
       become: true
       become_user: "{{ secret.user.name }}"
       command: "fish -c 'fisher update'"
+    - name: enable psd
+      become: true
+      become_user: "{{ secret.user.name }}"
+      service:
+        name: psd
+        scope: user
+        state: started
+        enabled: true
+
   tags:
     - homedir
