@@ -37,7 +37,7 @@
     - role: gui/xorg
     - role: gui/i3
     - role: gui/lightdm
-    - role: gui/lightdm_gtk_greeter
+    - role: gui/lightdm_mini_greeter
     - role: gui/thunar
     - role: gui/nemo
     - role: gui/volantes-cursors
