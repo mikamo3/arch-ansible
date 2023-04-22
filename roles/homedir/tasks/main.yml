@@ -52,10 +52,12 @@
         repo: https://github.com/tmux-plugins/tpm
         dest: "/home/{{ secret.user.name }}/.tmux/plugins/tpm"
         update: no
+
     - name: update fish plugin
       become: true
       become_user: "{{ secret.user.name }}"
       command: "fish -c 'fisher update'"
+
     - name: enable psd
       become: true
       become_user: "{{ secret.user.name }}"
@@ -64,6 +66,13 @@
         scope: user
         state: started
         enabled: true
+    
+    - name: pip
+      become: true
+      become_user: "{{ secret.user.name }}"
+      pip:
+        requirements: "/home/{{ secret.user.name }}/pip/requirements.txt"
+        extra_args: "--user"
 
   tags:
     - homedir
