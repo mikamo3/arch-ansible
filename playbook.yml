@@ -18,6 +18,7 @@
     - role: system/bluetooth
     - role: system/driver/virtualbox
     - role: system/defaultapplication
+    - role: system/suspend
 
     - role: network/timesync
     - role: network/networkmanager

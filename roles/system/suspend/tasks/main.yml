@@ -1,0 +1,10 @@
+- name: enable suspend
+  lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: '^\s*HandlePowerKey='
+    line: "HandlePowerKey=suspend"
+    insertafter: '\[login\]'
+  tags:
+    - system 
+    - suspend 
+
