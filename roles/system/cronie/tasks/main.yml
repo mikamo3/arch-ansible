@@ -1,0 +1,12 @@
+---
+- block:
+    - name: install
+      pacman:
+        name: cronie
+    - name: enable
+      service:
+        name: cronie
+        enabled: true
+  tags:
+    - system
+    - cronie 

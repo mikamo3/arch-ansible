@@ -19,6 +19,7 @@
     - role: system/driver/virtualbox
     - role: system/defaultapplication
     - role: system/suspend
+    - role: system/cronie
 
     - role: network/timesync
     - role: network/networkmanager
