@@ -9,7 +9,13 @@
           - network-manager-applet
           - autorandr
           - file-roller
-
+          - flameshot
+    - name: install (from aur)
+      become: yes
+      become_user: aur
+      aur:
+        name:
+          - dwall-git
   tags:
     - gui
     - utils
