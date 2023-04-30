@@ -99,7 +99,8 @@
     - role: storage/gparted
     - role: storage/samba
     - role: storage/veracrypt
-    - role: storage/rclone
+    #- role: storage/rclone
+    - role: storage/grive
 
     - role: communication/slack
     #    - role: communication/discord
