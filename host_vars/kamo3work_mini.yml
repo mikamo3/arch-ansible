@@ -1,0 +1,9 @@
+hostname: kamo3workmini
+microcode: amd
+user:
+  uid: 1000
+  shell: /bin/bash
+
+driver:
+  display: amd
+  virtualbox: no

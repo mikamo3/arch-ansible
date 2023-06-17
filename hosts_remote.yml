@@ -4,5 +4,7 @@ all:
       hosts:
         kamo3work:
           ansible_host: 192.168.100.106
+        kamo3work_mini:
+          ansible_host: 192.168.100.222
         usb:
           ansible_host: 192.168.100.103

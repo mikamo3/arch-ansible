@@ -11,12 +11,6 @@
         regexp: '^\s*greeter-session=.*'
         line: "greeter-session=lightdm-mini-greeter"
         insertafter: '\[Seat:\*\]'
-    - name: configure lightdm-gtk-greeter.conf
-      lineinfile:
-        path: /etc/lightdm/lightdm-gtk-greeter.conf
-        regexp: '^\s*active-monitor=.*'
-        line: "active-monitor=0"
-        insertafter: '\[greeter\]'
     - name: configure lightdm-mini-greeter.conf
       lineinfile:
         path: /etc/lightdm/lightdm-mini-greeter.conf

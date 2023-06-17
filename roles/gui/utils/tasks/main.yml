@@ -16,6 +16,7 @@
       aur:
         name:
           - dwall-git
+          - ulauncher
   tags:
     - gui
     - utils

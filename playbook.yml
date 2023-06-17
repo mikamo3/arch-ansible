@@ -1,6 +1,6 @@
 ---
 - hosts:
-    - work
+    - localmachine
   remote_user: "ansible"
   become: true
   gather_facts: true
@@ -30,8 +30,9 @@
 
     - role: cui/utils
     - role: cui/kawazu
-    - role: cui/alacritty
+    #- role: cui/alacritty
     - role: cui/tmux
+    - role: cui/wezterm
 
     - role: shell/bash
     - role: shell/fish
@@ -118,4 +119,15 @@
   vars_files:
     - vars/secret.yml
   roles:
+    #- role: system/driver/amdgpu
+    - role: system/driver/nvidia
+- hosts:
+    - kamo3work_mini
+  remote_user: "ansible"
+  become: true
+  gather_facts: false
+  vars_files:
+    - vars/secret.yml
+  roles:
+    #- role: system/driver/amdgpu
     - role: system/driver/amdgpu
