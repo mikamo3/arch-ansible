@@ -8,6 +8,10 @@
           - blueman
           - pulseaudio-alsa
           - pulseaudio-bluetooth
+    - name: enable bluetooth
+      service:
+        name: bluetooth
+        enabled: yes
   tags:
     - system
     - bluetooth
