@@ -4,7 +4,7 @@
         name: virtualbox,virtualbox-host-dkms,virtualbox-guest-iso,
 
     - name: install extension pack
-      become: yes
+      become: true
       become_user: aur
       aur:
         name: virtualbox-ext-oracle

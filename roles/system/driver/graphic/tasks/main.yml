@@ -1,0 +1,34 @@
+- block:
+    - name: install video driver
+      pacman:
+        name:
+          - xf86-video-amdgpu
+          - mesa
+          - mesa-vdpau
+          - libva-vdpau-driver
+          - libva-mesa-driver
+          - libva-utils
+          - vdpauinfo
+    - name: enable early kms start
+      lineinfile:
+        path: /etc/mkinitcpio.conf
+        regexp: " *MODULES="
+        line: "MODULES=(amdgpu)"
+        insertafter: "# *MODULES="
+      register: mkinitcpio_output
+    - name: run mkinitcpio
+      command: mkinitcpio -P
+      when: mkinitcpio_output.changed
+  when: driver.graphic == "amdgpu"
+- block:
+    - name: install video driver
+      pacman:
+        name:
+          - nvidia-utils
+          - nvidia-dkms
+          - cuda
+  when: driver.graphic == "nvidia"
+
+  tags:
+    - system
+    - driver

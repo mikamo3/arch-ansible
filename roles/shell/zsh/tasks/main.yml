@@ -6,7 +6,7 @@
           - zsh-completions
 
     - name: install zplug
-      become: yes
+      become: true
       become_user: aur
       aur:
         name:

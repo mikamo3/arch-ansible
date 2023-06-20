@@ -26,7 +26,7 @@
           - usbutils
           - the_silver_searcher
     - name: install (from aur)
-      become: yes
+      become: true
       become_user: aur
       aur:
         name:

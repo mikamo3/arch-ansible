@@ -18,6 +18,7 @@
           - net-tools
           - tcpdump
           - libxml2
+          - linux-headers
 
     - name: install reflector
       pacman:

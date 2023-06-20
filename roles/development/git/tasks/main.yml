@@ -3,7 +3,7 @@
       pacman:
         name: git
     - name: install utils
-      become: yes
+      become: true
       become_user: aur
       aur:
         name: ghq,github-cli

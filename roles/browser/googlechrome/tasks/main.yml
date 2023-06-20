@@ -1,5 +1,5 @@
 - name: install
-  become: yes
+  become: true
   become_user: aur
   aur:
     name: google-chrome
