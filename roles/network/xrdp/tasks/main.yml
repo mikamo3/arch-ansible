@@ -1,0 +1,24 @@
+---
+- block:
+    - name: install
+      become: true
+      become_user: aur
+      aur:
+        name:
+          - xrdp
+          - xorgxrdp
+    - name: configure
+      copy:
+        src: Xwrapper.config
+        dest: /etc/X11/Xwrapper.config
+        owner: root
+        group: root
+        mode: "644"
+    - name: enable
+      service:
+        name: xrdp
+        state: started
+        enabled: true
+  tags:
+    - network
+    - xrdp

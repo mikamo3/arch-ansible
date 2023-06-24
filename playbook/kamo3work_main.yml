@@ -21,6 +21,7 @@
 
     - role: network/timesync
     - role: network/networkmanager
+    - role: network/xrdp
 
     - role: runtime/python
     - role: runtime/python310

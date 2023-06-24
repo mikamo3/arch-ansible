@@ -13,6 +13,6 @@ fi
 ANSIBLE_CONFIG=./ansible.cfg ansible-playbook \
 -i ./inventories/${inv} \
 ./playbook/${inv} \
--l $e $TAGS \
+-l $e \
 --vault-password-file=".pass" \
---extra-vars="@password.yml" -v $TAGS $@
+--extra-vars="@password.yml" --diff $TAGS $@
