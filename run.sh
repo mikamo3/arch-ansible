@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
-set -x
+set -ex
+e=$(echo "dev
+local
+remote" |fzf)
+
+inv=$(ls -1 ./inventories/|fzf)
+
 if [[ "$1" != "" ]]; then
   TAGS="--tags=$1"
   shift
 fi
-ANSIBLE_CONFIG=./ansible.cfg ansible-playbook -i hosts_remote.yml playbook.yml $TAGS --vault-password-file=".pass" --extra-vars="@password.yml" -v $@
+ANSIBLE_CONFIG=./ansible.cfg ansible-playbook \
+-i ./inventories/${inv} \
+./playbook/${inv} \
+-l $e $TAGS \
+--vault-password-file=".pass" \
+--extra-vars="@password.yml" -v $TAGS $@

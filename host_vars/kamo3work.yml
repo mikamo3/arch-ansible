@@ -1,9 +1,0 @@
-hostname: kamo3work
-microcode: amd
-user:
-  uid: 1000
-  shell: /bin/bash
-
-driver:
-  display: amd
-  virtualbox: no

@@ -19,6 +19,7 @@
           - tcpdump
           - libxml2
           - linux-headers
+          - linux-zen-headers
 
     - name: install reflector
       pacman:

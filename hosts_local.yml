@@ -1,5 +1,0 @@
----
-work:
-  hosts:
-    kamo3work:
-      ansible_connection: local

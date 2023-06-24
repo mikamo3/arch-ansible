@@ -1,34 +1,37 @@
 - block:
-    - name: install video driver
-      pacman:
-        name:
-          - xf86-video-amdgpu
-          - mesa
-          - mesa-vdpau
-          - libva-vdpau-driver
-          - libva-mesa-driver
-          - libva-utils
-          - vdpauinfo
-    - name: enable early kms start
-      lineinfile:
-        path: /etc/mkinitcpio.conf
-        regexp: " *MODULES="
-        line: "MODULES=(amdgpu)"
-        insertafter: "# *MODULES="
-      register: mkinitcpio_output
-    - name: run mkinitcpio
-      command: mkinitcpio -P
-      when: mkinitcpio_output.changed
-  when: driver.graphic == "amdgpu"
-- block:
-    - name: install video driver
-      pacman:
-        name:
-          - nvidia-utils
-          - nvidia-dkms
-          - cuda
-  when: driver.graphic == "nvidia"
-
+    - name: amdgpu
+      block:
+        - name: install amdgpu driver
+          pacman:
+            name:
+              - xf86-video-amdgpu
+              - mesa
+              - mesa-vdpau
+              - libva-vdpau-driver
+              - libva-mesa-driver
+              - libva-utils
+              - vdpauinfo
+        - name: enable early kms start
+          lineinfile:
+            path: /etc/mkinitcpio.conf
+            regexp: " *MODULES="
+            line: "MODULES=(amdgpu)"
+            insertafter: "# *MODULES="
+          register: mkinitcpio_output
+        - name: run mkinitcpio
+          command: mkinitcpio -P
+          when: mkinitcpio_output.changed
+      when: graphic_driver == "amdgpu"
+    - name: nvidia
+      block:
+        - name: install nvidia driver
+          pacman:
+            name:
+              - nvidia-utils
+              - nvidia-settings
+              - nvidia-dkms
+              - cuda
+      when: graphic_driver == "nvidia"
   tags:
     - system
     - driver

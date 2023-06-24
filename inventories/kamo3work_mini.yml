@@ -1,0 +1,16 @@
+---
+all:
+  children:
+    localpc:
+      hosts:
+        local:
+          ansible_connection: local
+          graphic_driver: amdgpu
+        dev:
+          ansible_host: 192.168.122.65
+      vars:
+        hostname: kamo3work
+        microcode: amd
+        user:
+          uid: 1000
+          shell: /bin/fish
