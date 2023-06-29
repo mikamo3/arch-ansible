@@ -1,0 +1,15 @@
+---
+- block:
+    - name: install
+      pacman:
+        name:
+          - cuda
+
+    - name: install(aur)
+      become: true
+      become_user: aur
+      aur:
+        name: nvidia-container-toolkit
+  tags:
+    - development
+    - cuda

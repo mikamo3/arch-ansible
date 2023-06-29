@@ -52,6 +52,7 @@
     - role: browser/profilesyncdaemon
 
     - role: development/docker
+    - role: development/cuda
     - role: development/git
 
     - role: font/noto
@@ -60,6 +61,7 @@
 
     - role: multimedia/gthumb
     - role: multimedia/mcomix
+    - role: multimedia/imagemagick
 
     - role: security/authy
     - role: security/firejail
