@@ -104,6 +104,7 @@
     - role: storage/veracrypt
     #- role: storage/rclone
     - role: storage/grive
+    - role: storage/nfs
 
     - role: communication/slack
     #    - role: communication/discord

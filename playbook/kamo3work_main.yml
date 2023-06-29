@@ -69,5 +69,6 @@
     - role: security/keepassxc
 
     - role: storage/veracrypt
+    - role: storage/nfs
 
     - role: homedir
