@@ -64,9 +64,11 @@
     - role: development/virtualbox
     - role: development/vscode
     - role: development/qemu
+    - role: development/minikube
 
     - role: document/libreoffice
     - role: document/okular
+    - role: document/notion
 
     - role: font/cica
     - role: font/mplus

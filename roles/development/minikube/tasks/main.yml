@@ -1,0 +1,9 @@
+---
+- name: install
+  pacman:
+    name:
+      - minikube
+      - kubectl
+  tags:
+    - development
+    - minikube
