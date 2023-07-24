@@ -5,6 +5,7 @@
           - thunar
           - thunar-volman
           - gvfs-smb
+          - tumbler
 
     - name: configure
       lineinfile:
