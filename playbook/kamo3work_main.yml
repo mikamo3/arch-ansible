@@ -70,5 +70,6 @@
 
     - role: storage/veracrypt
     - role: storage/nfs
+    - role: storage/open_iscsi
 
     - role: homedir
