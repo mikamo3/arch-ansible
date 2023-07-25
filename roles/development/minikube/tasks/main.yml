@@ -4,6 +4,7 @@
     name:
       - minikube
       - kubectl
+      - helm
   tags:
     - development
     - minikube
