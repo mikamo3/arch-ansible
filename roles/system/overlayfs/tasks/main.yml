@@ -1,35 +1,40 @@
-- name: install
-  become: true
-  become_user: aur
-  aur:
-    name:
-      - mkinitcpio-overlayfs
+---
+- block:
+    - name: install
+      become: true
+      become_user: aur
+      aur:
+        name:
+          - mkinitcpio-overlayfs
 
-- name: copy configure
-  copy:
-    src: mkinitcpio_overlay.conf
-    dest: /etc/mkinitcpio_overlay.conf
-    mode: "0644"
+    - name: copy configure
+      copy:
+        src: mkinitcpio_overlay.conf
+        dest: /etc/mkinitcpio_overlay.conf
+        mode: "0644"
 
-- name: copy preset
-  copy:
-    src: overlay.preset
-    dest: /etc/mkinitcpio.d/overlay.preset
-    mode: "0644"
+    - name: copy preset
+      copy:
+        src: overlay.preset
+        dest: /etc/mkinitcpio.d/overlay.preset
+        mode: "0644"
 
-- name: run mkinitcpio
-  command: mkinitcpio -p overlay
+    - name: run mkinitcpio
+      command: mkinitcpio -p overlay
 
-- name: get target partuuid
-  shell: blkid -s PARTUUID {{overlayfs.dev}} | cut -d " " -f 2|sed 's/"//g'
-  register: partuuid
+    - name: get target partuuid
+      shell: blkid -s PARTUUID {{overlayfs.dev}} | cut -d " " -f 2|sed 's/"//g'
+      register: partuuid
 
-- name: copy entry
-  template:
-    src: overlayfs.conf.j2
-    dest: /boot/loader/entries/overlayfs.conf
+    - name: copy entry
+      template:
+        src: overlayfs.conf.j2
+        dest: /boot/loader/entries/overlayfs.conf
 
-- name: copy loader.conf
-  copy:
-    src: loader.conf
-    dest: /boot/loader/loader.conf
+    - name: copy loader.conf
+      copy:
+        src: loader.conf
+        dest: /boot/loader/loader.conf
+  tags:
+    - system
+    - overlayfs

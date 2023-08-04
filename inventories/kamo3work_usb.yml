@@ -1,0 +1,16 @@
+---
+all:
+  children:
+    localpc:
+      hosts:
+        remote:
+          ansible_host: 192.168.100.204
+        dev:
+          ansible_host: 192.168.122.65
+      vars:
+        hostname: usb
+        user:
+          uid: 1000
+          shell: /bin/bash
+        overlayfs:
+          dev: /dev/sda2

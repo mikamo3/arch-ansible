@@ -1,11 +1,11 @@
+---
 - hosts:
-    - usb
-    - usb_dev
+    - localpc
   remote_user: "ansible"
   become: true
   gather_facts: yes
   vars_files:
-    - vars/secret.yml
+    - ../vars/secret.yml
   roles:
     - role: system/user
     - role: system/package
@@ -21,8 +21,7 @@
     - role: gui/xorg
     - role: gui/xfce
     - role: gui/lightdm
-    - role: gui/lightdm_webkit2_greeter
-    - role: gui/lightdm_webkit_theme_litarvan
+    - role: gui/lightdm_mini_greeter
     - role: gui/utils
     - role: gui/fcitx
 
