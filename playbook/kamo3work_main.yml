@@ -62,6 +62,7 @@
     - role: multimedia/gthumb
     - role: multimedia/mcomix
     - role: multimedia/imagemagick
+    - role: multimedia/pulseaudio
 
     - role: security/authy
     - role: security/firejail
