@@ -107,6 +107,7 @@
     #- role: storage/rclone
     - role: storage/grive
     - role: storage/nfs
+    - role: storage/smartmontools
 
     - role: communication/slack
     #    - role: communication/discord

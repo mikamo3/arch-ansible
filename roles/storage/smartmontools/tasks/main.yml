@@ -1,0 +1,7 @@
+---
+- name: install
+  pacman:
+    name: smartmontools
+  tags:
+    - smartmontools
+    - storage
