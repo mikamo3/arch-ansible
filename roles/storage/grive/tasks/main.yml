@@ -4,7 +4,7 @@
       become_user: aur
       aur:
         name:
-          - grive
+          - grive-git
           - inotify-tools
   tags:
     - storage
