@@ -26,6 +26,7 @@
           - the_silver_searcher
           - jq
           - wget
+          - dmidecode
     - name: install (from aur)
       become: true
       become_user: aur
