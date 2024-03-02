@@ -65,6 +65,7 @@
     - role: development/vscode
     - role: development/qemu
     - role: development/minikube
+    - role: development/tools
 
     - role: document/libreoffice
     - role: document/okular

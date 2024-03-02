@@ -6,13 +6,8 @@
           - qemu
           - virt-manager
           - libvirt
-          - qemu-arch-extra
           - edk2-ovmf
           - dnsmasq
-    - name: load virtio
-      modprobe:
-        name: virtio
-      changed_when: False
 
     - name: configure libvirt
       copy:
