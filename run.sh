@@ -2,9 +2,9 @@
 set -ex
 e=$(echo "dev
 local
-remote" |fzf)
+prod" |fzf)
 
-inv=$(ls -1 ./inventories/|fzf)
+inv=$(ls -1p ./inventories/| grep -v /|fzf)
 
 if [[ "$1" != "" ]]; then
   TAGS="--tags=$1"

@@ -1,0 +1,95 @@
+- name: update pacman cache
+  pacman:
+    update_cache: yes
+  changed_when: False
+
+- name: install base packages
+  pacman:
+    name:
+      - base
+      - base-devel
+      - archlinux-keyring
+      - networkmanager
+      - inetutils
+      - iperf
+      - pacman-contrib
+      - sshpass
+      - net-tools
+      - tcpdump
+      - libxml2
+      - linux-headers
+      - linux-zen-headers
+      - xdg-utils
+
+- name: install reflector
+  pacman:
+    name: reflector
+  register: reflector_output
+
+- name: run reflector
+  command: reflector --country 'JP' --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
+  when: reflector_output.changed
+
+- name: reflector hook
+  block:
+    - name: create hooks directory
+      file:
+        path: /etc/pacman.d/hooks
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+    - name: copy pacman hooks
+      copy:
+        src: mirrorupgrade.hook
+        dest: /etc/pacman.d/hooks/mirrorupgrade.hook
+
+- name: create user `aur`
+  become: true
+  user:
+    name: aur
+    create_home: yes
+    group: wheel
+
+- name: Allow the `aur` user to run `sudo pacman` without a password
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-install-aur
+    line: "aur ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    create: yes
+    mode: 0644
+    validate: "visudo -cf %s"
+
+- name: install yay
+  become: true
+  become_user: aur
+  aur:
+    use: makepkg
+    name: yay
+- name: install
+
+  pacman:
+    name:
+      - "{{ microcode }}-ucode"
+  when: microcode is defined
+
+- name: copy hostname
+  template:
+    src: hostname.j2
+    dest: /etc/hostname
+    mode: 0644
+
+- name: copy hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    mode: 0644
+
+- name: install cronie
+  pacman:
+    name: cronie
+
+- name: enable cronie
+  service:
+    name: cronie
+    enabled: true
