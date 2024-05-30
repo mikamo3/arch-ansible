@@ -6,20 +6,56 @@
 - name: install base packages
   pacman:
     name:
+      - ntfs-3g
+      - gparted
+      - archlinux-keyring
       - base
       - base-devel
-      - archlinux-keyring
-      - networkmanager
+      - bat
+      - coreutils
+      - dmidecode
+      - exa
+      - fzf
+      - git
+      - htop
       - inetutils
       - iperf
-      - pacman-contrib
-      - sshpass
-      - net-tools
-      - tcpdump
+      - jdk-openjdk
+      - jq
+      - less
+      - lha
       - libxml2
       - linux-headers
       - linux-zen-headers
+      - neofetch
+      - neovim
+      - net-tools
+      - networkmanager
+      - nodejs
+      - npm
+      - p7zip
+      - pacman-contrib
+      - pkgfile
+      - powerline
+      - python
+      - python-pip
+      - ripgrep
+      - smartmontools
+      - sshpass
+      - tcpdump
+      - the_silver_searcher
+      - unarchiver
+      - unrar
+      - unzip
+      - usbutils
+      - vi
+      - wget
+      - xclip
       - xdg-utils
+      - xsel
+      - xz
+      - yarn
+      - zip
 
 - name: install reflector
   pacman:
@@ -66,12 +102,26 @@
   aur:
     use: makepkg
     name: yay
-- name: install
-
-  pacman:
+- name: install base packages(aur)
+  become: true
+  become_user: aur
+  aur:
     name:
-      - "{{ microcode }}-ucode"
+      - mimeo
+      - procs
+
+- name: "install {{ microcode }}-ucode"
+  pacman:
+    name: "{{ microcode }}-ucode"
   when: microcode is defined
+
+- name: change mkinitcpio.conf
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: '^HOOKS=\(\s*base\s+(?!.*\bmicrocode\b).*\)$'
+    line: HOOKS=(base microcode \g<1>)
+    backrefs: yes
+    state: present
 
 - name: copy hostname
   template:
@@ -93,3 +143,10 @@
   service:
     name: cronie
     enabled: true
+
+- name: enable suspend
+  lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: '^\s*HandlePowerKey='
+    line: "HandlePowerKey=suspend"
+    insertafter: '\[login\]'

@@ -5,12 +5,14 @@ all:
       hosts:
         prod1:
           ansible_host: 192.168.100.20
+      vars:
+        microcode: intel
     dev:
       hosts:
         dev1:
           ansible_host: 192.168.122.68
       vars:
-        microcode: intel
+        microcode: amd
     local:
       hosts:
         local1:

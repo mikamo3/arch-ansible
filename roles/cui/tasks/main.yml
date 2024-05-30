@@ -1,0 +1,33 @@
+---
+- block:
+    - name: check kawazu installed
+      stat:
+        path: /usr/lib/kawazu
+      register: kawazu_path
+
+    - name: install kawazu
+      become: true
+      become_user: aur
+      block:
+        - name: clone
+          git:
+            repo: https://github.com/mikamo3/kawazu-git.git
+            dest: /tmp/kawazu
+        - name: install
+          aur:
+            name: kawazu
+            use: makepkg
+            local_pkgbuild: /tmp/kawazu
+      when: kawazu_path.stat.exists == false
+
+- name: install bash-completion
+  pacman:
+    name: bash-completion
+
+- name: install fish
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - fish
+      - fisher

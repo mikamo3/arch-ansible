@@ -3,4 +3,5 @@
   become: true
   remote_user: "{{ maintain_user }}"
   roles:
-    - base
+    - { role: base, tags: [base] }
+    - { role: cui, tags: [cui] }
