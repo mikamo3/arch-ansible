@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: python,python-pip
-  tags:
-    - runtime
-    - python

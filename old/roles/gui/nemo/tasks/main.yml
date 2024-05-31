@@ -1,9 +1,0 @@
-- block:
-    - name: install
-      pacman:
-        name:
-          - nemo
-
-  tags:
-    - gui
-    - nemo

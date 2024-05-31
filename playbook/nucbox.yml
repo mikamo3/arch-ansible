@@ -4,4 +4,6 @@
   remote_user: "{{ maintain_user }}"
   roles:
     - { role: base, tags: [base] }
+    - { role: bluetooth, tags: [bluetooth] }
     - { role: cui, tags: [cui] }
+    - { role: gui, tags: [gui] }

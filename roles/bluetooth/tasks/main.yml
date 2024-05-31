@@ -1,6 +1,7 @@
 ---
-- block:
-    - name: install
+- name: Check if bluetooth.enable is defined and true
+  block:
+    - name: install bluetooth packages
       pacman:
         name:
           - bluez
@@ -12,6 +13,4 @@
       service:
         name: bluetooth
         enabled: yes
-  tags:
-    - system
-    - bluetooth
+  when: bluetooth.enable | default(true) | bool
