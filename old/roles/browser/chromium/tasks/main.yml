@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: chromium
-  tags:
-    - browser
-    - chromium

@@ -1,0 +1,12 @@
+---
+- name: install media
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - ffmpeg
+      - vlc
+      - gthumb
+      - imagemagick
+      - mcomix
+      - gpick

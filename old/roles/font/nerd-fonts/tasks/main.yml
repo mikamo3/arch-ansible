@@ -1,9 +1,0 @@
-- name: install
-  pacman:
-    name:
-      - ttf-nerd-fonts-symbols-common
-      - ttf-nerd-fonts-symbols-mono
-
-  tags:
-    - font
-    - nerd-fonts

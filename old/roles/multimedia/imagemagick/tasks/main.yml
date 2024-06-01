@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: imagemagick
-  tags:
-    - multimedia
-    - imagemagick

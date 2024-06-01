@@ -1,0 +1,22 @@
+---
+- name: install browsers
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - chromium
+      - firefox
+      - firefox-i18n-ja
+      - google-chrome
+
+- name: profile-sync-daemon
+  block:
+    - name: install profile-sync-daemon
+      pacman:
+        name: profile-sync-daemon
+
+    - name: add sudo for use overlayfs
+      lineinfile:
+        path: /etc/sudoers
+        line: "{{ maintain_user }} ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper"
+        validate: "visudo -cf %s"

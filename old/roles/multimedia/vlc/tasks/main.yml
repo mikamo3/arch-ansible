@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: vlc
-  tags:
-    - multimedia
-    - vlc

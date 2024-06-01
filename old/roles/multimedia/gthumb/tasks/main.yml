@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: gthumb
-  tags:
-    - multimedia
-    - gthumb

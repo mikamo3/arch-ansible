@@ -7,3 +7,6 @@
     - { role: bluetooth, tags: [bluetooth] }
     - { role: cui, tags: [cui] }
     - { role: gui, tags: [gui] }
+    - { role: fonts, tags: [fonts] }
+    - { role: browser, tags: [browser] }
+    - { role: media, tags: [media] }

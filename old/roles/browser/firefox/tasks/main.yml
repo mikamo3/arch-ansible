@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: firefox,firefox-i18n-{{firefox.lang}}
-  tags:
-    - browser
-    - firefox

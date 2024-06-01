@@ -1,8 +1,0 @@
----
-- name: install
-  pacman:
-    name:
-      - gpick
-  tags:
-    - multimedia
-    - utils
