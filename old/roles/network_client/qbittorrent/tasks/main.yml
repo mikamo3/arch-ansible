@@ -1,9 +1,0 @@
-- name: install
-  pacman:
-    name:
-      - remmina
-      - libvncserver
-      - freerdp
-  tags:
-    - network_client
-    - remmina

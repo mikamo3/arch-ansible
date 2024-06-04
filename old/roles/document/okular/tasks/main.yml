@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: okular
-  tags:
-    - document
-    - ocular

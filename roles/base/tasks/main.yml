@@ -10,6 +10,7 @@
       - gparted
       - archlinux-keyring
       - base
+      - firejail
       - base-devel
       - bat
       - coreutils
@@ -150,3 +151,29 @@
     regexp: '^\s*HandlePowerKey='
     line: "HandlePowerKey=suspend"
     insertafter: '\[login\]'
+
+- name: install
+  pacman:
+    name: docker,docker-compose
+
+- name: enable
+  service:
+    name: docker.service
+    enabled: yes
+
+- name: add {{ maintain_user }} to group docker
+  user:
+    name: "{{ maintain_user }}"
+    groups: docker
+    append: yes
+
+- name: install cups
+  pacman:
+    name:
+      - cups
+      - gutenprint
+
+- name: enable cups
+  service:
+    name: cups
+    enabled: yes

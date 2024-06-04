@@ -10,3 +10,5 @@
     - { role: fonts, tags: [fonts] }
     - { role: browser, tags: [browser] }
     - { role: media, tags: [media] }
+    - { role: development, tags: [development] }
+    - { role: storage, tags: [storage] }

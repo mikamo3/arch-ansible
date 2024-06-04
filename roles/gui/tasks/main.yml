@@ -92,9 +92,16 @@
       - dwall-git
       - ulauncher
       - wezterm
+      - filezilla
+      - remmina
+      - qbittorrent
+      - keepassxc
+      - gparted
 
 - name: install fcitx
-  pacman:
+  become: true
+  become_user: aur
+  aur:
     name:
       - fcitx5-im
       - fcitx5-mozc
@@ -104,3 +111,23 @@
     src: 60-export-fcitx-config.sh
     dest: /etc/X11/xinit/xinitrc.d/60-export-fcitx-config.sh
     mode: "0755"
+
+- name: install seahose
+  pacman:
+    name:
+      - gnome-keyring
+      - seahorse
+      - libsecret
+
+- name: insert pam.d for seahorse
+  lineinfile:
+    path: /etc/pam.d/login
+    line: "auth optional pam_gnome_keyring.so"
+    regexp: "^auth\\s+optional\\s+pam_gnome_keyring.so"
+    insertafter: "^auth"
+- name: insert pam.d for seahorse
+  lineinfile:
+    path: /etc/pam.d/login
+    line: "session optional pam_gnome_keyring.so auto_start"
+    regexp: "^session\\s+optional\\s+pam_gnome_keyring.so\\s+auto_start"
+    insertafter: "^session"

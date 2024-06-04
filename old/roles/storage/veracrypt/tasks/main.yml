@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: veracrypt
-  tags:
-    - storage
-    - veracrypt

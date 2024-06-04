@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: wezterm
-  tags:
-    - cui
-    - wezterm

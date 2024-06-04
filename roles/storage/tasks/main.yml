@@ -1,0 +1,9 @@
+---
+- name: install storage tools
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - grive-git
+      - inotify-tools
+      - veracrypt

@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: firejail
-  tags:
-    - security
-    - firejail

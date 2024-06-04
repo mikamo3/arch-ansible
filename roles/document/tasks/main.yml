@@ -1,8 +1,7 @@
-- name: install
+---
+- name: install document applications
   pacman:
     name:
       - libreoffice-still
       - libreoffice-still-ja
-  tags:
-    - document
-    - libreoffice
+      - okular
