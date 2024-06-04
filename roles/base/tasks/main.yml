@@ -6,6 +6,7 @@
 - name: install base packages
   pacman:
     name:
+      - btop
       - ntfs-3g
       - gparted
       - archlinux-keyring

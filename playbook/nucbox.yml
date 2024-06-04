@@ -12,3 +12,4 @@
     - { role: media, tags: [media] }
     - { role: development, tags: [development] }
     - { role: storage, tags: [storage] }
+    - { role: home, tags: [home] }
