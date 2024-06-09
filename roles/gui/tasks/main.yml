@@ -2,18 +2,17 @@
 - name: install xorg packages
   pacman:
     name:
+      - xorg
       - xorg-server
       - xorg-apps
       - xorg-xinit
-      - xorg-twm
-      - xorg-xclock
       - xterm
 
 - name: install driver (intel)
   pacman:
     name:
       - mesa
-      - xf86-video-intel
+      - mesa-utils
   when: gui.driver == "intel"
 
 - name: install icon theme
@@ -75,6 +74,11 @@
   become_user: aur
   aur:
     name:
+      - bumblebee-status
+      - python-i3ipc
+      - python-pytz
+      - python-tzlocal
+      - alacritty
       - picom
       - dex
       - dunst
@@ -91,7 +95,6 @@
       - flameshot
       - dwall-git
       - ulauncher
-      - wezterm
       - filezilla
       - remmina
       - qbittorrent
