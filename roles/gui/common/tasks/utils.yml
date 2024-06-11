@@ -1,0 +1,48 @@
+---
+- name: install gui utils
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - alacritty
+      - picom
+      - dex
+      - dunst
+      - polybar
+      - rofi
+      - nemo
+      - feh
+      - catfish
+      - leafpad
+      - xdg-user-dirs
+      - network-manager-applet
+      - autorandr
+      - file-roller
+      - flameshot
+      - dwall-git
+      - ulauncher
+      - filezilla
+      - remmina
+      - qbittorrent
+      - keepassxc
+      - gparted
+
+- name: install seahose
+  pacman:
+    name:
+      - gnome-keyring
+      - seahorse
+      - libsecret
+
+- name: insert pam.d for seahorse
+  lineinfile:
+    path: /etc/pam.d/login
+    line: "auth optional pam_gnome_keyring.so"
+    regexp: "^auth\\s+optional\\s+pam_gnome_keyring.so"
+    insertafter: "^auth"
+- name: insert pam.d for seahorse
+  lineinfile:
+    path: /etc/pam.d/login
+    line: "session optional pam_gnome_keyring.so auto_start"
+    regexp: "^session\\s+optional\\s+pam_gnome_keyring.so\\s+auto_start"
+    insertafter: "^session"

@@ -1,12 +1,9 @@
 ---
-- name: install media
+- name: install player_viewer
   become: true
   become_user: aur
   aur:
     name:
-      - ffmpeg
-      - vlc
       - gthumb
-      - imagemagick
+      - vlc
       - mcomix
-      - gpick

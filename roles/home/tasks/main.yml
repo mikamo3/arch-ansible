@@ -52,6 +52,7 @@
     - Pictures/wallpapers
     - Pictures/screenshot
     - .local/log
+    - google-drive
 
 - name: update fish plugin
   become: true
@@ -66,3 +67,15 @@
     minute: "0"
     user: "{{ maintain_user }}"
     job: "DISPLAY=:0 DESKTOP_SESSION=i3 XDG_SESSION_TYPE=x11 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus /home/{{ maintain_user }}/bin/dwall_select"
+
+- name: enable services
+  become: true
+  become_user: "{{ maintain_user }}"
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+    scope: user
+  with_items:
+    - psd.service
+    - grive@{{ lookup('pipe', 'systemd-escape google-drive') }}.service

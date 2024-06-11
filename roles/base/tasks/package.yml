@@ -1,0 +1,36 @@
+---
+- name: install base packages
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - archlinux-keyring
+      - base
+      - base-devel
+      - coreutils
+      - dmidecode
+      - firejail
+      - git
+      - ghq
+      - gparted
+      - jdk-openjdk
+      - linux-headers
+      - linux-zen-headers
+      - networkmanager
+      - nodejs
+      - npm
+      - ntfs-3g
+      - pacman-contrib
+      - pkgfile
+      - python
+      - python-pip
+      - smartmontools
+      - sshpass
+      - unrar
+      - unzip
+      - usbutils
+      - vi
+      - wget
+      - xz
+      - yarn
+      - zip

@@ -1,0 +1,14 @@
+---
+- name: install fcitx
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - fcitx5-im
+      - fcitx5-mozc
+
+- name: configure fcitx
+  copy:
+    src: 60-export-fcitx-config.sh
+    dest: /etc/X11/xinit/xinitrc.d/60-export-fcitx-config.sh
+    mode: "0755"

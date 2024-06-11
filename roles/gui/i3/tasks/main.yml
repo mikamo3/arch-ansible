@@ -1,0 +1,18 @@
+---
+- name: install i3
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - i3-wm
+      - bumblebee-status
+      - python-i3ipc
+      - python-pytz
+      - python-tzlocal
+
+- name: set default session
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regexp: "^user-session="
+    line: "user-session=i3"
+    insertafter: '\[Seat:\*\]'

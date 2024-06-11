@@ -1,0 +1,9 @@
+---
+- name: install xorg packages
+  pacman:
+    name:
+      - xorg
+      - xorg-server
+      - xorg-apps
+      - xorg-xinit
+      - xterm

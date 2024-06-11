@@ -1,0 +1,7 @@
+---
+- name: install driver (intel)
+  pacman:
+    name:
+      - mesa
+      - mesa-utils
+  when: gui.driver == "intel"
