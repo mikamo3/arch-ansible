@@ -1,0 +1,25 @@
+---
+all:
+  children:
+    prod:
+      hosts:
+        prod1:
+          ansible_host: 192.168.100.227
+      vars:
+        microcode: intel
+    dev:
+      hosts:
+        dev1:
+          ansible_host: 192.168.122.22
+      vars:
+        microcode: amd
+        bluetooth:
+          enable: false
+    local:
+      hosts:
+        local1:
+          ansible_connection: local
+      vars:
+        microcode: intel
+  vars:
+    hostname: mainpc

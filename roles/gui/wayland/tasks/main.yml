@@ -1,0 +1,12 @@
+---
+- name: install wayland packages
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - mako
+      - xorg-xwayland
+      - foot
+      - clipman
+      - xdg-desktop-portal-gtk
+      - sdg-desktop-portal-wlr

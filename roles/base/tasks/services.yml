@@ -33,3 +33,8 @@
   service:
     name: cronie
     enabled: true
+
+- name: enable sshd
+  service:
+    name: sshd
+    enabled: true

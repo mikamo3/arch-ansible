@@ -1,0 +1,25 @@
+---
+- name: install sway
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - sway
+      - swaylock
+      - swayidle
+      - swaybg
+      - wlroots
+      - wmenu
+      - waybar
+      - i3status
+      - swayidle
+      - bumblebee-status
+      - python-i3ipc
+      - python-pytz
+      - python-tzlocal
+- name: set default session
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regexp: "^user-session="
+    line: "user-session=sway"
+    insertafter: '\[Seat:\*\]'

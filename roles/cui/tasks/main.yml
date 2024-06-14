@@ -27,6 +27,8 @@
       - procs
       - ripgrep
       - tcpdump
+      - tmux
+      - tmux-plugin-manager
       - the_silver_searcher
       - unarchiver
       - xclip
