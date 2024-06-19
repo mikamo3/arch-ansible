@@ -9,6 +9,7 @@
       - python-i3ipc
       - python-pytz
       - python-tzlocal
+      - rofi
 
 - name: set default session
   lineinfile:

@@ -34,3 +34,4 @@
       - xz
       - yarn
       - zip
+      - man-db

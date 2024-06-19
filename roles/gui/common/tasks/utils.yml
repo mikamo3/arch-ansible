@@ -5,22 +5,14 @@
   aur:
     name:
       - alacritty
-      - picom
-      - dex
-      - dunst
-      - polybar
-      - rofi
       - nemo
-      - feh
       - catfish
       - leafpad
       - xdg-user-dirs
       - network-manager-applet
-      - autorandr
       - file-roller
       - flameshot
       - dwall-git
-      - ulauncher
       - filezilla
       - remmina
       - qbittorrent

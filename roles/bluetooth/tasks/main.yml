@@ -1,12 +1,15 @@
 ---
-- name: install bluetooth packages
-  pacman:
-    name:
-      - bluez
-      - bluez-utils
-      - blueman
+- name: bluetooth
+  block:
+    - name: install bluetooth packages
+      pacman:
+        name:
+          - bluez
+          - bluez-utils
+          - blueman
 
-- name: enable bluetooth
-  service:
-    name: bluetooth
-    enabled: yes
+    - name: enable bluetooth
+      service:
+        name: bluetooth
+        enabled: yes
+  when: bluetooth.enable == true

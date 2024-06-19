@@ -7,3 +7,14 @@
       - xorg-apps
       - xorg-xinit
       - xterm
+
+- name: install utils
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - picom
+      - dex
+      - dunst
+      - feh
+      - autorandr

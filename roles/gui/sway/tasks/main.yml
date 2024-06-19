@@ -8,15 +8,16 @@
       - swaylock
       - swayidle
       - swaybg
-      - wlroots
       - wmenu
       - waybar
       - i3status
+      - sov
       - swayidle
       - bumblebee-status
       - python-i3ipc
       - python-pytz
       - python-tzlocal
+
 - name: set default session
   lineinfile:
     path: /etc/lightdm/lightdm.conf

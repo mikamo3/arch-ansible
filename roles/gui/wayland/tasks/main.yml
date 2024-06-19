@@ -10,3 +10,12 @@
       - clipman
       - xdg-desktop-portal-gtk
       - sdg-desktop-portal-wlr
+      - wlroots
+      - wob
+      - rofi-lbonn-wayland-git
+      - wl-clipboard
+      - wlr-randr
+      - kanshi
+      - wev
+      - qt5-wayland
+      - qt6-wayland

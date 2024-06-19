@@ -1,4 +1,4 @@
 ---
 dependencies:
-  - role: gui/xorg
+  - role: gui/wayland
   - role: gui/lightdm
