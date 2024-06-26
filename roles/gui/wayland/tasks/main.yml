@@ -9,7 +9,9 @@
       - foot
       - clipman
       - xdg-desktop-portal-gtk
-      - sdg-desktop-portal-wlr
+      - xdg-desktop-portal-wlr
+      - xdg-desktop-portal
+      - grim
       - wlroots
       - wob
       - rofi-lbonn-wayland-git
