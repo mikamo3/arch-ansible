@@ -4,6 +4,6 @@
   become_user: aur
   aur:
     name:
-      - grive-git
+      - rclone
       - inotify-tools
       - veracrypt
