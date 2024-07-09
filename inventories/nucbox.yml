@@ -4,9 +4,11 @@ all:
     prod:
       hosts:
         prod1:
-          ansible_host: 192.168.100.227
+          ansible_host: 192.168.100.225
       vars:
         microcode: intel
+        bluetooth:
+          enable: true
     dev:
       hosts:
         dev1:
@@ -21,5 +23,7 @@ all:
           ansible_connection: local
       vars:
         microcode: intel
+        bluetooth:
+          enable: true
   vars:
     hostname: nucbox
