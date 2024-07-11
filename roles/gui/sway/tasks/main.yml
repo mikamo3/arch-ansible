@@ -11,6 +11,8 @@
       - wmenu
       - waybar
       - i3status
+      - wttrbar
+      - waybar-module-pacman-updates-git
       - sov
       - swayidle
       - bumblebee-status
