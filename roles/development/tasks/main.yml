@@ -3,3 +3,21 @@
   become_user: aur
   aur:
     name: visual-studio-code-bin
+
+- name: install git utils
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - github-cli
+      - ghq
+
+- block:
+    - name: install commitizen
+      npm:
+        name: commitizen
+        global: yes
+    - name: install cz-emoji
+      npm:
+        name: cz-emoji
+        global: yes
