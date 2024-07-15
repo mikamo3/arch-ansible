@@ -9,6 +9,7 @@
       - catfish
       - leafpad
       - xdg-user-dirs
+      - xorg-xeyes
       - network-manager-applet
       - file-roller
       - flameshot
@@ -19,6 +20,7 @@
       - keepassxc
       - gparted
       - dex
+      - archlinux-wallpaper
 
 - name: install seahose
   pacman:
