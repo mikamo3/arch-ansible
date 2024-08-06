@@ -5,7 +5,7 @@
   aur:
     name:
       - fcitx5-im
-      - fcitx5-mozc
+      - fcitx5-mozc-ut
 
 - name: configure fcitx
   copy:
