@@ -16,6 +16,7 @@
       - dwall-git
       - filezilla
       - remmina
+      - freerdp
       - qbittorrent
       - keepassxc
       - gparted

@@ -11,6 +11,7 @@
     name:
       - github-cli
       - ghq
+      - gibo
 
 - block:
     - name: install commitizen
