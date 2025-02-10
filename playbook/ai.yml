@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  remote_user: "{{ maintain_user }}"
+  roles:
+    - { role: base, tags: [base] }
+    - { role: cui, tags: [cui] }
+    - { role: development/cuda, tags: [cuda] }
+    - { role: home, tags: [home] }
