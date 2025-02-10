@@ -12,6 +12,7 @@
       - xdg-desktop-portal-wlr
       - xdg-desktop-portal
       - grim
+      - slurp
       - wlroots
       - wob
       - rofi-lbonn-wayland-git
