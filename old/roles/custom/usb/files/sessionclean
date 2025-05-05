@@ -1,6 +1,0 @@
-#/usr/bin/env bash
-while read dir ;do
-    echo $dir
-    rm -rf ${dir}/{.ICEauthrity,Xauthority,.bash_history,.cache/*,.lesshst,.xsession-errors.*}
-done < <(find /home/* -maxdepth 0 -type d)
-rm -rf /root/{.ICEauthrity,Xauthority,.bash_history,.cache/*,.lesshst,.xsession-errors.*}

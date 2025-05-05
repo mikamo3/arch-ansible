@@ -1,9 +1,0 @@
-hostname: usb
-microcode: amd
-user:
-  uid: 1000
-  shell: /bin/bash
-driver:
-  display: usb
-overlayfs:
-  dev: /dev/nvme0n1p2

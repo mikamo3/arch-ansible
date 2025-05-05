@@ -1,9 +1,0 @@
----
-- name: install
-  pacman:
-    name:
-      - mesa-demos
-      - iperf
-  tags:
-    - system
-    - benchmark

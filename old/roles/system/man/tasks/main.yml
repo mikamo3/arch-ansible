@@ -1,7 +1,0 @@
-- name: install
-  pacman:
-    name:
-      - man
-  tags:
-    - system
-    - man

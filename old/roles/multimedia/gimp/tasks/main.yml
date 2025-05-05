@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: gimp
-  tags:
-    - multimedia
-    - gimp

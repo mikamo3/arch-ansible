@@ -1,9 +1,0 @@
-- name: install
-  pacman:
-    name:
-      - pulseaudio
-      - pavucontrol
-      - pulseaudio-alsa
-  tags:
-    - multimedia
-    - pulseaudio

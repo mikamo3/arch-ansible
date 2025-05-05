@@ -1,7 +1,0 @@
----
-- name: install
-  pacman:
-    name: nfs-utils
-  tags:
-    - storage
-    - nfs

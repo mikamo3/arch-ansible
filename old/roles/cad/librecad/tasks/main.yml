@@ -1,6 +1,0 @@
-- name: install
-  pacman:
-    name: librecad
-  tags:
-    - cad
-    - librecad
