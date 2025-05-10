@@ -1,24 +1,9 @@
-- name: install vscode
-  become: true
-  become_user: aur
-  aur:
-    name: visual-studio-code-bin
+---
+- name: Install VSCode
+  include_tasks: vscode.yml
 
-- name: install git utils
-  become: true
-  become_user: aur
-  aur:
-    name:
-      - github-cli
-      - ghq
-      - gibo
+- name: Install Git utilities and NPM tools
+  include_tasks: git.yml
 
-- block:
-    - name: install commitizen
-      npm:
-        name: commitizen
-        global: yes
-    - name: install cz-emoji
-      npm:
-        name: cz-emoji
-        global: yes
+- name: Install QEMU and virtualization tools
+  include_tasks: qemu.yml

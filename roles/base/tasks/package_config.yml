@@ -34,6 +34,15 @@
     create_home: yes
     group: wheel
 
+- name: Allow the `{{ maintain_user }}` user to run `sudo pacman` without a password
+  become: true
+  lineinfile:
+    path: "/etc/sudoers.d/00-{{ maintain_user }}"
+    line: "{{ maintain_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    create: yes
+    mode: 0644
+    validate: "visudo -cf %s"
+
 - name: Allow the `aur` user to run `sudo pacman` without a password
   become: true
   lineinfile:

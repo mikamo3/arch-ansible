@@ -15,10 +15,6 @@
       - waybar-module-pacman-updates-git
       - sov
       - swayidle
-      - bumblebee-status
-      - python-i3ipc
-      - python-pytz
-      - python-tzlocal
 
 - name: set default session
   lineinfile:

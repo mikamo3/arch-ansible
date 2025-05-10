@@ -11,9 +11,10 @@ all:
     dev:
       hosts:
         dev1:
-          ansible_host: 192.168.122.22
+          ansible_host: 192.168.122.13
       vars:
-        virtualmachine: true
+        graphics:
+          driver: virtio
         bluetooth:
           enable: false
     local:

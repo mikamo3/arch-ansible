@@ -1,7 +1,7 @@
 ---
-- name: install driver (intel)
+- name: install driver (virtio)
   pacman:
     name:
       - mesa
       - mesa-utils
-  when: gui.driver == "intel"
+  when: graphics.driver == 'virtio'
