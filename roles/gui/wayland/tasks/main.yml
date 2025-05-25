@@ -4,21 +4,22 @@
   become_user: aur
   aur:
     name:
-      - mako
-      - xorg-xwayland
-      - foot
       - clipman
-      - xdg-desktop-portal-gtk
-      - xdg-desktop-portal-wlr
-      - xdg-desktop-portal
+      - foot
       - grim
-      - slurp
-      - wlroots
-      - wob
-      - rofi-lbonn-wayland-git
-      - wl-clipboard
-      - wlr-randr
       - kanshi
-      - wev
+      - mako
       - qt5-wayland
       - qt6-wayland
+      - rofi-lbonn-wayland-git
+      - slurp
+      - wallutils
+      - wev
+      - wl-clipboard
+      - wlr-randr
+      - wlroots
+      - wob
+      - xdg-desktop-portal
+      - xdg-desktop-portal-gtk
+      - xdg-desktop-portal-wlr
+      - xorg-xwayland

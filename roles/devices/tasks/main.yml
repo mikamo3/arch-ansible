@@ -1,0 +1,13 @@
+---
+- name: Install bluetooth
+  include_tasks: bluetooth.yml
+  when: bluetooth.enable == true
+- name: Install printer
+  include_tasks: printer.yml
+  when: printer.enable == true
+- name: Install PipeWire
+  include_tasks: pipewire.yml
+  when: sound.enable == true
+- name: install graphics driver
+  include_tasks: graphics.yml
+  when: graphics.driver is defined

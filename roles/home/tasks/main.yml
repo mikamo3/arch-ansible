@@ -69,4 +69,4 @@
     scope: user
   with_items:
     - psd.service
-#    - grive@{{ lookup('pipe', 'systemd-escape google-drive') }}.service
+    - gcr-ssh-agent.socket

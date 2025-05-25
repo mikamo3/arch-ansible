@@ -7,31 +7,59 @@
       - archlinux-keyring
       - base
       - base-devel
+      - bash-completion
+      - bat
+      - btop
       - coreutils
       - dmidecode
+      - exa
       - firejail
-      - git
+      - fish
+      - fisher
+      - fzf
       - ghq
+      - git
       - gparted
+      - htop
+      - inetutils
+      - iperf
       - jdk-openjdk
+      - jq
+      - less
+      - lha
       - linux-headers
       - linux-zen-headers
+      - man-db
+      - mimeo
+      - neofetch
+      - neovim
+      - net-tools
       - networkmanager
       - nodejs
       - npm
       - ntfs-3g
+      - p7zip
       - pacman-contrib
       - pkgfile
+      - procs
       - python
       - python-pip
+      - ripgrep
       - smartmontools
       - sshpass
+      - starship
+      - tcpdump
+      - the_silver_searcher
+      - tmux
+      - tmux-plugin-manager
+      - unarchiver
       - unrar
       - unzip
       - usbutils
       - vi
       - wget
+      - xclip
+      - xsel
       - xz
       - yarn
       - zip
-      - man-db

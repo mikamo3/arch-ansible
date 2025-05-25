@@ -12,4 +12,3 @@
       service:
         name: bluetooth
         enabled: yes
-  when: bluetooth.enable == true

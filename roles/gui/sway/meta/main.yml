@@ -1,4 +1,4 @@
 ---
 dependencies:
   - role: gui/wayland
-  - role: gui/lightdm
+  - role: gui/ly

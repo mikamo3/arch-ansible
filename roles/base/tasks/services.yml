@@ -14,17 +14,6 @@
     groups: docker
     append: yes
 
-- name: install cups
-  pacman:
-    name:
-      - cups
-      - gutenprint
-
-- name: enable cups
-  service:
-    name: cups
-    enabled: yes
-
 - name: install cronie
   pacman:
     name: cronie

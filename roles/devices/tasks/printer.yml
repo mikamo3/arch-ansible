@@ -1,0 +1,11 @@
+---
+- name: install cups
+  pacman:
+    name:
+      - cups
+      - gutenprint
+
+- name: enable cups
+  service:
+    name: cups
+    enabled: yes
