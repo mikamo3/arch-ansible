@@ -30,7 +30,7 @@
       - linux-headers
       - linux-zen-headers
       - man-db
-      - mimeo
+      - handlr
       - neofetch
       - neovim
       - net-tools

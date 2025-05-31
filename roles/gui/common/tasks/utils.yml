@@ -21,6 +21,7 @@
       - gparted
       - dex
       - archlinux-wallpaper
+      - 1password
 
 - name: install seahose
   pacman:

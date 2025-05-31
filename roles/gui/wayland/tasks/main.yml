@@ -20,6 +20,5 @@
       - wlroots
       - wob
       - xdg-desktop-portal
-      - xdg-desktop-portal-gtk
       - xdg-desktop-portal-wlr
       - xorg-xwayland
