@@ -1,0 +1,19 @@
+---
+- name: install hyprland packages
+  become: true
+  become_user: aur
+  aur:
+    name:
+      - hyprcursor
+      - hypridle
+      - hyprland
+      - hyprlock
+      - hyprpaper
+      - hyprpicker
+      - hyprpolkitagent
+      - hyprsysteminfo
+      - uwsm
+      - waybar
+      - waybar-module-pacman-updates-git
+      - wttrbar
+      - xdg-desktop-portal-hyprland

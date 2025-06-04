@@ -4,12 +4,10 @@
   remote_user: "{{ maintain_user }}"
   roles:
     - { role: base, tags: [base] }
-    - { role: bluetooth, tags: [bluetooth] }
+    - { role: devices, tags: [devices] }
     - { role: cui, tags: [cui] }
-    - { role: gui/sway, tags: [gui] }
-    - { role: sound/pipewire, tags: [sound] }
+    - { role: gui/hyprland, tags: [gui] }
     - { role: browser, tags: [browser] }
     - { role: media/player_viewer, tags: [media] }
-    - { role: development, tags: [development] }
     - { role: storage, tags: [storage] }
     - { role: home, tags: [home] }

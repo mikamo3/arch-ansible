@@ -5,10 +5,11 @@
   aur:
     name:
       - clipman
+      - cliphist
       - foot
       - grim
       - kanshi
-      - mako
+      - swaync
       - qt5-wayland
       - qt6-wayland
       - rofi-lbonn-wayland-git

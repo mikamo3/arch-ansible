@@ -13,13 +13,13 @@
     update: no
   register: result_clone_dotfiles
 
-- name: apply dotfiles
-  become: true
-  become_user: "{{ maintain_user }}"
-  command: "bash -c 'source /usr/lib/kawazu/kawazu.sh;yes | KAWAZU_ROOT_DIR=/usr/lib/kawazu kawazu -f link'"
-  register: result_apply_dotfiles
-  ignore_errors: true
-  when: result_clone_dotfiles.changed
+#- name: apply dotfiles
+#  become: true
+#  become_user: "{{ maintain_user }}"
+#  command: "bash -c 'source /usr/lib/kawazu/kawazu.sh;yes | KAWAZU_ROOT_DIR=/usr/lib/kawazu kawazu -f link'"
+#  register: result_apply_dotfiles
+#  ignore_errors: true
+#  when: result_clone_dotfiles.changed
 
 - name: xdg-user-dirs-update
   become: true

@@ -5,6 +5,7 @@
   aur:
     name:
       - alacritty
+      - kitty
       - nemo
       - catfish
       - leafpad

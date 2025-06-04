@@ -19,7 +19,6 @@
       - fzf
       - ghq
       - git
-      - gparted
       - htop
       - inetutils
       - iperf
@@ -58,8 +57,6 @@
       - usbutils
       - vi
       - wget
-      - xclip
-      - xsel
       - xz
       - yarn
       - zip
