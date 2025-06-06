@@ -7,3 +7,9 @@
       - rclone
       - inotify-tools
       - veracrypt
+- name: enable user_allow_other_mounts
+  lineinfile:
+    path: /etc/fuse.conf
+    regexp: "^#?user_allow_other$"
+    line: "user_allow_other"
+    state: present

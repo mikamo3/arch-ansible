@@ -17,6 +17,8 @@
 
     - name: add sudo for use overlayfs
       lineinfile:
-        path: /etc/sudoers
+        path: /etc/sudoers.d/20-psd-overlay-helper
         line: "{{ maintain_user }} ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper"
+        create: yes
+        mode: 0644
         validate: "visudo -cf %s"

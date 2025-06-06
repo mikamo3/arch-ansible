@@ -9,6 +9,8 @@ all:
         microcode: intel
         bluetooth:
           enable: true
+        graphics:
+          driver: intel
     dev:
       hosts:
         dev1:
@@ -17,6 +19,8 @@ all:
         microcode: amd
         bluetooth:
           enable: false
+        graphics:
+          driver: virtio
     local:
       hosts:
         local1:
@@ -25,5 +29,7 @@ all:
         microcode: intel
         bluetooth:
           enable: true
+        graphics:
+          driver: intel
   vars:
     hostname: nucbox

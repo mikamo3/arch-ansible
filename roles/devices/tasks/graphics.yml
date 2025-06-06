@@ -5,3 +5,12 @@
       - mesa
       - mesa-utils
   when: graphics.driver == 'virtio'
+
+- name: install driver (intel)
+  pacman:
+    name:
+      - mesa
+      - mesa-utils
+      - libva-intel-driver
+      - vulkan-intel
+  when: graphics.driver == 'intel'

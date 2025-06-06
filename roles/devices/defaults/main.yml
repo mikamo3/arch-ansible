@@ -5,4 +5,4 @@ printer:
 sound:
   enable: true
 graphics:
-  driver: virtio
+  driver: default
