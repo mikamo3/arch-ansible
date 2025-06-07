@@ -33,3 +33,5 @@ all:
           driver: intel
   vars:
     hostname: nucbox
+    dotfiles:
+      branch: nucbox
