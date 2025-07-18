@@ -4,6 +4,5 @@
   become_user: aur
   aur:
     name:
-      - volantes-cursors
       - bibata-cursor-git
       - rose-pine-hyprcursor

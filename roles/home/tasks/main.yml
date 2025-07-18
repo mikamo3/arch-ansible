@@ -54,6 +54,12 @@
     - Pictures/screenshot
     - .local/log
     - google-drive
+    - .mozilla/firefox/ai
+
+- name: run mise install
+  become: true
+  become_user: "{{ maintain_user }}"
+  command: "bash -c 'mise trust' && bash -c 'mise install'"
 
 - name: update fish plugin
   become: true

@@ -1,6 +1,0 @@
-.password
-my password
-ansible-valut edit password.yml
-
-ansible_sudo_pass: hogehoge
-ansible_ssh_pass: hogehoge
