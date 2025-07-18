@@ -19,17 +19,20 @@
       - fzf
       - ghq
       - git
+      - gptfdisk
+      - handlr
       - htop
       - inetutils
       - iperf
       - jdk-openjdk
       - jq
+      - kitty-terminfo
       - less
       - lha
       - linux-headers
       - linux-zen-headers
       - man-db
-      - handlr
+      - mise
       - neofetch
       - neovim
       - net-tools
@@ -49,8 +52,6 @@
       - starship
       - tcpdump
       - the_silver_searcher
-      - tmux
-      - tmux-plugin-manager
       - unarchiver
       - unrar
       - unzip
@@ -59,4 +60,6 @@
       - wget
       - xz
       - yarn
+      - zellij
       - zip
+      - zoxide

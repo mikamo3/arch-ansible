@@ -4,8 +4,16 @@
     name:
       - cups
       - gutenprint
+      - sane
+      - simple-scan
 
 - name: enable cups
   service:
     name: cups
     enabled: yes
+
+- name: install sane
+  pacman:
+    name:
+      - sane
+      - simple-scan

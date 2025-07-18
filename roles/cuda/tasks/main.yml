@@ -5,4 +5,7 @@
   aur:
     name:
       - cuda
-      - nvidia
+      - nvidia-dkms
+      - nvidia-container-toolkit
+      - gperftools
+      - bc

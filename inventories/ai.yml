@@ -6,12 +6,14 @@ all:
         prod1:
           ansible_host: 192.168.100.10
       vars:
+        graphics:
+          driver: nvidia
         bluetooth:
           enable: true
     dev:
       hosts:
         dev1:
-          ansible_host: 192.168.122.22
+          ansible_host: 192.168.122.104
       vars:
         virtualmachine: true
         bluetooth:
@@ -23,3 +25,7 @@ all:
   vars:
     hostname: kamo3ai
     microcode: amd
+    printer:
+      enable: false
+    sound:
+      enable: false

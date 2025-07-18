@@ -22,6 +22,7 @@
       - gparted
       - dex
       - archlinux-wallpaper
+      - nordic-wallpapers
       - 1password
 
 - name: install seahose

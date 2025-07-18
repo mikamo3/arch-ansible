@@ -14,3 +14,8 @@
       - libva-intel-driver
       - vulkan-intel
   when: graphics.driver == 'intel'
+- name: install driver (nvidia)
+  pacman:
+    name:
+      - nvidia-dkms
+  when: graphics.driver == 'nvidia'

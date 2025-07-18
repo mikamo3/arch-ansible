@@ -4,7 +4,6 @@
   aur:
     name:
       - github-cli
-      - ghq
       - gibo
 - name: install commitizen
   npm:

@@ -4,6 +4,7 @@
   become_user: aur
   aur:
     name:
+      - ttf-bizter
       - ttf-cica
       - ttf-ibm-plex
       - ttf-line-seed
@@ -13,3 +14,4 @@
       - noto-fonts-emoji
       - fontconfig
       - gucharmap
+      - font-manager

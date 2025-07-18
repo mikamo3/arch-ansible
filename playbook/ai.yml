@@ -5,5 +5,9 @@
   roles:
     - { role: base, tags: [base] }
     - { role: cui, tags: [cui] }
-    - { role: development/cuda, tags: [cuda] }
+    - { role: devices, tags: [devices] }
+    - { role: cuda, tags: [cuda] }
+    - { role: gui/hyprland, tags: [gui] }
+    - { role: media/player_viewer, tags: [media] }
+    - { role: browser, tags: [browser] }
     - { role: home, tags: [home] }

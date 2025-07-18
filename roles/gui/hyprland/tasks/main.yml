@@ -12,6 +12,7 @@
       - hyprpicker
       - hyprpolkitagent
       - hyprsysteminfo
+      - hyprls-git
       - uwsm
       - waybar
       - waybar-module-pacman-updates-git

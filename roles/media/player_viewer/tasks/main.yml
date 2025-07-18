@@ -6,6 +6,7 @@
     name:
       - gthumb
       - vlc
+      - vlc-plugins-all
       - mcomix
       - spotify
       - spotify-adblock-git

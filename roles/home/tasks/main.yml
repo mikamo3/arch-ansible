@@ -59,15 +59,3 @@
   become: true
   become_user: "{{ maintain_user }}"
   command: "fish -c 'fisher update'"
-
-- name: enable services
-  become: true
-  become_user: "{{ maintain_user }}"
-  systemd:
-    name: "{{ item }}"
-    enabled: yes
-    state: started
-    scope: user
-  with_items:
-    - psd.service
-    - gcr-ssh-agent.socket
