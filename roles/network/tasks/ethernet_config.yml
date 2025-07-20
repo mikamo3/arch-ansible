@@ -1,0 +1,56 @@
+---
+- name: configure ethernet static IP (reboot required)
+  block:
+    - name: check if ethernet interface exists
+      shell: ip link show {{ ethernet.interface }}
+      register: interface_check
+      changed_when: false
+      failed_when: false
+
+    - name: get current connection name for interface
+      shell: "nmcli -t -f NAME,DEVICE connection show | grep {{ ethernet.interface }} | cut -d: -f1"
+      register: current_connection
+      changed_when: false
+      failed_when: false
+
+    - name: configure static IP on ethernet interface (stored, not activated)
+      nmcli:
+        conn_name: "{{ current_connection.stdout if current_connection.stdout else 'Wired connection 1' }}"
+        ifname: "{{ ethernet.interface }}"
+        type: ethernet
+        ip4: "{{ ethernet.static_ip }}/{{ ethernet.netmask | default('24') }}"
+        method4: manual
+        state: present
+        autoconnect: true
+      when: interface_check.rc == 0
+
+    - name: disable current connection to prevent immediate activation
+      nmcli:
+        conn_name: "{{ current_connection.stdout if current_connection.stdout else 'Wired connection 1' }}"
+        state: down
+      when:
+        - interface_check.rc == 0
+        - apply_network_on_reboot | default(true)
+      failed_when: false # Don't fail if connection is already down
+
+    - name: re-enable current DHCP connection temporarily
+      shell: "nmcli device connect {{ ethernet.interface }}"
+      when:
+        - interface_check.rc == 0
+        - apply_network_on_reboot | default(true)
+      failed_when: false # Maintain current connectivity
+
+    - name: create reboot notification
+      debug:
+        msg: |
+          NOTICE: Ethernet static IP configuration has been saved.
+
+          Current status:
+          - Interface: {{ ethernet.interface }}
+          - New static IP: {{ ethernet.static_ip }}/{{ ethernet.netmask | default('24') }}
+          - Configuration: Saved to NetworkManager
+          - Current connection: {{ current_connection.stdout | default('Wired connection 1') }}
+
+          The new static IP will be applied automatically after system reboot.
+          Current DHCP connection remains active for this session.
+      when: interface_check.rc == 0

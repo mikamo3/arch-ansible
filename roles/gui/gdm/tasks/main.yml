@@ -1,0 +1,10 @@
+---
+- name: install GDM display manager
+  pacman:
+    name:
+      - gdm
+
+- name: enable GDM service
+  service:
+    name: gdm
+    enabled: true

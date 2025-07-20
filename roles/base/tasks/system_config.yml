@@ -7,10 +7,41 @@
 - name: change mkinitcpio.conf
   lineinfile:
     path: /etc/mkinitcpio.conf
-    regexp: '^HOOKS=\(\s*base\s+(?!.*\bmicrocode\b).*\)$'
-    line: HOOKS=(base microcode \g<1>)
+    regexp: '^HOOKS=\((.*base(?!.*microcode).*)\)$'
+    line: 'HOOKS=(\1 microcode)'
     backrefs: yes
     state: present
+  when: microcode is defined
+  notify: regenerate initramfs
+
+- name: regenerate initramfs immediately
+  command: mkinitcpio -P
+  when:
+    - microcode is defined
+    - regenerate_initramfs_immediately | default(true)
+
+- name: systemd-boot microcode configuration
+  block:
+    - name: check if using systemd-boot
+      stat:
+        path: /boot/loader/loader.conf
+      register: systemd_boot_check
+
+    - name: notify about systemd-boot entry update
+      debug:
+        msg: |
+          NOTICE: Microcode ({{ microcode }}-ucode) has been installed.
+          Please ensure your systemd-boot entries include the microcode initrd:
+
+          Example entry (/boot/loader/entries/arch.conf):
+          title   Arch Linux
+          linux   /vmlinuz-linux
+          initrd  /{{ microcode }}-ucode.img
+          initrd  /initramfs-linux.img
+          options root=... rw
+      when:
+        - systemd_boot_check.stat.exists
+        - microcode is defined
   when: microcode is defined
 
 - name: copy hostname
@@ -25,12 +56,13 @@
     dest: /etc/hosts
     mode: 0644
 
-- name: enable suspend
+- name: enable suspend (conditional)
   lineinfile:
     path: /etc/systemd/logind.conf
-    regexp: '^\s*HandlePowerKey='
+    regexp: '^\s*#?HandlePowerKey='
     line: "HandlePowerKey=suspend"
-    insertafter: '\[login\]'
+    insertafter: '^\[Login\]'
+  when: enable_suspend_on_power | default(false)
 
 - name: Configure journalctl log size
   lineinfile:

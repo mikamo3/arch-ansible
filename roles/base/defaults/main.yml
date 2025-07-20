@@ -1,0 +1,5 @@
+---
+# Base role configuration
+enable_cron: true
+enable_suspend_on_power: false
+regenerate_initramfs_immediately: true

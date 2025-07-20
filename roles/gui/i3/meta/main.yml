@@ -1,4 +1,2 @@
 ---
-dependencies:
-  - role: gui/xorg
-  - role: gui/lightdm
+# Dependencies managed by gui/main.yml

@@ -1,4 +1,2 @@
 ---
-dependencies:
-  - role: gui/wayland
-  - role: gui/ly
+# Dependencies managed by gui/main.yml

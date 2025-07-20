@@ -1,11 +1,21 @@
 ---
-- name: install
+- name: install CUDA development packages
+  pacman:
+    name:
+      - cuda
+      - cudnn
+
+- name: install NVIDIA container toolkit
   become: true
   become_user: aur
   aur:
     name:
-      - cuda
-      - nvidia-dkms
       - nvidia-container-toolkit
+
+- name: install CUDA development tools
+  become: true
+  become_user: aur
+  aur:
+    name:
       - gperftools
       - bc

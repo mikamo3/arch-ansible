@@ -7,7 +7,6 @@
     - { role: cui, tags: [cui] }
     - { role: devices, tags: [devices] }
     - { role: cuda, tags: [cuda] }
-    - { role: gui/hyprland, tags: [gui] }
     - { role: media/player_viewer, tags: [media] }
     - { role: browser, tags: [browser] }
     - { role: home, tags: [home] }

@@ -1,8 +1,17 @@
+---
+# Bluetooth configuration
 bluetooth:
   enable: false
+
+# Printer and scanner configuration
 printer:
   enable: true
+
+# Audio system configuration
 sound:
   enable: true
+
+# Graphics driver configuration
 graphics:
-  driver: default
+  driver: default # Options: default, virtio, intel, amd, nvidia, none
+  hw_accel: true # Hardware acceleration support

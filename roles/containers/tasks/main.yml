@@ -1,0 +1,8 @@
+---
+- include_tasks: docker.yml
+  tags: [containers, docker]
+  when: containers.docker.enable | default(true)
+
+- include_tasks: management_tools.yml
+  tags: [containers, container-tools]
+  when: containers.management_tools.enable | default(true)

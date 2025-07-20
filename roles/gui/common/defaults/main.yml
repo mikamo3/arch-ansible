@@ -1,0 +1,22 @@
+---
+# GUI environment configuration
+gui:
+  # Desktop environment selection (protocol is auto-detected)
+  desktop: hyprland # Options: hyprland, i3, sway, gnome
+
+  # Display manager selection
+  display_manager: ly # Options: ly, lightdm, gdm
+
+  # Font configuration
+  fonts:
+    install: minimal     # Options: minimal, full
+    enable_japanese: true
+    enable_emoji: true
+
+  theme:
+    dark_mode: true
+
+  inputmethod:
+    enable: true
+    method: fcitx5       # Options: fcitx5, ibus
+

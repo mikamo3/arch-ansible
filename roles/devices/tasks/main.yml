@@ -1,13 +1,19 @@
 ---
-- name: Install bluetooth
+- name: Configure Bluetooth
   include_tasks: bluetooth.yml
-  when: bluetooth.enable == true
-- name: Install printer
+  when: bluetooth.enable | default(false)
+
+- name: Configure Printer and Scanner
   include_tasks: printer.yml
-  when: printer.enable == true
-- name: Install PipeWire
+  when: printer.enable | default(true)
+
+- name: Configure Audio System (PipeWire)
   include_tasks: pipewire.yml
-  when: sound.enable == true
-- name: install graphics driver
+  when: sound.enable | default(true)
+
+- name: Configure Graphics Driver
   include_tasks: graphics.yml
-  when: graphics.driver is defined
+  when:
+    - graphics.driver is defined
+    - graphics.driver != 'default'
+    - graphics.driver != 'none'

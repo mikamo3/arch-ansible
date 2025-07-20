@@ -6,6 +6,11 @@ all:
         prod1:
           ansible_host: 192.168.100.227
       vars:
+        gui:
+          desktop: hyprland
+          display_manager: ly
+          fonts:
+            install: full
         bluetooth:
           enable: true
     dev:
@@ -15,6 +20,9 @@ all:
       vars:
         graphics:
           driver: virtio
+        gui:
+          desktop: i3
+          display_manager: lightdm
         bluetooth:
           enable: false
     local:

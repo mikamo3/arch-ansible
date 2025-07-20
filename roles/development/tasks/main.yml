@@ -1,4 +1,7 @@
 ---
+- name: Install core development packages
+  include_tasks: core_packages.yml
+
 - name: Install VSCode
   include_tasks: vscode.yml
 

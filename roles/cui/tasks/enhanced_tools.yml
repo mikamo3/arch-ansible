@@ -1,0 +1,60 @@
+---
+- name: Install enhanced CLI tools
+  become: true
+  become_user: aur
+  aur:
+    name:
+      # Enhanced basic tools
+      - bat # cat alternative
+      - exa # ls alternative
+      - htop # top alternative
+      - btop # modern htop alternative
+      - procs # ps alternative
+      - fd # find alternative
+      - duf # df alternative (disk usage)
+      - dust # du alternative (directory sizes)
+
+      # Search and navigation
+      - fzf # fuzzy finder
+      - ripgrep # grep alternative
+      - the_silver_searcher # ag search
+      - zoxide # cd alternative
+      - ghq # git repository manager
+      - broot # directory navigation
+
+      # Editors
+      - neovim # modern vim
+
+      # Terminal enhancements
+      - starship # prompt customization
+      - zellij # terminal multiplexer
+      - neofetch # system info display
+
+      # Shell enhancements
+      - fish # modern shell
+      - fisher # fish plugin manager
+      - bash-completion # bash completion
+      - kitty-terminfo # terminal compatibility
+
+      # Archive tools
+      - lha # LHA archives
+      - unarchiver # universal unarchiver
+      - unrar # RAR archives
+
+      # Utilities
+      - usage # usage examples
+      - handlr # file handler
+      - tokei # code line counter
+      - hyperfine # command benchmarking
+      - tealdeer # tldr pages (quick help)
+      - bandwhich # network utilization
+      - bottom # system monitor (alternative to btop)
+      - watchexec # file watching/auto-execution
+
+      # Development tools
+      - yq # YAML processor
+      - httpie # HTTP client
+      - curlie # curl alternative with better UX
+
+      # System monitoring
+      - bottom # alternative system monitor

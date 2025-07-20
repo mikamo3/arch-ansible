@@ -1,18 +1,16 @@
 ---
-- name: install cups
+- name: install CUPS printing system
   pacman:
     name:
       - cups
       - gutenprint
-      - sane
-      - simple-scan
 
-- name: enable cups
+- name: enable CUPS service
   service:
     name: cups
     enabled: yes
 
-- name: install sane
+- name: install scanner support
   pacman:
     name:
       - sane

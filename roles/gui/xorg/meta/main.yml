@@ -1,3 +1,2 @@
 ---
-dependencies:
-  - role: gui/common
+# Dependencies managed by gui/main.yml
