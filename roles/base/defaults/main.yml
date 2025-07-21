@@ -1,0 +1,47 @@
+---
+# Default variables for base role
+
+# Pacman configuration
+parallel_downloads: 5
+
+# Essential packages
+base_packages:
+  # Core system
+  - base-devel
+  - linux-headers
+  - archlinux-keyring
+  
+  # Network
+  - networkmanager
+  - openssh
+  - wget
+  - curl
+  
+  # Essential tools
+  - git
+  - vim
+  - nano
+  - man-db
+  - tree
+  - htop
+  - less
+  - which
+  - sudo
+  
+  # Archive handling
+  - unzip
+  - zip
+  - tar
+  - gzip
+  
+  # System tools
+  - lsof
+  - strace
+  - usbutils
+  - dmidecode
+  - smartmontools
+
+# AUR packages (optional)
+aur_packages: []
+  # - yay-bin  # Alternative to building yay
+  # - google-chrome

@@ -1,0 +1,6 @@
+---
+# Base role main tasks
+
+- name: Include package management tasks
+  ansible.builtin.import_tasks: packages.yml
+  tags: [base, packages]

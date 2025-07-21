@@ -1,5 +1,7 @@
 ---
 - hosts: sandbox
   become: true
+  vars_files:
+    - ../vars/secret.yml
   roles:
     - init

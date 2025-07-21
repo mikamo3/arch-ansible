@@ -1,0 +1,187 @@
+---
+# chroot環境内でのシステム設定
+# arch-chroot /mnt を使って各コマンドをchroot内で実行
+
+- name: Install base system packages with pacstrap
+  ansible.builtin.command: pacstrap -K /mnt base linux linux-firmware linux-zen linux-zen-headers networkmanager ansible
+  become: true
+
+# pacmanキーリングの初期化・更新（PGPエラー対策）
+- name: Initialize pacman keyring in chroot
+  ansible.builtin.command: arch-chroot /mnt pacman-key --init
+  become: true
+
+- name: Populate pacman keyring in chroot
+  ansible.builtin.command: arch-chroot /mnt pacman-key --populate archlinux
+  become: true
+
+- name: Update pacman package database in chroot
+  ansible.builtin.command: arch-chroot /mnt pacman -Sy
+  become: true
+
+# タイムゾーン設定
+- name: Set timezone to Asia/Tokyo in chroot
+  ansible.builtin.command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+  become: true
+
+- name: Generate /etc/adjtime in chroot
+  ansible.builtin.command: arch-chroot /mnt hwclock --systohc
+  become: true
+
+# ローカリゼーション設定
+- name: Enable locales in /etc/locale.gen
+  ansible.builtin.lineinfile:
+    path: /mnt/etc/locale.gen
+    line: "{{ item }}"
+    state: present
+  loop:
+    - "en_US.UTF-8 UTF-8"
+    - "ja_JP.UTF-8 UTF-8"
+  become: true
+
+- name: Generate locales in chroot
+  ansible.builtin.command: arch-chroot /mnt locale-gen
+  become: true
+
+- name: Create /etc/locale.conf
+  ansible.builtin.copy:
+    content: "LANG=en_US.UTF-8\n"
+    dest: /mnt/etc/locale.conf
+    mode: "0644"
+  become: true
+
+- name: Create /etc/vconsole.conf for Japanese keymap
+  ansible.builtin.copy:
+    content: "KEYMAP=us\n"
+    dest: /mnt/etc/vconsole.conf
+    mode: "0644"
+  become: true
+
+# ネットワーク設定
+- name: Create hostname file
+  ansible.builtin.copy:
+    content: "{{ hostname | default('archlinux') }}\n"
+    dest: /mnt/etc/hostname
+    mode: "0644"
+  become: true
+
+- name: Enable NetworkManager in chroot
+  ansible.builtin.command: arch-chroot /mnt systemctl enable NetworkManager
+  become: true
+
+# Initramfs再生成（btrfs環境では必要な場合がある）
+- name: Regenerate initramfs in chroot
+  ansible.builtin.command: arch-chroot /mnt mkinitcpio -P
+  become: true
+  register: mkinitcpio_result
+  failed_when:
+    - mkinitcpio_result.rc != 0
+    - '"Initcpio image generation successful" not in mkinitcpio_result.stdout'
+  changed_when: mkinitcpio_result.rc == 0
+
+# rootパスワード設定（interactive回避のため、事前にパスワードを設定）
+- name: Set root password in chroot
+  ansible.builtin.shell: arch-chroot /mnt bash -c "echo 'root:{{ default_user_password  }}' | chpasswd"
+  become: true
+  when: default_user_password is defined
+
+# systemd-bootのセットアップ
+- name: Install systemd-boot in chroot
+  ansible.builtin.command: arch-chroot /mnt bootctl install
+  become: true
+
+# CPU情報を取得してmicrocodeパッケージを決定
+- name: Detect CPU vendor
+  ansible.builtin.shell: grep -m1 "vendor_id" /proc/cpuinfo | awk '{print $3}'
+  register: cpu_vendor
+  become: true
+
+- name: Install Intel microcode
+  ansible.builtin.command: pacstrap -K /mnt intel-ucode
+  become: true
+  when: cpu_vendor.stdout == "GenuineIntel"
+
+- name: Install AMD microcode
+  ansible.builtin.command: pacstrap -K /mnt amd-ucode
+  become: true
+  when: cpu_vendor.stdout == "AuthenticAMD"
+
+- name: Set microcode initrd line for Intel
+  ansible.builtin.set_fact:
+    microcode_line: "initrd  /intel-ucode.img"
+  when: cpu_vendor.stdout == "GenuineIntel"
+
+- name: Set microcode initrd line for AMD
+  ansible.builtin.set_fact:
+    microcode_line: "initrd  /amd-ucode.img"
+  when: cpu_vendor.stdout == "AuthenticAMD"
+
+- name: Set empty microcode line for other CPUs
+  ansible.builtin.set_fact:
+    microcode_line: ""
+  when: cpu_vendor.stdout not in ["GenuineIntel", "AuthenticAMD"]
+
+- name: Get root partition UUID
+  ansible.builtin.shell: blkid -s UUID -o value {{ target_disk }}2
+  register: root_uuid
+  become: true
+
+- name: Create systemd-boot loader configuration
+  ansible.builtin.copy:
+    content: |
+      default  arch.conf
+      timeout  4
+      console-mode max
+      editor   no
+    dest: /mnt/boot/loader/loader.conf
+    mode: "0644"
+  become: true
+
+- name: Create Arch Linux boot entry
+  ansible.builtin.copy:
+    content: |
+      title   Arch Linux
+      linux   /vmlinuz-linux
+      {% if microcode_line %}{{ microcode_line }}
+      {% endif %}initrd  /initramfs-linux.img
+      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
+    dest: /mnt/boot/loader/entries/arch.conf
+    mode: "0644"
+  become: true
+
+- name: Create Arch Linux fallback boot entry
+  ansible.builtin.copy:
+    content: |
+      title   Arch Linux (fallback initramfs)
+      linux   /vmlinuz-linux
+      {% if microcode_line %}{{ microcode_line }}
+      {% endif %}initrd  /initramfs-linux-fallback.img
+      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
+    dest: /mnt/boot/loader/entries/arch-fallback.conf
+    mode: "0644"
+  become: true
+
+# linux-zenカーネル用のブートエントリー
+- name: Create Arch Linux Zen boot entry
+  ansible.builtin.copy:
+    content: |
+      title   Arch Linux Zen
+      linux   /vmlinuz-linux-zen
+      {% if microcode_line %}{{ microcode_line }}
+      {% endif %}initrd  /initramfs-linux-zen.img
+      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
+    dest: /mnt/boot/loader/entries/arch-zen.conf
+    mode: "0644"
+  become: true
+
+- name: Create Arch Linux Zen fallback boot entry
+  ansible.builtin.copy:
+    content: |
+      title   Arch Linux Zen (fallback initramfs)
+      linux   /vmlinuz-linux-zen
+      {% if microcode_line %}{{ microcode_line }}
+      {% endif %}initrd  /initramfs-linux-zen-fallback.img
+      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
+    dest: /mnt/boot/loader/entries/arch-zen-fallback.conf
+    mode: "0644"
+  become: true

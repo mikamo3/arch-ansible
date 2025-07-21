@@ -1,0 +1,7 @@
+---
+# Handlers for base role
+
+- name: update package database
+  community.general.pacman:
+    update_cache: true
+  become: true

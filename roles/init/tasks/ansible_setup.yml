@@ -1,0 +1,60 @@
+---
+# chroot環境内でのAnsible実行環境セットアップ
+# リブート後にすぐにAnsibleが使えるようにする
+
+# 必要なパッケージをchroot環境にインストール
+- name: Install required packages in chroot
+  ansible.builtin.command: pacstrap -K /mnt python sudo openssh
+  become: true
+
+# wheelグループにsudo権限付与
+- name: Configure sudo for wheel group in chroot
+  ansible.builtin.replace:
+    path: /mnt/etc/sudoers
+    regexp: '^# %wheel ALL=\(ALL:ALL\) ALL'
+    replace: "%wheel ALL=(ALL:ALL) ALL"
+  become: true
+
+# ansibleユーザー作成（UID 1001で作成、1000は通常ユーザー用に空けておく）
+- name: Create ansible user in chroot
+  ansible.builtin.command: arch-chroot /mnt useradd -m -s /bin/bash -u 1001 ansible
+  become: true
+
+# ansibleユーザーをwheelグループに追加
+- name: Add ansible user to wheel group in chroot
+  ansible.builtin.command: arch-chroot /mnt usermod -aG wheel ansible
+  become: true
+
+# ansibleユーザーのパスワード設定
+- name: Set ansible user password in chroot
+  ansible.builtin.shell: arch-chroot /mnt bash -c "echo 'ansible:{{ default_user_password }}' | chpasswd"
+  become: true
+  when: default_user_password is defined
+
+# Ansible用sudo権限付与（パスワード不要）
+- name: Setup passwordless sudo for ansible in chroot
+  ansible.builtin.copy:
+    content: "ansible ALL=(ALL) NOPASSWD:ALL\n"
+    dest: /mnt/etc/sudoers.d/ansible
+    mode: "0440"
+  become: true
+
+# SSH設定
+- name: Enable SSH service in chroot
+  ansible.builtin.command: arch-chroot /mnt systemctl enable sshd
+  become: true
+
+# SSH設定の最適化
+- name: Configure SSH PermitRootLogin
+  ansible.builtin.replace:
+    path: /mnt/etc/ssh/sshd_config
+    regexp: "^#PermitRootLogin prohibit-password"
+    replace: "PermitRootLogin yes"
+  become: true
+
+- name: Configure SSH PasswordAuthentication
+  ansible.builtin.replace:
+    path: /mnt/etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication yes"
+    replace: "PasswordAuthentication yes"
+  become: true

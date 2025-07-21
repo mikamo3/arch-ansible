@@ -31,6 +31,6 @@ ansible sandbox -i inventories/sandbox.yml -m ping
 
 # プレイブック実行
 echo "🚀 プレイブック実行..."
-ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml $OPTS
+ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml $OPTS --vault-password-file .vault_pass
 
 echo "✅ 完了"

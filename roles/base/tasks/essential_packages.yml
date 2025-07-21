@@ -1,0 +1,4 @@
+---
+# This file is deprecated - use main.yml instead
+# Keeping for backward compatibility
+- ansible.builtin.import_tasks: packages.yml

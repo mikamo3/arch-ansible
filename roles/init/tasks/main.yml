@@ -2,12 +2,43 @@
 # Arch Linux 初期セットアップ用 role: init
 # 必要に応じて tasks を追加してください
 
-- name: Include btrfs partitioning tasks
-  ansible.builtin.import_tasks: btrfs_partition.yml
+- name: Main installation tasks with error handling
+  block:
+    - name: Include btrfs partitioning tasks
+      ansible.builtin.import_tasks: btrfs_partition.yml
 
-- name: Include time sync tasks
-  ansible.builtin.import_tasks: time_sync.yml
+    - name: Include time sync tasks
+      ansible.builtin.import_tasks: time_sync.yml
 
-- name: Set timezone to Asia/Tokyo
-  ansible.builtin.command: timedatectl set-timezone Asia/Tokyo
-  become: true
+    - name: Set timezone to Asia/Tokyo
+      ansible.builtin.command: timedatectl set-timezone Asia/Tokyo
+      become: true
+
+    - name: Include chroot system setup tasks
+      ansible.builtin.include_tasks: chroot_setup.yml
+
+    - name: Generate fstab with genfstab
+      ansible.builtin.shell: genfstab -U /mnt > /mnt/etc/fstab
+      become: true
+
+    - name: Include ansible setup tasks
+      ansible.builtin.include_tasks: ansible_setup.yml
+
+    # 成功時のクリーンアップハンドラー登録
+    - name: Register cleanup handler for success case
+      ansible.builtin.debug:
+        msg: "Registering cleanup handler for /mnt filesystems"
+      notify: "cleanup filesystems"
+      changed_when: true
+
+  rescue:
+    - name: Log installation failure
+      ansible.builtin.debug:
+        msg: "Installation failed, performing cleanup operations"
+
+    - name: Flush handlers on failure
+      ansible.builtin.meta: flush_handlers
+
+  always:
+    - name: Ensure filesystem cleanup (direct execution)
+      ansible.builtin.include_tasks: cleanup.yml

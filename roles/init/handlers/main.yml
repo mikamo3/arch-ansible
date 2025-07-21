@@ -7,3 +7,14 @@
     name: systemd-networkd
     state: restarted
   become: true
+
+# Cleanup handler - 成功・失敗に関わらず実行されるクリーンアップ処理
+- name: cleanup mounts
+  ansible.builtin.shell: |
+    # 動的にマウントポイントを取得して逆順でアンマウント
+    mount | grep '/mnt' | awk '{print $3}' | sort -r | while read mountpoint; do
+      umount "$mountpoint" 2>/dev/null || umount -f "$mountpoint" 2>/dev/null || true
+    done
+  become: true
+  ignore_errors: true
+  listen: "cleanup filesystems"

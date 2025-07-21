@@ -1,0 +1,22 @@
+---
+# クリーンアップタスク - 成功・失敗に関わらず実行される
+# /mntにマウントされた全てのパーティション/サブボリュームをアンマウント
+
+- name: Get all mounted filesystems under /mnt
+  ansible.builtin.shell: mount | grep '/mnt' | awk '{print $3}' | sort -r
+  register: mounted_paths
+  become: true
+  ignore_errors: true
+
+- name: Unmount all /mnt filesystems
+  ansible.builtin.command: umount "{{ item }}"
+  loop: "{{ mounted_paths.stdout_lines }}"
+  become: true
+  ignore_errors: true
+  when: mounted_paths.stdout_lines is defined
+
+- name: Force unmount /mnt if still mounted
+  ansible.builtin.command: umount -f /mnt
+  become: true
+  ignore_errors: true
+  when: mounted_paths.stdout_lines is defined

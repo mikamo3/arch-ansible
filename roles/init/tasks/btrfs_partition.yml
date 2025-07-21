@@ -40,6 +40,14 @@
     force: yes
   become: true
 
+- name: Mount btrfs root partition to /mnt
+  ansible.builtin.mount:
+    path: /mnt
+    src: "{{ target_disk }}2"
+    fstype: btrfs
+    state: mounted
+  become: true
+
 # btrfsサブボリューム作成
 - name: Create btrfs subvolumes
   community.general.btrfs_subvolume:
@@ -52,4 +60,83 @@
     - "@.snapshots"
     - "@pkg"
     - "@log"
+  become: true
+
+- name: Unmount /mnt after subvolume creation
+  ansible.builtin.mount:
+    path: /mnt
+    state: unmounted
+  become: true
+
+# サブボリューム作成後、ルート・EFIパーティションを/mnt配下にマウント
+- name: Mount root subvolume to /mnt
+  ansible.builtin.mount:
+    path: /mnt
+    src: "{{ target_disk }}2"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@"
+    state: mounted
+  become: true
+- name: Create directories for subvolumes
+  ansible.builtin.file:
+    path: /mnt/{{ item }}
+    state: directory
+    mode: "0755"
+  loop:
+    - home
+    - .snapshots
+    - var/cache/pacman/pkg
+    - var/log
+  become: true
+
+- name: Create /mnt/boot directory
+  ansible.builtin.file:
+    path: /mnt/boot
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Mount EFI partition to /mnt/boot
+  ansible.builtin.mount:
+    path: /mnt/boot
+    src: "{{ target_disk }}1"
+    fstype: vfat
+    opts: "rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro"
+    state: mounted
+  become: true
+
+- name: Mount home subvolume to /mnt/home
+  ansible.builtin.mount:
+    path: /mnt/home
+    src: "{{ target_disk }}2"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@home"
+    state: mounted
+  become: true
+
+- name: Mount snapshots subvolume to /mnt/.snapshots
+  ansible.builtin.mount:
+    path: /mnt/.snapshots
+    src: "{{ target_disk }}2"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@.snapshots"
+    state: mounted
+  become: true
+
+- name: Mount package cache subvolume to /mnt/var/cache/pacman/pkg
+  ansible.builtin.mount:
+    path: /mnt/var/cache/pacman/pkg
+    src: "{{ target_disk }}2"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@pkg"
+    state: mounted
+  become: true
+
+- name: Mount log subvolume to /mnt/var/log
+  ansible.builtin.mount:
+    path: /mnt/var/log
+    src: "{{ target_disk }}2"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@log"
+    state: mounted
   become: true
