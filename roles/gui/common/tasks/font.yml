@@ -3,11 +3,11 @@
 - name: install minimal fonts
   pacman:
     name:
-      - noto-fonts           # Basic Latin fonts
-      - noto-fonts-cjk       # Japanese/Chinese/Korean support
-      - noto-fonts-emoji     # Basic emoji support
-      - ttf-dejavu           # Monospace font (system default)
-      - fontconfig           # Font configuration system
+      - noto-fonts # Basic Latin fonts
+      - noto-fonts-cjk # Japanese/Chinese/Korean support
+      - noto-fonts-emoji # Basic emoji support
+      - ttf-dejavu # Monospace font (system default)
+      - fontconfig # Font configuration system
   when: gui.fonts.install | default('minimal') == 'minimal'
 
 # Full font installation - All fonts for design/development
@@ -23,17 +23,17 @@
       - fontconfig
 
       # Programming/Monospace fonts
-      - ttf-cica             # Programming font with Japanese
-      - ttf-plemoljp-bin     # PlemolJP font family
-      - ttf-ibm-plex         # IBM Plex font family
+      - ttf-cica # Programming font with Japanese
+      - ttf-plemoljp-bin # PlemolJP font family
+      - ttf-ibm-plex # IBM Plex font family
 
-      # Design/Display fonts  
-      - ttf-bizter           # Bizter font
-      - ttf-line-seed        # Line Seed font
+      # Design/Display fonts
+      - ttf-bizter # Bizter font
+      - ttf-line-seed # Line Seed font
 
       # Font management tools
-      - gucharmap            # Character map
-      - font-manager         # Font management GUI
+      - gucharmap # Character map
+      - font-manager # Font management GUI
   when: gui.fonts.install | default('minimal') == 'full'
 
 # Font cache refresh (both minimal and full)

@@ -9,7 +9,7 @@ gui:
 
   # Font configuration
   fonts:
-    install: minimal     # Options: minimal, full
+    install: minimal # Options: minimal, full
     enable_japanese: true
     enable_emoji: true
 
@@ -18,5 +18,5 @@ gui:
 
   inputmethod:
     enable: true
-    method: fcitx5       # Options: fcitx5, ibus
+    method: fcitx5 # Options: fcitx5, ibus
 
