@@ -1,0 +1,13 @@
+---
+# Arch Linux 初期セットアップ用 role: init
+# 必要に応じて tasks を追加してください
+
+- name: Include btrfs partitioning tasks
+  ansible.builtin.import_tasks: btrfs_partition.yml
+
+- name: Include time sync tasks
+  ansible.builtin.import_tasks: time_sync.yml
+
+- name: Set timezone to Asia/Tokyo
+  ansible.builtin.command: timedatectl set-timezone Asia/Tokyo
+  become: true

@@ -1,0 +1,8 @@
+---
+# 初期セットアップ用 role: init のデフォルト変数
+# 必要に応じて変数を追加してください
+
+hostname: "archlinux"
+timezone: "Asia/Tokyo"
+locale: "ja_JP.UTF-8 UTF-8"
+pacman_mirror: "https://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch"

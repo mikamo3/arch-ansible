@@ -1,0 +1,9 @@
+---
+# 初期セットアップ用 role: init のハンドラ
+# 必要に応じてハンドラを追加してください
+
+- name: restart systemd-networkd
+  ansible.builtin.service:
+    name: systemd-networkd
+    state: restarted
+  become: true
