@@ -2,9 +2,10 @@
 sandbox:
   hosts:
     sandboxvm:
-      ansible_host: 192.168.122.43
+      ansible_host: 192.168.122.100
       ansible_port: 22
       ansible_user: ansible
+      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
       target_disk: /dev/vda
   vars:
     # System configuration
@@ -29,3 +30,32 @@ sandbox:
       dns_servers:
         - 192.168.122.1
         - 8.8.8.8
+
+    # Devices configuration (for testing)
+    devices:
+      gpu:
+        install: true
+        type: "vm-qemu"  # VirtIO video + SPICE
+      audio:
+        install: true    # ICH9 audio + SPICE available
+      bluetooth:
+        install: false   # No Bluetooth in VM
+      printer:
+        install: false   # No printer in VM
+    
+    # GUI configuration (for testing)
+    gui:
+      desktop:
+        install: true
+        environment: "gnome"
+        gnome_install: "minimal"
+      display_manager:
+        install: true
+        type: "gdm"
+      fonts:
+        install: "minimal"
+      inputmethod:
+        install: true
+        method: "fcitx5"
+      common:
+        install: true

@@ -1,0 +1,51 @@
+---
+# Font management - minimal or full installation based on old GUI role
+
+- name: Install minimal font set
+  pacman:
+    name:
+      # Basic system fonts
+      - noto-fonts            # Basic Latin fonts  
+      - noto-fonts-cjk        # Japanese/Chinese/Korean support
+      - noto-fonts-emoji      # Basic emoji support
+      - ttf-dejavu            # Monospace font (system default)
+      - fontconfig            # Font configuration system
+    state: present
+
+- name: Install Japanese monospace font for minimal
+  aur:
+    name:
+      - ttf-cica              # Programming font with Japanese support
+    state: present
+  become_user: "{{ ansible_user }}"
+
+- name: Install full font set
+  aur:
+    name:
+      # Base fonts (same as minimal)
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      - fontconfig
+      
+      # Programming/Monospace fonts
+      - ttf-cica              # Programming font with Japanese support
+      - ttf-plemoljp-bin      # PlemolJP font family
+      - ttf-ibm-plex          # IBM Plex font family
+      
+      # Design/Display fonts
+      - ttf-bizter            # Bizter font
+      - ttf-line-seed         # Line Seed font
+      
+      # Font management tools
+      - gucharmap             # Character map utility
+      - font-manager          # Font management GUI
+      
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: gui.fonts.install == "full"
+
+- name: Refresh font cache
+  ansible.builtin.command: fc-cache -fv
+  become_user: "{{ ansible_user }}"
+  changed_when: false

@@ -1,0 +1,13 @@
+---
+# Bluetooth support configuration
+
+- name: Install Bluetooth packages
+  aur:
+    name:
+      - bluez
+      - bluez-utils
+      - blueman
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: devices.bluetooth.install | default(false)
+

@@ -1,0 +1,64 @@
+---
+# Default variables for devices role - Hardware driver and device management
+
+devices:
+  # GPU configuration
+  gpu:
+    install: false
+    type: "generic"  # intel/amd/nvidia/generic/vm-qemu
+    packages:
+      intel:
+        - mesa              # Intel graphics driver
+        - vulkan-intel      # Vulkan support for Intel
+        - intel-media-driver # VA-API support for newer Intel GPUs
+        - libva-intel-driver # VA-API support for older Intel GPUs
+      amd:
+        - mesa              # AMD graphics driver  
+        - vulkan-radeon     # Vulkan support for AMD
+        - libva-mesa-driver # VA-API support for AMD
+        - mesa-vdpau        # VDPAU support for AMD
+      nvidia:
+        - nvidia-open-dkms  # Open-source NVIDIA DKMS driver
+        - nvidia-utils      # NVIDIA utilities  
+        - nvidia-settings   # NVIDIA control panel
+        - libva-nvidia-driver # VA-API support for NVIDIA
+      generic:
+        - mesa              # Generic Mesa drivers
+        - xf86-video-vesa   # Generic VESA driver
+      vm-qemu:
+        - mesa              # Software rendering
+        - xf86-video-qxl    # QXL driver for QEMU/KVM
+    acceleration:
+      - libva-utils       # VA-API utilities
+      - vdpauinfo         # VDPAU information utility
+      - vulkan-tools      # Vulkan utilities
+      - glxinfo           # OpenGL information
+  
+  # Audio configuration
+  audio:
+    install: false
+    packages:
+      - pipewire          # Modern audio system
+      - pipewire-alsa     # ALSA compatibility
+      - pipewire-pulse    # PulseAudio compatibility
+      - pipewire-jack     # JACK compatibility
+      - wireplumber       # Session manager for PipeWire
+      - alsa-utils        # ALSA utilities
+  
+  # Bluetooth configuration
+  bluetooth:
+    install: false
+    packages:
+      - bluez             # Bluetooth protocol stack
+      - bluez-utils       # Bluetooth utilities
+      - blueman           # Bluetooth manager GUI
+  
+  # Printer configuration
+  printer:
+    install: false
+    packages:
+      - cups              # CUPS printing system
+      - gutenprint        # Additional printer drivers
+      - sane              # Scanner access
+      - simple-scan       # Simple scanning application
+  

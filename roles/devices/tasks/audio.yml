@@ -1,0 +1,16 @@
+---
+# PipeWire audio system configuration (simplified)
+
+- name: Install PipeWire audio system
+  aur:
+    name:
+      - pipewire
+      - pipewire-alsa
+      - pipewire-pulse
+      - pipewire-jack
+      - wireplumber
+      - alsa-utils
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: devices.audio.install | default(false)
+

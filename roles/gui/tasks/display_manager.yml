@@ -1,0 +1,47 @@
+---
+# Display manager installation and configuration
+
+- name: Install GDM display manager
+  block:
+    - name: Install GDM packages
+      aur:
+        name:
+          - gdm               # GNOME Display Manager
+        state: present
+      become_user: "{{ ansible_user }}"
+    
+    - name: Hide ansible user from GDM login screen
+      ansible.builtin.copy:
+        content: |
+          [User]
+          SystemAccount=true
+        dest: "/var/lib/AccountsService/users/{{ ansible_user }}"
+        mode: '0644'
+      become: true
+    
+    - name: Enable GDM service
+      ansible.builtin.systemd:
+        name: gdm
+        enabled: true
+        daemon_reload: true
+      become: true
+      
+  when: gui.display_manager.type == "gdm"
+
+- name: Install ly display manager
+  block:
+    - name: Install ly packages
+      aur:
+        name:
+          - ly                # TUI display manager
+        state: present
+      become_user: "{{ ansible_user }}"
+    
+    - name: Enable ly service
+      ansible.builtin.systemd:
+        name: ly
+        enabled: true
+        daemon_reload: true
+      become: true
+      
+  when: gui.display_manager.type == "ly"

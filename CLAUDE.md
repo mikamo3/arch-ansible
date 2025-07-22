@@ -13,11 +13,55 @@ This is an Ansible automation project for Arch Linux installation and configurat
 2. **Ansible Automation Phase**: Execute playbooks from external machine to perform partitioning and system installation
 
 ### Core Roles Structure
+
+#### Completed Roles
 - **init role**: Primary role handling disk partitioning, btrfs subvolumes, and chroot system setup
   - `btrfs_partition.yml`: Creates GPT partitions and btrfs subvolumes (@, @home, @.snapshots, @pkg, @log)  
   - `chroot_setup.yml`: Installs base system via arch-chroot
   - `ansible_setup.yml`: Configures Ansible user in new system
   - `cleanup.yml`: Unmounts filesystems after installation
+- **base role**: Essential system configuration and package installation (completed)
+- **cui role**: Command-line interface tools and utilities configuration (completed)
+
+#### Completed Roles
+- **devices role**: Machine-specific hardware driver and device management (completed)
+  - Purpose: Install and configure hardware-dependent packages based on inventory specification
+  - Approach: Inventory-driven configuration for machine-specific hardware support
+  - Components: GPU drivers, audio systems, Bluetooth, printer support
+  - Design: Each inventory file can specify which hardware components to configure
+
+#### Currently Under Development  
+- **gui role**: Desktop environment and GUI application management
+  - Purpose: Install desktop environments (GNOME/Hyprland) with common utilities
+  - Approach: Wayland-first, modular component installation
+  - Components: Desktop environments, display managers, fonts, input methods, common utilities
+  - Design: Inventory-driven environment selection with shared base components
+
+## Role Design Philosophy
+
+### General Principles
+- **Simplicity over complexity**: Favor package manager defaults over manual configuration
+- **Home use focused**: Designed for personal systems, not enterprise environments
+- **Minimal configuration**: Rely on Arch Linux package management for appropriate defaults
+- **Inventory-driven**: Machine-specific settings controlled via inventory variables
+
+### Configuration Approach
+- **Package installation**: Primary focus on installing correct packages
+- **Automatic configuration**: Let pacman and package post-install scripts handle configuration
+- **Manual settings**: Only when absolutely necessary for functionality
+- **Avoid micro-management**: Skip detailed configuration files unless required
+
+### Hardware Support Strategy
+- **Detection-based**: Use hardware detection to determine required packages
+- **VM awareness**: Different package sets for virtual vs physical machines
+- **Conditional installation**: Install only what's needed based on detected hardware
+
+### GUI Environment Strategy
+- **Wayland-first**: Wayland-only approach, no X11 protocol separation needed
+- **Modular components**: Separate common utilities, fonts, input methods, desktop environments
+- **Shared base**: fcitx5 mandatory, common utilities for all environments
+- **Font management**: minimal/full options based on use case
+- **Environment-specific**: GNOME with GDM, Hyprland with ly display manager
 
 ### Storage Architecture
 - EFI System Partition (1GB, FAT32) → `/boot`
@@ -86,16 +130,22 @@ ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml --vault-passwor
 
 ## Development Workflow
 
+### Current Development Status
+- **Phase**: Post-installation role development 
+- **Focus**: Hardware-specific configuration via `devices` role
+- **Active roles**: init (✓), base (✓), cui (✓), devices (in progress)
+
 ### Testing Changes
 1. Test in sandbox environment first: `./run_sandbox.sh --check`
 2. Verify partition layout with `lsblk` after successful run
 3. Check mounted subvolumes in `/mnt` directory structure
 
 ### Adding New Tasks
-- Add tasks to appropriate files in `roles/init/tasks/`
+- Add tasks to appropriate files in respective role directories (`roles/{role_name}/tasks/`)
 - Use `become: true` for privileged operations
 - Register cleanup handlers for filesystem operations
 - Follow existing patterns for btrfs and mount operations
+- For `devices` role: Use inventory variables to control hardware-specific installations
 
 ## Important Notes
 

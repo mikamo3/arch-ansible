@@ -1,0 +1,10 @@
+---
+# Modern CLI tools installation and configuration
+
+- name: Install all CLI tools via AUR (includes both official and AUR packages)
+  aur:
+    name: "{{ modern_cli_tools + text_editors + shells + archive_tools + system_utilities + (aur_cli_tools | default([])) }}"
+    state: present
+    use: yay
+  become_user: "{{ ansible_user }}"
+

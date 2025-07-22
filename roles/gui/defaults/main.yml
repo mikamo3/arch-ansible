@@ -1,0 +1,27 @@
+---
+# Default variables for GUI role - Desktop environment configuration
+
+gui:
+  # Desktop environment configuration
+  desktop:
+    install: false
+    environment: "none"  # none/gnome/hyprland
+    gnome_install: "minimal"  # minimal/full
+  
+  # Display manager configuration  
+  display_manager:
+    install: false
+    type: "none"  # none/gdm/ly
+  
+  # Font configuration
+  fonts:
+    install: "minimal"  # minimal/full
+  
+  # Input method configuration (mandatory)
+  inputmethod:
+    install: true
+    method: "fcitx5"
+  
+  # Common utilities (for all desktop environments)
+  common:
+    install: true

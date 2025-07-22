@@ -1,0 +1,96 @@
+---
+# Default variables for CUI role - Modern command line interface tools
+
+# Modern CLI alternatives to traditional Unix tools
+modern_cli_tools:
+  # File and directory operations
+  - bat            # Better 'cat' with syntax highlighting
+  - exa            # Better 'ls' with colors and git status
+  - fd             # Better 'find' - simple, fast, and user-friendly
+  - ripgrep        # Better 'grep' - extremely fast text search
+  - the_silver_searcher # ag - Popular grep alternative
+  - sd             # Better 'sed' - intuitive find & replace
+  - dust           # Better 'du' - disk usage analyzer
+  - duf            # Better 'df' - disk free space
+  - procs          # Better 'ps' - process viewer
+  
+  # Terminal enhancements
+  - fzf            # Fuzzy finder for command line
+  - zoxide         # Smart 'cd' - learns your habits
+  - starship       # Cross-shell prompt
+  - zellij         # Terminal multiplexer (modern alternative to tmux)
+  
+  # System monitoring and debugging
+  - htop           # Interactive process viewer
+  - btop           # Resource monitor (better htop)
+  - bandwhich      # Network bandwidth monitor
+  - hyperfine      # Command-line benchmarking tool
+  - neofetch       # System information display
+  
+  # Development and text processing
+  - tokei          # Count lines of code
+  - git-delta      # Better git diff viewer
+  - jq             # JSON processor
+  - yq             # YAML processor
+  - difftastic     # Semantic diff tool
+  - ghq            # Git repository manager
+  - github-cli     # GitHub CLI tool
+  - gibo           # .gitignore template generator
+  
+  # File watching and automation
+  - watchexec      # File watching and auto-execution
+  - usage          # Command usage examples tool
+  
+  # Network and HTTP tools
+  - httpie         # User-friendly HTTP client
+  - curlie         # Improved curl with better UX
+
+# Text editors and tools
+text_editors:
+  - neovim         # Modern vim
+  - micro          # Simple terminal editor
+  - helix          # Post-modern modal editor
+
+# Shell configuration
+shells:
+  - fish           # Friendly interactive shell
+  - bash-completion # Enhanced bash completion
+  - fisher         # Fish shell plugin manager
+  - kitty-terminfo # Terminal compatibility for kitty
+
+# Archive and compression tools
+archive_tools:
+  - p7zip          # 7-Zip archiver
+  - unrar          # RAR archive support
+  - atool          # Archive tool wrapper
+  - lha            # LHA archive support (Japanese format)
+  - unarchiver     # Universal archive extraction tool
+
+# Network and system utilities
+system_utilities:
+  - curl           # Already in base, but ensuring it's available
+  - wget           # Already in base, but ensuring it's available
+  - rsync          # Already in base, but ensuring it's available
+  - tree           # Already in base, but ensuring it's available
+  - ncdu           # NCurses disk usage
+  - tmux           # Terminal multiplexer (traditional alternative to zellij)
+  - handlr         # Default application handler
+  - rclone         # Cloud storage sync tool
+  - inotify-tools  # File system event monitoring
+
+# Additional AUR-only packages for enhanced functionality
+aur_cli_tools:
+  - lsd            # Next gen 'ls' command (alternative to exa)
+  - bottom         # System monitor (alternative to btop)
+  - tealdeer       # Fast tldr client
+  - broot          # Tree view and navigation
+  - lazydocker     # Docker TUI management
+  - ctop           # Container monitoring
+  - mise           # Modern development environment manager
+
+# Configuration options
+shell_config:
+  default_shell: fish           # Default shell to configure
+  
+editor_config:
+  default_editor: nvim           # Default editor

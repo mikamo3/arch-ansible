@@ -1,0 +1,13 @@
+---
+# Printer and scanner support
+
+- name: Install CUPS printing system
+  aur:
+    name:
+      - cups
+      - gutenprint
+      - sane
+      - simple-scan
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: devices.printer.install | default(false)

@@ -1,0 +1,67 @@
+---
+# fcitx5 input method installation and configuration
+
+- name: Install fcitx5 input method
+  aur:
+    name:
+      # Core fcitx5 packages
+      - fcitx5                 # Main fcitx5 package
+      - fcitx5-configtool      # Configuration GUI
+      - fcitx5-gtk             # GTK integration
+      - fcitx5-qt              # Qt integration
+      
+      # Japanese input method
+      - fcitx5-mozc            # Japanese input (Mozc)
+      - fcitx5-skk             # Japanese input (SKK)
+      
+      # Additional input methods
+      - fcitx5-anthy           # Japanese input (Anthy)
+      
+      # Theme and appearance
+      - fcitx5-material-color  # Material color theme
+      
+    state: present
+  become_user: "{{ ansible_user }}"
+
+- name: Create fcitx5 environment configuration
+  ansible.builtin.copy:
+    content: |
+      # fcitx5 environment variables
+      export GTK_IM_MODULE=fcitx
+      export QT_IM_MODULE=fcitx
+      export XMODIFIERS=@im=fcitx
+      export INPUT_METHOD=fcitx5
+      export GLFW_IM_MODULE=ibus  # For some applications
+    dest: /etc/profile.d/60-fcitx5.sh
+    mode: '0644'
+  become: true
+
+- name: Create fcitx5 autostart for user sessions
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.config/autostart"
+    state: directory
+    mode: '0755'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: true
+
+- name: Create fcitx5 autostart desktop entry
+  ansible.builtin.copy:
+    content: |
+      [Desktop Entry]
+      Name=Fcitx 5
+      Comment=Start Input Method
+      Exec=fcitx5 -d
+      Icon=fcitx
+      Type=Application
+      StartupNotify=false
+      NoDisplay=true
+      X-GNOME-Autostart-Phase=Applications
+      X-GNOME-AutoRestart=false
+      X-GNOME-Autostart-Notify=false
+      X-KDE-autostart-after=panel
+    dest: "/home/{{ ansible_user }}/.config/autostart/fcitx5.desktop"
+    mode: '0644'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: true

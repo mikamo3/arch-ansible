@@ -1,0 +1,7 @@
+---
+# Handlers for CUI role - minimal system-level handlers
+
+- name: update environment
+  ansible.builtin.shell: |
+    systemctl daemon-reload
+  become: true

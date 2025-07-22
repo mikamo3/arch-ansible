@@ -1,0 +1,13 @@
+---
+# Common hardware and system utilities
+
+- name: Install hardware information utilities
+  aur:
+    name:
+      - lshw              # Hardware information
+      - hwinfo            # Detailed hardware information
+      - pciutils          # PCI utilities (lspci)
+      - usbutils          # USB utilities (lsusb)
+      - dmidecode         # DMI/SMBIOS information
+    state: present
+  become_user: "{{ ansible_user }}"

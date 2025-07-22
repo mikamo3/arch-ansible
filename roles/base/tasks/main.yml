@@ -5,6 +5,10 @@
   ansible.builtin.import_tasks: packages.yml
   tags: [base, packages]
 
+- name: Include common utilities installation
+  ansible.builtin.import_tasks: common_utils.yml
+  tags: [base, utils]
+
 - name: Include system basic configuration
   ansible.builtin.import_tasks: system_basic.yml
   tags: [base, system]

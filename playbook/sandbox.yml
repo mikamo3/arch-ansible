@@ -6,3 +6,6 @@
   roles:
     - { role: init, tags: [init, never] }
     - { role: base, tags: [base] }
+    - { role: cui, tags: [cui] }
+    - { role: devices, tags: [devices] }
+    - { role: gui, tags: [gui] }
