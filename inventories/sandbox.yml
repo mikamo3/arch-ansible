@@ -2,7 +2,30 @@
 sandbox:
   hosts:
     sandboxvm:
-      ansible_host: 192.168.122.42
+      ansible_host: 192.168.122.43
       ansible_port: 22
       ansible_user: ansible
       target_disk: /dev/vda
+  vars:
+    # System configuration
+    hostname: sandboxvm
+
+    # Main user configuration
+    main_user:
+      name: testuser
+      groups:
+        - wheel
+        - users
+      shell: /bin/bash
+      create_home: true
+
+    # Network configuration (optional - disabled by default)
+    static_network:
+      enabled: true
+      interface: enp2s0
+      ip_address: 192.168.122.100
+      prefix: 24
+      gateway: 192.168.122.1
+      dns_servers:
+        - 192.168.122.1
+        - 8.8.8.8

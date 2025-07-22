@@ -1,0 +1,68 @@
+---
+# System configuration tasks
+
+- name: User management
+  block:
+    - name: Create main user
+      ansible.builtin.user:
+        name: "{{ main_user.name }}"
+        groups: "{{ main_user.groups }}"
+        shell: "{{ main_user.shell }}"
+        create_home: "{{ main_user.create_home }}"
+        password: "{{ default_user_password_hash }}"
+        state: present
+      become: true
+      when: main_user.name is defined
+
+    - name: Configure sudo for wheel group
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/wheel
+        line: "%wheel ALL=(ALL:ALL) ALL"
+        create: true
+        mode: "0440"
+        validate: "visudo -cf %s"
+      become: true
+
+- name: System power management
+  block:
+    - name: Configure systemd-logind for power button suspend
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        regexp: "^#?HandlePowerKey="
+        line: "HandlePowerKey=suspend"
+        backup: true
+      become: true
+      notify: restart systemd-logind
+
+    - name: Configure suspend settings
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/sleep.conf
+        regexp: "^#?{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+        backup: true
+      become: true
+      loop:
+        - { key: "AllowSuspend", value: "yes" }
+        - { key: "AllowHibernation", value: "no" }
+        - { key: "AllowSuspendThenHibernate", value: "no" }
+        - { key: "AllowHybridSleep", value: "no" }
+      notify: restart systemd-logind
+
+- name: Configure journald
+  block:
+    - name: Configure systemd-journald settings
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/journald.conf
+        regexp: "^#?{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+        backup: true
+      become: true
+      loop:
+        - { key: "Storage", value: "persistent" }
+        - { key: "Compress", value: "yes" }
+        - { key: "SystemMaxUse", value: "1G" }
+        - { key: "SystemKeepFree", value: "2G" }
+        - { key: "SystemMaxFileSize", value: "128M" }
+        - { key: "MaxRetentionSec", value: "1month" }
+        - { key: "MaxFileSec", value: "1week" }
+      notify: restart journald

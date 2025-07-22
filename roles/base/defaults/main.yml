@@ -16,6 +16,7 @@ base_packages:
   - openssh
   - wget
   - curl
+  - inetutils
   
   # Essential tools
   - git
@@ -27,12 +28,12 @@ base_packages:
   - less
   - which
   - sudo
+  - rsync
   
   # Archive handling
   - unzip
   - zip
-  - tar
-  - gzip
+  # tar, gzip are in base group
   
   # System tools
   - lsof
@@ -40,8 +41,44 @@ base_packages:
   - usbutils
   - dmidecode
   - smartmontools
+  - reflector
+  
+  # File systems
+  - dosfstools
+  - ntfs-3g
+  - btrfs-progs
+  
+  # Security tools
+  - logwatch
+  - rkhunter
 
 # AUR packages (optional)
 aur_packages: []
   # - yay-bin  # Alternative to building yay
   # - google-chrome
+
+# System configuration
+hostname: archlinux  # Default hostname (should be overridden in inventory)
+
+# User configuration
+main_user:
+  name: user  # Override in inventory
+  groups:
+    - wheel
+    - users
+  shell: /bin/bash
+  create_home: true
+
+# Network configuration
+static_network:
+  enabled: false  # Set to true in inventory to enable static IP
+  interface: eth0  # Network interface to configure
+  ip_address: 192.168.1.100
+  prefix: 24  # CIDR prefix (24 = /24 = 255.255.255.0)
+  gateway: 192.168.1.1
+  dns_servers:
+    - 8.8.8.8
+    - 8.8.4.4
+
+# Security configuration
+firewall_allow_dev_ports: true  # Allow common development ports (3000, 8000, 8080) from LAN

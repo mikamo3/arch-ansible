@@ -4,4 +4,5 @@
   vars_files:
     - ../vars/secret.yml
   roles:
-    - init
+    - { role: init, tags: [init, never] }
+    - { role: base, tags: [base] }
