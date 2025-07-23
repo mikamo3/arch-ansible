@@ -59,6 +59,18 @@ sandbox:
         method: "fcitx5"
       common:
         install: true
+      applications:
+        install: true
+        document:
+          office_suite: true    # Test LibreOffice
+        media:
+          playback: false       # Skip heavy applications in sandbox
+          editing: false        # Skip heavy editing tools in sandbox
+        storage:
+          cloud_sync: false     # Skip in sandbox
+          encryption: false     # Skip in sandbox
+        specialty:
+          cad: false           # Skip heavy CAD tools in sandbox
     
     # Container configuration (for testing)
     container:

@@ -1,0 +1,82 @@
+---
+# GUI applications installation - Document, media, storage and specialty applications
+
+- name: Install office suite
+  aur:
+    name:
+      - libreoffice-still       # Stable LibreOffice version
+      - libreoffice-still-ja    # Japanese language support
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - gui.applications.install
+    - gui.applications.document.office_suite
+
+- name: Install media playback applications
+  aur:
+    name:
+      - spotify                 # Music streaming service
+      - mcomix                  # Comic and manga reader
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - gui.applications.install
+    - gui.applications.media.playback
+
+- name: Install media editing applications
+  aur:
+    name:
+      - gimp                    # Advanced image editor
+      - inkscape                # Vector graphics editor
+      - imagemagick             # Command-line image manipulation
+      - gpick                   # Color picker utility
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - gui.applications.install
+    - gui.applications.media.editing
+
+- name: Install cloud storage sync tools
+  aur:
+    name:
+      - rclone                  # Cloud storage sync
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - gui.applications.install
+    - gui.applications.storage.cloud_sync
+
+- name: Install encryption tools
+  aur:
+    name:
+      - veracrypt               # Disk encryption utility
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - gui.applications.install
+    - gui.applications.storage.encryption
+
+- name: Install CAD applications
+  aur:
+    name:
+      - freecad                 # 3D CAD software
+      - librecad                # 2D CAD software
+      - kicad                   # Electronic design automation
+      - kicad-library           # KiCad component libraries
+      - kicad-library-3d        # KiCad 3D models
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - gui.applications.install
+    - gui.applications.specialty.cad
+
+- name: Configure FUSE for storage applications
+  ansible.builtin.lineinfile:
+    path: /etc/fuse.conf
+    regexp: '^#user_allow_other'
+    line: 'user_allow_other'
+    backup: true
+  become: true
+  when: 
+    - gui.applications.install
+    - gui.applications.storage.cloud_sync or gui.applications.storage.encryption

@@ -29,3 +29,8 @@
   ansible.builtin.import_tasks: display_manager.yml
   when: gui.display_manager.install | default(false)
   tags: [gui, display-manager]
+
+- name: Install GUI applications
+  ansible.builtin.import_tasks: applications.yml
+  when: gui.applications.install | default(false)
+  tags: [gui, applications]

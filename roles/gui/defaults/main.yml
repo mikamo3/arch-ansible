@@ -58,3 +58,17 @@ gui_fonts:
   # Common utilities (for all desktop environments)
   common:
     install: true
+  
+  # Additional GUI applications
+  applications:
+    install: false          # Install additional GUI applications
+    document:
+      office_suite: true    # LibreOffice + Japanese support
+    media:
+      playback: false       # Spotify, comic readers, etc.
+      editing: false        # GIMP, Inkscape, etc.
+    storage:
+      cloud_sync: false     # rclone
+      encryption: false     # VeraCrypt
+    specialty:
+      cad: false           # FreeCAD, LibreCAD, KiCad
