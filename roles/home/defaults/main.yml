@@ -1,0 +1,27 @@
+---
+# Default variables for home role - User home directory setup
+
+home:
+  # Core home directory setup
+  install: false              # Setup home directory structure
+  
+  # XDG user directories
+  xdg:
+    force_english: true        # Force English directory names (Downloads, Documents, etc.)
+    
+  # Directory structure creation
+  directories:
+    create_structure: true     # Create organized directory structure
+    create_dev_dirs: false     # Create source directory (~/src)
+    
+  # Shell configuration
+  shell:
+    configure: true            # Configure user shell
+    preferred_shell: "/usr/bin/fish"  # Default shell (fish preferred)
+    
+  # Dotfiles management with kawazu
+  dotfiles:
+    install_kawazu: false          # Install kawazu dotfiles manager
+    manage_dotfiles: false         # Clone and apply dotfiles
+    repository: "https://github.com/mikamo3/dotfiles"  # Dotfiles repository URL
+    branch: "master"               # Branch to checkout

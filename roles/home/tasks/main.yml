@@ -1,0 +1,115 @@
+---
+# Home directory setup tasks - User home directory organization
+
+- name: Setup XDG user directories with English names
+  ansible.builtin.shell: LC_ALL=C xdg-user-dirs-update --force
+  become_user: "{{ main_user.name }}"
+  when: 
+    - home.install
+    - home.xdg.force_english
+
+- name: Create essential home directories
+  ansible.builtin.file:
+    path: "/home/{{ main_user.name }}/{{ item }}"
+    state: directory
+    owner: "{{ main_user.name }}"
+    group: "{{ main_user.name }}"
+    mode: '0755'
+  become: true
+  loop:
+    - Documents/projects
+    - Documents/notes
+    - Downloads/software
+    - Downloads/media
+    - Pictures/screenshots
+    - Pictures/wallpapers
+    - .local/bin
+    - .local/share/applications
+  when: 
+    - home.install
+    - home.directories.create_structure
+
+- name: Create source directories
+  ansible.builtin.file:
+    path: "/home/{{ main_user.name }}/{{ item }}"
+    state: directory
+    owner: "{{ main_user.name }}"
+    group: "{{ main_user.name }}"
+    mode: '0755'
+  become: true
+  loop:
+    - src
+  when: 
+    - home.install
+    - home.directories.create_dev_dirs
+
+
+- name: Set user shell
+  ansible.builtin.user:
+    name: "{{ main_user.name }}"
+    shell: "{{ home.shell.preferred_shell }}"
+  become: true
+  when: 
+    - home.install
+    - home.shell.configure
+    - home.shell.preferred_shell != ""
+
+
+- name: Install kawazu for dotfiles management
+  block:
+    - name: Check if kawazu is installed
+      ansible.builtin.stat:
+        path: /usr/lib/kawazu
+      register: kawazu_path
+
+    - name: Install kawazu from repository
+      block:
+        - name: Clone kawazu repository
+          ansible.builtin.git:
+            repo: https://github.com/mikamo3/kawazu-git.git
+            dest: /tmp/kawazu
+          become_user: "{{ ansible_user }}"
+
+        - name: Install kawazu using makepkg
+          aur:
+            name: kawazu
+            use: makepkg
+            local_pkgbuild: /tmp/kawazu
+          become_user: "{{ ansible_user }}"
+      when: not kawazu_path.stat.exists
+  when: 
+    - home.install
+    - home.dotfiles.install_kawazu
+
+- name: Setup dotfiles with kawazu
+  block:
+    - name: Clone dotfiles repository
+      ansible.builtin.git:
+        repo: "{{ home.dotfiles.repository }}"
+        dest: "/home/{{ main_user.name }}/.kawazu/dotfiles"
+        version: "{{ home.dotfiles.branch }}"
+        update: false
+      become_user: "{{ main_user.name }}"
+      register: dotfiles_clone_result
+
+    - name: Apply dotfiles with kawazu
+      ansible.builtin.shell: |
+        bash -c 'source /usr/lib/kawazu/kawazu.sh; yes | KAWAZU_ROOT_DIR=/usr/lib/kawazu kawazu -f link'
+      become_user: "{{ main_user.name }}"
+      register: kawazu_apply_result
+      ignore_errors: true
+      when: dotfiles_clone_result.changed
+  when: 
+    - home.install
+    - home.dotfiles.manage_dotfiles
+
+- name: Display home directory setup information
+  ansible.builtin.debug:
+    msg: |
+      Home directory setup completed:
+      - XDG directories: {{ 'English names forced' if home.xdg.force_english else 'system default' }}
+      - Essential directories: {{ 'created' if home.directories.create_structure else 'skipped' }}
+      - Source directory: {{ 'created' if home.directories.create_dev_dirs else 'skipped' }}
+      - Shell configuration: {{ home.shell.preferred_shell if home.shell.configure else 'unchanged' }}
+      - Kawazu dotfiles: {{ 'installed and applied' if home.dotfiles.manage_dotfiles else 'skipped' }}
+  when: home.install

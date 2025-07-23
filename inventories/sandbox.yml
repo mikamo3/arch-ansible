@@ -101,3 +101,20 @@ sandbox:
       services:
         enable_libvirtd: true
         start_on_boot: true
+    
+    # Home directory configuration (for testing)
+    home:
+      install: true
+      xdg:
+        force_english: true     # Force English directory names
+      directories:
+        create_structure: true  # Create organized directory structure
+        create_dev_dirs: true   # Create source directory for testing
+      shell:
+        configure: true         # Test shell configuration
+        preferred_shell: "/usr/bin/fish"  # Test with fish shell
+      dotfiles:
+        install_kawazu: true    # Install kawazu for testing
+        manage_dotfiles: true   # Test dotfiles application
+        repository: "https://github.com/mikamo3/dotfiles"
+        branch: "master"
