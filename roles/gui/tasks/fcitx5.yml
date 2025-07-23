@@ -38,11 +38,11 @@
 
 - name: Create fcitx5 autostart for user sessions
   ansible.builtin.file:
-    path: "/home/{{ ansible_user }}/.config/autostart"
+    path: "/home/{{ main_user.name }}/.config/autostart"
     state: directory
     mode: '0755'
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ main_user.name }}"
+    group: "{{ main_user.name }}"
   become: true
 
 - name: Create fcitx5 autostart desktop entry
@@ -60,8 +60,8 @@
       X-GNOME-AutoRestart=false
       X-GNOME-Autostart-Notify=false
       X-KDE-autostart-after=panel
-    dest: "/home/{{ ansible_user }}/.config/autostart/fcitx5.desktop"
+    dest: "/home/{{ main_user.name }}/.config/autostart/fcitx5.desktop"
     mode: '0644'
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ main_user.name }}"
+    group: "{{ main_user.name }}"
   become: true

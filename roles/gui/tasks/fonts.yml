@@ -45,6 +45,21 @@
   become_user: "{{ ansible_user }}"
   when: gui.fonts.install == "full"
 
+- name: Check if system fontconfig exists
+  ansible.builtin.stat:
+    path: "/etc/fonts/local.conf"
+  register: system_fontconfig_stat
+
+- name: Create system-wide fontconfig
+  ansible.builtin.template:
+    src: fontconfig.conf.j2
+    dest: "/etc/fonts/local.conf"
+    mode: '0644'
+  become: true
+  vars:
+    gui_fonts: "{{ gui_fonts[gui.fonts.install] }}"
+  when: not system_fontconfig_stat.stat.exists
+
 - name: Refresh font cache
   ansible.builtin.command: fc-cache -fv
   become_user: "{{ ansible_user }}"

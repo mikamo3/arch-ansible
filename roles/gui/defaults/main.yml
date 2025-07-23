@@ -16,6 +16,39 @@ gui:
   # Font configuration
   fonts:
     install: "minimal"  # minimal/full
+
+# Font family definitions
+gui_fonts:
+  minimal:
+    serif:
+      - "Noto Serif CJK JP"
+      - "Noto Serif"
+    sans_serif:
+      - "Noto Sans CJK JP"
+      - "Noto Sans"
+    monospace:
+      - "Cica"
+      - "DejaVu Sans Mono"
+  
+  full:
+    serif:
+      - "Noto Serif CJK JP"
+      - "Noto Serif"
+    sans_serif:
+      - "LINE Seed JP_TTF"
+      - "BIZTER"
+      - "Noto Sans CJK JP"
+      - "Noto Sans"
+    monospace:
+      - "PlemolJP Console"
+      - "Cica"
+      - "IBM Plex Mono"
+      - "Noto Sans Mono"
+      - "DejaVu Sans Mono"
+    cursive:
+      - "Noto Sans CJK JP"
+    fantasy:
+      - "Noto Sans CJK JP"
   
   # Input method configuration (mandatory)
   inputmethod:
