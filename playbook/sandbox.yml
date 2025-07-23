@@ -9,3 +9,4 @@
     - { role: cui, tags: [cui] }
     - { role: devices, tags: [devices] }
     - { role: gui, tags: [gui] }
+    - { role: container, tags: [container] }

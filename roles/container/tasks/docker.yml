@@ -1,0 +1,80 @@
+---
+# Docker installation and configuration for home use
+
+- name: Install Docker packages
+  pacman:
+    name:
+      - docker           # Docker engine
+      - docker-buildx    # Docker buildx plugin (multi-platform builds)
+    state: present
+  when: container.install
+
+- name: Install Docker Compose (standalone - optional)
+  pacman:
+    name:
+      - docker-compose   # Docker Compose standalone (legacy compatibility)
+    state: present
+  when: 
+    - container.install
+    - container.install_compose
+
+- name: Install optional container tools
+  pacman:
+    name:
+      - buildah          # Advanced container image building
+      - skopeo           # Container image management
+    state: present
+  when: 
+    - container.install
+    - container.tools.install_buildah or container.tools.install_skopeo
+
+- name: Enable and start Docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
+  become: true
+  when: 
+    - container.install
+    - container.enable_service
+
+- name: Add main user to docker group
+  ansible.builtin.user:
+    name: "{{ main_user.name }}"
+    groups: docker
+    append: true
+  become: true
+  when: 
+    - container.install
+    - container.add_user_to_group
+
+- name: Configure Docker log rotation
+  ansible.builtin.copy:
+    content: |
+      /var/lib/docker/containers/*/*.log {
+          daily
+          rotate 7
+          compress
+          delaycompress
+          copytruncate
+          missingok
+          notifempty
+      }
+    dest: "/etc/logrotate.d/docker-containers"
+    mode: '0644'
+  become: true
+  when: container.install
+
+- name: Verify Docker installation
+  ansible.builtin.command: docker --version
+  register: docker_version
+  changed_when: false
+  become_user: "{{ ansible_user }}"
+  when: container.install
+
+- name: Display Docker version
+  ansible.builtin.debug:
+    msg: "Docker installed: {{ docker_version.stdout }}"
+  when: 
+    - container.install
+    - docker_version is defined

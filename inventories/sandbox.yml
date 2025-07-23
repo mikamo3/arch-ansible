@@ -59,3 +59,13 @@ sandbox:
         method: "fcitx5"
       common:
         install: true
+    
+    # Container configuration (for testing)
+    container:
+      install: true
+      install_compose: false  # Use bundled docker compose
+      add_user_to_group: true
+      enable_service: true
+      tools:
+        install_buildah: false
+        install_skopeo: false

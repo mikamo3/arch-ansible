@@ -1,0 +1,14 @@
+---
+# Default variables for container role - Docker for home use
+
+container:
+  # Docker installation and basic configuration
+  install: false           # Install Docker
+  install_compose: false   # Install standalone docker-compose (optional, docker compose is bundled)
+  add_user_to_group: true  # Add main user to docker group
+  enable_service: true     # Enable Docker service on boot
+  
+  # Optional useful tools
+  tools:
+    install_buildah: false  # Install buildah for advanced image building
+    install_skopeo: false   # Install skopeo for image management
