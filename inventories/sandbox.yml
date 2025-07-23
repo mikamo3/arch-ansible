@@ -69,3 +69,9 @@ sandbox:
       tools:
         install_buildah: false
         install_skopeo: false
+    
+    # Development configuration (for testing)
+    development:
+      install: true
+      install_vscode: true      # GUI development editor
+      git_tools: true           # Git enhanced tools

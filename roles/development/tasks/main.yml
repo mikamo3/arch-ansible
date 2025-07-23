@@ -1,0 +1,26 @@
+---
+# Development role main tasks - Development-specific tools only
+
+- name: Install Visual Studio Code
+  aur:
+    name:
+      - visual-studio-code-bin  # VS Code - GUI development editor
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - development.install
+    - development.install_vscode
+
+- name: Install Git enhanced tools
+  aur:
+    name:
+      - git-lfs            # Git Large File Storage
+      - tig                # Text-mode interface for Git
+      - diff-so-fancy      # Better diff output
+      - cocogitto          # Conventional commits and semver CLI tool
+      - gibo               # .gitignore template generator
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - development.install
+    - development.git_tools

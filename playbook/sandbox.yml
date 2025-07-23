@@ -10,3 +10,4 @@
     - { role: devices, tags: [devices] }
     - { role: gui, tags: [gui] }
     - { role: container, tags: [container] }
+    - { role: development, tags: [development] }
