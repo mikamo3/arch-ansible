@@ -1,0 +1,26 @@
+---
+# Default variables for virtualization role - QEMU/KVM virtualization for home use
+
+virtualization:
+  # Core virtualization installation
+  install: false              # Install virtualization tools
+  
+  # QEMU configuration - using desktop variant (lighter for home use)
+    
+  # GUI management tools
+  gui:
+    install_virt_manager: true # Install virt-manager GUI
+    
+  # Networking configuration
+  networking:
+    enable_default_network: true  # Enable default NAT network
+    enable_bridge: false          # Enable bridge networking (advanced)
+    
+  # User configuration
+  user:
+    add_to_libvirt_group: true    # Add main user to libvirt group
+    
+  # Service configuration  
+  services:
+    enable_libvirtd: true         # Enable libvirtd service
+    start_on_boot: true           # Start libvirtd on system boot

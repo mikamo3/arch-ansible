@@ -75,3 +75,17 @@ sandbox:
       install: true
       install_vscode: true      # GUI development editor
       git_tools: true           # Git enhanced tools
+    
+    # Virtualization configuration (for testing)
+    virtualization:
+      install: true
+      gui:
+        install_virt_manager: true
+      networking:
+        enable_default_network: true
+        enable_bridge: false    # Keep it simple for sandbox
+      user:
+        add_to_libvirt_group: true
+      services:
+        enable_libvirtd: true
+        start_on_boot: true

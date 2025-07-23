@@ -1,0 +1,125 @@
+---
+# Virtualization role main tasks - QEMU/KVM virtualization for home use
+
+- name: Install QEMU virtualization packages
+  aur:
+    name:
+      - qemu-desktop         # QEMU for desktop use (lighter than qemu-full)
+      - libvirt              # Virtualization management library
+      - edk2-ovmf           # UEFI firmware for virtual machines
+      - dnsmasq             # DHCP/DNS for virtual networks
+      - bridge-utils        # Network bridge utilities
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: virtualization.install
+
+
+- name: Install virt-manager GUI
+  aur:
+    name:
+      - virt-manager        # GUI management tool for libvirt
+      - virt-viewer         # VM console viewer
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: 
+    - virtualization.install
+    - virtualization.gui.install_virt_manager
+
+- name: Add main user to libvirt group
+  ansible.builtin.user:
+    name: "{{ main_user.name }}"
+    groups: libvirt
+    append: true
+  become: true
+  when: 
+    - virtualization.install
+    - virtualization.user.add_to_libvirt_group
+
+- name: Enable and start libvirtd service
+  ansible.builtin.systemd:
+    name: libvirtd
+    enabled: "{{ virtualization.services.start_on_boot }}"
+    state: "{{ 'started' if virtualization.services.enable_libvirtd else 'stopped' }}"
+  become: true
+  when: virtualization.install
+
+- name: Configure default network
+  block:
+    - name: Check if default network exists
+      ansible.builtin.command: virsh net-list --all --name
+      register: existing_networks
+      changed_when: false
+      become_user: "{{ main_user.name }}"
+      failed_when: false
+      
+    - name: Create default network XML
+      ansible.builtin.copy:
+        content: |
+          <network>
+            <name>default</name>
+            <uuid>9a05da11-e96b-47f3-8253-a3a482e445f5</uuid>
+            <forward mode='nat'>
+              <nat>
+                <port start='1024' end='65535'/>
+              </nat>
+            </forward>
+            <bridge name='virbr0' stp='on' delay='0'/>
+            <mac address='52:54:00:0a:cd:21'/>
+            <ip address='192.168.122.1' netmask='255.255.255.0'>
+              <dhcp>
+                <range start='192.168.122.2' end='192.168.122.254'/>
+              </dhcp>
+            </ip>
+          </network>
+        dest: /tmp/default-network.xml
+        mode: '0644'
+      become_user: "{{ main_user.name }}"
+      when: 
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+      
+    - name: Define default network
+      ansible.builtin.command: virsh net-define /tmp/default-network.xml
+      become_user: "{{ main_user.name }}"
+      when: 
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+      
+    - name: Enable default network autostart
+      ansible.builtin.command: virsh net-autostart default
+      become_user: "{{ main_user.name }}"
+      failed_when: false
+      when: 
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+      
+    - name: Start default network
+      ansible.builtin.command: virsh net-start default
+      become_user: "{{ main_user.name }}"
+      failed_when: false
+      when: 
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+        
+    - name: Clean up temporary network file
+      ansible.builtin.file:
+        path: /tmp/default-network.xml
+        state: absent
+      become_user: "{{ main_user.name }}"
+      when: 
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+  when: 
+    - virtualization.install
+    - virtualization.networking.enable_default_network
+
+- name: Display virtualization setup information
+  ansible.builtin.debug:
+    msg: |
+      Virtualization environment configured:
+      - QEMU desktop variant installed
+      - GUI tools: {{ 'virt-manager installed' if virtualization.gui.install_virt_manager else 'No GUI tools' }}
+      - User {{ main_user.name }} added to libvirt group
+      - Default network: {{ 'enabled' if virtualization.networking.enable_default_network else 'disabled' }}
+      - Access virt-manager from Applications menu or run 'virt-manager'
+  when: virtualization.install
