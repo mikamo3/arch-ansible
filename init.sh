@@ -42,10 +42,6 @@ else
     echo "ansible user already exists"
 fi
 
-# Ansible用sudo権限付与（パスワード不要）
-echo "Setting up passwordless sudo for ansible..."
-echo 'ansible ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ansible
-chmod 440 /etc/sudoers.d/ansible
 
 # SSH設定
 echo "Configuring SSH..."

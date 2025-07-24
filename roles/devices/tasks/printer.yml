@@ -1,7 +1,7 @@
 ---
 # Printer and scanner support
 
-- name: Install CUPS printing system
+- name: Install printing and scanning system
   aur:
     name:
       - cups

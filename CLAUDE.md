@@ -14,28 +14,65 @@ This is an Ansible automation project for Arch Linux installation and configurat
 
 ### Core Roles Structure
 
-#### Completed Roles
 - **init role**: Primary role handling disk partitioning, btrfs subvolumes, and chroot system setup
   - `btrfs_partition.yml`: Creates GPT partitions and btrfs subvolumes (@, @home, @.snapshots, @pkg, @log)  
   - `chroot_setup.yml`: Installs base system via arch-chroot
   - `ansible_setup.yml`: Configures Ansible user in new system
   - `cleanup.yml`: Unmounts filesystems after installation
-- **base role**: Essential system configuration and package installation (completed)
-- **cui role**: Command-line interface tools and utilities configuration (completed)
 
-#### Completed Roles
-- **devices role**: Machine-specific hardware driver and device management (completed)
+- **base role**: Essential system configuration and package installation
+  - Purpose: Core system packages, security, and fundamental services
+  - Components: Development tools, network utilities, firewall, system monitoring
+
+- **shell role**: Shell environment and CLI utilities
+  - Purpose: Modern shell environment and command-line tools
+  - Components: Shell configuration (fish), modern CLI alternatives (bat, exa, fd, ripgrep), terminal utilities
+  - Design: Focus on shell environment and CLI workflow enhancement
+
+- **desktop role**: Desktop environment foundation
+  - Purpose: Desktop environment installation and base GUI components
+  - Components: Desktop environments (GNOME/Hyprland), display managers, fonts, input methods, common GUI utilities
+  - Design: Wayland-first, modular component installation with inventory-driven environment selection
+
+- **storage role**: Storage, backup, and encryption tools
+  - Purpose: File storage, synchronization, and encryption management
+  - Components: Cloud sync (rclone), disk encryption (veracrypt), FUSE configuration
+  - Design: Unified storage solution management regardless of interface type
+
+- **office role**: Office and document productivity tools
+  - Purpose: Document creation, editing, and office productivity
+  - Components: Office suites (LibreOffice), PDF viewers, document utilities
+  - Design: Professional document workflow support
+
+- **media role**: Media editing and playback applications
+  - Purpose: Media creation, editing, and consumption
+  - Components: Image editors (GIMP), vector graphics (Inkscape), media players (VLC), streaming (Spotify)
+  - Design: Complete media workflow from creation to consumption
+
+- **development role**: Software development environment
+  - Purpose: Programming and development tools
+  - Components: IDEs (Visual Studio Code), version control (Git), containers (Docker), development utilities
+  - Design: Complete development environment setup
+
+- **cad role**: Computer-aided design and engineering tools
+  - Purpose: CAD software and engineering design tools
+  - Components: 3D CAD (FreeCAD), 2D CAD (LibreCAD), electronic design (KiCad)
+  - Design: Professional design and engineering workflow support
+
+- **devices role**: Hardware-specific driver and device management
   - Purpose: Install and configure hardware-dependent packages based on inventory specification
-  - Approach: Inventory-driven configuration for machine-specific hardware support
   - Components: GPU drivers, audio systems, Bluetooth, printer support
-  - Design: Each inventory file can specify which hardware components to configure
+  - Design: Inventory-driven configuration for machine-specific hardware support
 
-#### Currently Under Development  
-- **gui role**: Desktop environment and GUI application management
-  - Purpose: Install desktop environments (GNOME/Hyprland) with common utilities
-  - Approach: Wayland-first, modular component installation
-  - Components: Desktop environments, display managers, fonts, input methods, common utilities
-  - Design: Inventory-driven environment selection with shared base components
+- **virtualization role**: Virtual machine infrastructure
+  - Purpose: VM management and virtualization tools
+  - Components: QEMU, libvirt, virt-manager, VM network configuration
+  - Design: Complete virtualization environment setup
+
+- **home role**: User home directory structure and dotfiles
+  - Purpose: User environment and dotfiles management
+  - Components: Home directory organization, XDG directories, dotfiles deployment
+  - Design: Personal user environment customization
 
 ## Role Design Philosophy
 
@@ -47,9 +84,11 @@ This is an Ansible automation project for Arch Linux installation and configurat
 
 ### Configuration Approach
 - **Package installation**: Primary focus on installing correct packages
+- **AUR module preference**: Use `aur` module instead of `pacman` module for consistency (except for init/base roles before yay installation)
 - **Automatic configuration**: Let pacman and package post-install scripts handle configuration
 - **Manual settings**: Only when absolutely necessary for functionality
 - **Avoid micro-management**: Skip detailed configuration files unless required
+- **Template management**: Use Ansible templates (`.j2` files) in `templates/` directory for all configuration files instead of inline content
 
 ### Hardware Support Strategy
 - **Detection-based**: Use hardware detection to determine required packages
@@ -74,9 +113,9 @@ This is an Ansible automation project for Arch Linux installation and configurat
 
 ## Common Commands
 
-### Sandbox Environment
+### Main Playbook Execution
 ```bash
-# Run sandbox playbook with connection test
+# Run main playbook (all roles except init)
 ./run_sandbox.sh
 
 # Dry run
@@ -85,8 +124,15 @@ This is an Ansible automation project for Arch Linux installation and configurat
 # Verbose output  
 ./run_sandbox.sh --verbose
 
+# Run specific role
+./run_sandbox.sh --role shell
+./run_sandbox.sh --tags base,shell
+
+# Skip specific role
+./run_sandbox.sh --skip-tags desktop
+
 # Manual execution
-ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml --vault-password-file .vault_pass
+ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-file .vault_pass --extra-vars "@password.yml"
 ```
 
 ### Installation Media Setup
@@ -107,7 +153,7 @@ ansible-galaxy collection install community.general
 ansible sandbox -i inventories/sandbox.yml -m ping
 
 # Run with vault password
-ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml --vault-password-file .vault_pass
+ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-file .vault_pass
 ```
 
 ## Configuration Files
@@ -131,9 +177,10 @@ ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml --vault-passwor
 ## Development Workflow
 
 ### Current Development Status
-- **Phase**: Post-installation role development 
-- **Focus**: Hardware-specific configuration via `devices` role
-- **Active roles**: init (✓), base (✓), cui (✓), devices (in progress)
+- **Phase**: Role restructuring completed, optimization phase
+- **Focus**: Function-based role architecture implementation completed
+- **Completed restructuring**: All core roles restructured to function-based architecture
+- **New role structure**: shell, desktop, storage, office, media, cad, development, devices, virtualization, home
 
 ### Testing Changes
 1. Test in sandbox environment first: `./run_sandbox.sh --check`
@@ -147,12 +194,28 @@ ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml --vault-passwor
 - Follow existing patterns for btrfs and mount operations
 - For `devices` role: Use inventory variables to control hardware-specific installations
 
+### Role Organization Guidelines
+- **Function-based grouping**: Roles organized by primary function rather than interface type (CLI/GUI)
+- **Clear responsibility separation**: Each role has distinct purpose and scope
+- **Minimal cross-dependencies**: Roles should be largely independent except for clear hierarchical dependencies
+- **Consistent naming**: Role names reflect primary function (shell, desktop, storage, office, media, development, cad, devices, virtualization, home)
+- **Variable-controlled execution**: Default role settings are `false` - enable per-machine via inventory variables
+- **Single playbook approach**: `playbook/main.yml` serves all machines, controlled by inventory-specific variables
+
 ## Important Notes
 
 ### Security Considerations
 - Target disk specified in inventory will be **completely wiped**
-- Ansible user gets passwordless sudo access during installation
-- SSH is configured to allow root login during installation phase
+- Ansible user has restricted sudo access (specific commands only) after base role completion
+- During installation: temporary full sudo access and root SSH login enabled for automation
+- After installation: sudo access limited to essential system management commands only
+
+### Credential and Sensitive Data Handling
+- **NEVER read, display, or log files containing credentials** (password.yml, .vault_pass, vars/secret.yml)
+- **NEVER output passwords, API keys, or sensitive configuration** to console or logs
+- **AVOID reading files with sensitive names** containing: password, pass, secret, key, token, credential
+- Use Ansible Vault for all sensitive data storage
+- Sensitive files should remain encrypted and never be displayed in plain text
 
 ### Filesystem Handling
 - All btrfs operations use `compress=zstd:3,ssd,discard=async,space_cache=v2`

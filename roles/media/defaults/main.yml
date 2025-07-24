@@ -1,0 +1,7 @@
+---
+# Default variables for media role - Media editing and playback applications
+
+# Media configuration options
+media:
+  playback: false         # Install media playback applications
+  editing: false          # Install media editing applications

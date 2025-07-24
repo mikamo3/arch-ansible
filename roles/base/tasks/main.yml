@@ -1,13 +1,13 @@
 ---
 # Base role main tasks
 
+- name: Include system configuration (user creation)
+  ansible.builtin.import_tasks: config.yml
+  tags: [base, config]
+
 - name: Include package management tasks
   ansible.builtin.import_tasks: packages.yml
   tags: [base, packages]
-
-- name: Include common utilities installation
-  ansible.builtin.import_tasks: common_utils.yml
-  tags: [base, utils]
 
 - name: Include system basic configuration
   ansible.builtin.import_tasks: system_basic.yml
@@ -20,10 +20,6 @@
 - name: Include network configuration
   ansible.builtin.import_tasks: network.yml
   tags: [base, network]
-
-- name: Include system configuration
-  ansible.builtin.import_tasks: config.yml
-  tags: [base, config]
 
 - name: Include security configuration
   ansible.builtin.import_tasks: security.yml

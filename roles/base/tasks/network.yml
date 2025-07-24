@@ -1,23 +1,38 @@
 ---
 # Network configuration using NetworkManager
 
-- name: Configure static IP address
+- name: Configure static IP address (connection file only)
   block:
-    - name: Check if NetworkManager is running
-      ansible.builtin.systemd:
-        name: NetworkManager
-        state: started
+    - name: Create NetworkManager connection directory
+      ansible.builtin.file:
+        path: /etc/NetworkManager/system-connections
+        state: directory
+        mode: '0755'
       become: true
 
-    - name: Create static network connection profile (autoconnect disabled)
-      community.general.nmcli:
-        conn_name: "static-{{ static_network.interface }}"
-        ifname: "{{ static_network.interface }}"
-        type: ethernet
-        ip4: "{{ static_network.ip_address }}/{{ static_network.prefix }}"
-        gw4: "{{ static_network.gateway }}"
-        dns4: "{{ static_network.dns_servers }}"
-        method4: manual
-        state: present
+    - name: Create static network connection file
+      ansible.builtin.copy:
+        content: |
+          [connection]
+          id=static-{{ static_network.interface }}
+          type=ethernet
+          interface-name={{ static_network.interface }}
+          autoconnect=false
+          
+          [ethernet]
+          
+          [ipv4]
+          method=manual
+          address1={{ static_network.ip_address }}/{{ static_network.prefix }},{{ static_network.gateway }}
+          dns={{ static_network.dns_servers | join(';') }}
+          
+          [ipv6]
+          method=ignore
+          
+          [proxy]
+        dest: "/etc/NetworkManager/system-connections/static-{{ static_network.interface }}.nmconnection"
+        mode: '0600'
+        backup: true
       become: true
+      notify: reload networkmanager
   when: static_network.enabled | default(false)

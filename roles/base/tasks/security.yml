@@ -21,14 +21,12 @@
         state: enabled
       become: true
       loop:
-        - { direction: 'incoming', policy: 'deny' }
-        - { direction: 'outgoing', policy: 'allow' }
+        - { direction: "incoming", policy: "deny" }
+        - { direction: "outgoing", policy: "allow" }
 
-    - name: Allow SSH from LAN networks
+    - name: Allow all traffic from LAN networks
       community.general.ufw:
         rule: allow
-        port: '22'
-        proto: tcp
         src: "{{ item }}"
       become: true
       loop:
@@ -42,74 +40,9 @@
         src: 127.0.0.1
       become: true
 
-    - name: Allow common development ports from LAN
-      community.general.ufw:
-        rule: allow
-        port: "{{ item.port }}"
-        proto: "{{ item.proto }}"
-        src: "{{ item.src }}"
-      become: true
-      loop:
-        # HTTP development servers
-        - { port: '3000', proto: 'tcp', src: '10.0.0.0/8' }
-        - { port: '3000', proto: 'tcp', src: '172.16.0.0/12' }
-        - { port: '3000', proto: 'tcp', src: '192.168.0.0/16' }
-        - { port: '8000', proto: 'tcp', src: '10.0.0.0/8' }
-        - { port: '8000', proto: 'tcp', src: '172.16.0.0/12' }
-        - { port: '8000', proto: 'tcp', src: '192.168.0.0/16' }
-        - { port: '8080', proto: 'tcp', src: '10.0.0.0/8' }
-        - { port: '8080', proto: 'tcp', src: '172.16.0.0/12' }
-        - { port: '8080', proto: 'tcp', src: '192.168.0.0/16' }
-      when: firewall_allow_dev_ports | default(true)
-
     - name: Enable ufw
       community.general.ufw:
         state: enabled
-        logging: 'on'
+        logging: "on"
       become: true
       notify: reload ufw
-
-- name: Basic system hardening
-  block:
-    - name: Disable core dumps for all users
-      ansible.builtin.lineinfile:
-        path: /etc/security/limits.conf
-        regexp: '^\*\s+hard\s+core'
-        line: '* hard core 0'
-        backup: true
-      become: true
-
-    - name: Set kernel parameters for security
-      ansible.posix.sysctl:
-        name: "{{ item.key }}"
-        value: "{{ item.value }}"
-        state: present
-        reload: true
-      become: true
-      loop:
-        # Disable IP forwarding (not needed for local machine)
-        - { key: 'net.ipv4.ip_forward', value: '0' }
-        - { key: 'net.ipv6.conf.all.forwarding', value: '0' }
-        
-        # Enable SYN cookies (helps prevent SYN flood attacks)
-        - { key: 'net.ipv4.tcp_syncookies', value: '1' }
-        
-        # Ignore ICMP ping requests (optional, can be disabled)
-        - { key: 'net.ipv4.icmp_echo_ignore_all', value: '0' }
-        
-        # Ignore bogus ICMP error responses
-        - { key: 'net.ipv4.icmp_ignore_bogus_error_responses', value: '1' }
-        
-        # Disable source routing
-        - { key: 'net.ipv4.conf.all.accept_source_route', value: '0' }
-        - { key: 'net.ipv6.conf.all.accept_source_route', value: '0' }
-        
-        # Log Martian packets (packets with impossible addresses)
-        - { key: 'net.ipv4.conf.all.log_martians', value: '1' }
-        
-        # Ignore redirects
-        - { key: 'net.ipv4.conf.all.accept_redirects', value: '0' }
-        - { key: 'net.ipv6.conf.all.accept_redirects', value: '0' }
-        
-        # Disable sending redirects
-        - { key: 'net.ipv4.conf.all.send_redirects', value: '0' }

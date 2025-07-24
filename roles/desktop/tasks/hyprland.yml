@@ -1,0 +1,47 @@
+---
+# Hyprland desktop environment installation
+
+- name: Install Hyprland desktop environment
+  aur:
+    name:
+      # Core Hyprland packages
+      - hyprland # Hyprland compositor
+      - hyprpaper # Wallpaper utility for Hyprland
+      - hypridle # Idle management for Hyprland
+      - hyprlock # Screen locker for Hyprland
+      - hyprpicker # Color picker for Hyprland
+      - hyprcursor # Hyprland cursor theme
+      - hyprsysteminfo # Hyprland system information tool
+
+      # Hyprland-specific utilities
+      - waybar # Status bar for Wayland
+      - waybar-module-pacman-updates-git # Pacman updates module for waybar
+      - wttrbar # Weather information for waybar
+      - wofi # Application launcher for Wayland
+      - rofi-lbonn-wayland-git # Alternative application launcher
+      - wlogout # Logout menu
+      - swaync # Notification daemon (swaync)
+      - kanshi # Dynamic display configuration
+      - wlr-randr # Display management for wlroots
+      - wlroots # Wayland compositor library
+      - wob # Wayland overlay bar (volume/brightness)
+
+      # Clipboard and screenshot management
+      - clipman # Clipboard manager
+      - cliphist # Clipboard history
+      - swappy # Screenshot annotation tool
+
+      # Additional utilities
+      - foot # Alternative terminal emulator
+      - wallutils # Wallpaper utilities
+      - dex # Desktop entry execution (autostart)
+      - uwsm # Universal Wayland Session Manager
+      - hyprls-git # Hyprland language server (development support)
+
+      # Desktop portals and integration
+      - xdg-desktop-portal-hyprland # Desktop portal for Hyprland
+      - hyprpolkitagent # Hyprland-specific policy kit authentication agent
+
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: gui.desktop.install | default(false)

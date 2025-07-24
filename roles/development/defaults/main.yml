@@ -1,5 +1,5 @@
 ---
-# Default variables for development role - Essential development tools only
+# Default variables for development role - Software development environment
 
 development:
   # Core development tools installation
@@ -11,3 +11,5 @@ development:
   # Git enhanced tools  
   git_tools: true          # Install Git enhanced tools (GitHub CLI, etc.)
   
+  # Container development tools
+  containers: false        # Install container development tools (Docker, etc.)

@@ -1,0 +1,34 @@
+---
+# GNOME desktop environment installation
+
+- name: Install GNOME minimal desktop environment (always installed)
+  aur:
+    name:
+      # Core GNOME packages (minimal = gnome group)
+      - gnome # GNOME desktop environment meta-package
+      - gnome-tweaks # GNOME customization tool
+
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: gui.desktop.install | default(false)
+
+- name: Install additional GNOME packages for full installation
+  aur:
+    name:
+      # Additional GNOME applications and tools
+      - gnome-extra # Additional GNOME applications
+      - dconf-editor # Configuration editor
+
+      # GNOME-specific utilities
+      - gnome-browser-connector # Browser extension integration
+      - extension-manager # GNOME Shell extension manager
+
+      # GNOME applications (beyond gnome meta-package)
+      - gnome-text-editor # New GNOME text editor
+      - gnome-console # New GNOME terminal
+
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - gui.desktop.install | default(false)
+    - gui.desktop.gnome_install | default("minimal") == "full"

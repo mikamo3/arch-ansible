@@ -1,26 +1,34 @@
 ---
-# Development role main tasks - Development-specific tools only
+# Development role main tasks - Software development environment
 
 - name: Install Visual Studio Code
   aur:
     name:
-      - visual-studio-code-bin  # VS Code - GUI development editor
+      - visual-studio-code-bin # VS Code - GUI development editor
     state: present
   become_user: "{{ ansible_user }}"
-  when: 
+  when:
     - development.install
     - development.install_vscode
 
 - name: Install Git enhanced tools
   aur:
     name:
-      - git-lfs            # Git Large File Storage
-      - tig                # Text-mode interface for Git
-      - diff-so-fancy      # Better diff output
-      - cocogitto          # Conventional commits and semver CLI tool
-      - gibo               # .gitignore template generator
+      - git-lfs       # Git Large File Storage
+      - tig            # Text-mode interface for Git
+      - diff-so-fancy  # Better diff output
+      - cocogitto     # Conventional commits and semver CLI tool
+      - gibo          # .gitignore template generator
+      - tokei        # Count lines of code
+      - git-delta    # Better git diff viewer
     state: present
   become_user: "{{ ansible_user }}"
-  when: 
+  when:
     - development.install
     - development.git_tools
+
+- name: Include container development tools
+  ansible.builtin.import_tasks: containers.yml
+  when: 
+    - development.install
+    - development.containers

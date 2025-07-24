@@ -1,20 +1,6 @@
 ---
 # System services configuration
 
-- name: Enable and start NetworkManager
-  ansible.builtin.systemd:
-    name: NetworkManager
-    enabled: true
-    state: started
-  become: true
-
-- name: Enable and start SSH daemon
-  ansible.builtin.systemd:
-    name: sshd
-    enabled: true
-    state: started
-  become: true
-
 - name: Enable and start systemd-timesyncd
   ansible.builtin.systemd:
     name: systemd-timesyncd
@@ -23,16 +9,11 @@
   become: true
 
 - name: Verify service status
-  ansible.builtin.command: systemctl is-active {{ item }}
+  ansible.builtin.command: systemctl is-active systemd-timesyncd
   register: service_status
   changed_when: false
   failed_when: false
-  loop:
-    - NetworkManager
-    - sshd
-    - systemd-timesyncd
 
 - name: Display service status
   ansible.builtin.debug:
-    msg: "{{ item.item }} is {{ item.stdout }}"
-  loop: "{{ service_status.results }}"
+    msg: "systemd-timesyncd is {{ service_status.stdout }}"

@@ -1,6 +1,0 @@
----
-# Container role main tasks - Docker container runtime for home use
-
-- name: Import Docker configuration tasks
-  ansible.builtin.import_tasks: docker.yml
-  when: container.install

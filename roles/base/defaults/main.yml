@@ -33,15 +33,23 @@ base_packages:
   # Archive handling
   - unzip
   - zip
+  - p7zip
+  - unrar
+  - atool
   # tar, gzip are in base group
   
-  # System tools
+  # System tools  
   - lsof
   - strace
-  - usbutils
-  - dmidecode
   - smartmontools
   - reflector
+  
+  # Hardware information
+  - lshw
+  - hwinfo  
+  - pciutils
+  - usbutils
+  - dmidecode
   
   # File systems
   - dosfstools
@@ -66,7 +74,7 @@ main_user:
   groups:
     - wheel
     - users
-  shell: /bin/bash
+  shell: /bin/bash  # Temporary shell (changed by home role)
   create_home: true
 
 # Network configuration
@@ -81,4 +89,3 @@ static_network:
     - 8.8.4.4
 
 # Security configuration
-firewall_allow_dev_ports: true  # Allow common development ports (3000, 8000, 8080) from LAN
