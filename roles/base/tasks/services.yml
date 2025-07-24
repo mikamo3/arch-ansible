@@ -13,7 +13,3 @@
   register: service_status
   changed_when: false
   failed_when: false
-
-- name: Display service status
-  ansible.builtin.debug:
-    msg: "systemd-timesyncd is {{ service_status.stdout }}"

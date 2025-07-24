@@ -28,6 +28,7 @@ show_help() {
     echo "  office       - Office and document productivity tools"
     echo "  media        - Media editing and playback applications"
     echo "  cad          - Computer-aided design and engineering tools"
+    echo "  container    - Container runtime and tools (Docker, etc.)"
     echo "  development  - Software development environment"
     echo "  virtualization - Virtual machine infrastructure"
     echo "  home         - User home directory and dotfiles"

@@ -27,8 +27,3 @@
     - development.install
     - development.git_tools
 
-- name: Include container development tools
-  ansible.builtin.import_tasks: containers.yml
-  when: 
-    - development.install
-    - development.containers

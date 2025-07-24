@@ -5,17 +5,17 @@ gui:
   # Desktop environment configuration
   desktop:
     install: false
-    environment: "none"  # none/gnome/hyprland
-    gnome_install: "minimal"  # minimal/full
-  
-  # Display manager configuration  
+    environment: "none" # none/gnome/hyprland
+    gnome_install: "minimal" # minimal/full
+
+  # Display manager configuration
   display_manager:
     install: false
-    type: "none"  # none/gdm/ly
-  
+    type: "none" # none/gdm/ly
+
   # Font configuration
   fonts:
-    install: "minimal"  # minimal/full
+    install: "minimal" # minimal/full
 
 # Font family definitions
 gui_fonts:
@@ -29,7 +29,7 @@ gui_fonts:
     monospace:
       - "Cica"
       - "DejaVu Sans Mono"
-  
+
   full:
     serif:
       - "Noto Serif CJK JP"
@@ -49,26 +49,12 @@ gui_fonts:
       - "Noto Sans CJK JP"
     fantasy:
       - "Noto Sans CJK JP"
-  
+
   # Input method configuration (mandatory)
   inputmethod:
     install: true
     method: "fcitx5"
-  
+
   # Common utilities (for all desktop environments)
   common:
     install: true
-  
-  # Additional GUI applications
-  applications:
-    install: false          # Install additional GUI applications
-    document:
-      office_suite: true    # LibreOffice + Japanese support
-    media:
-      playback: false       # Spotify, comic readers, etc.
-      editing: false        # GIMP, Inkscape, etc.
-    storage:
-      cloud_sync: false     # rclone
-      encryption: false     # VeraCrypt
-    specialty:
-      cad: false           # FreeCAD, LibreCAD, KiCad

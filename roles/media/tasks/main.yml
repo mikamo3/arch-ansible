@@ -1,6 +1,15 @@
 ---
 # Media role main tasks - Media editing and playback applications
 
+- name: Install CLI media processing tools
+  aur:
+    name:
+      - ffmpeg                  # Video/audio processing toolkit
+      - imagemagick             # Command-line image manipulation
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: media.cli_tools
+
 - name: Install media playback applications
   aur:
     name:
@@ -15,7 +24,6 @@
     name:
       - gimp                    # Advanced image editor
       - inkscape                # Vector graphics editor
-      - imagemagick             # Command-line image manipulation
       - gpick                   # Color picker utility
     state: present
   become_user: "{{ ansible_user }}"

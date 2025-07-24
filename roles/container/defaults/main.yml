@@ -1,0 +1,6 @@
+---
+# Default variables for container role - Container runtime and tools
+
+# Container configuration options
+container:
+  install: false          # Install container runtime and tools
