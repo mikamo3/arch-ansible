@@ -1,12 +1,12 @@
 ---
-# chroot環境内でのシステム設定
-# arch-chroot /mnt を使って各コマンドをchroot内で実行
+# System configuration within chroot environment
+# Execute each command within chroot using arch-chroot /mnt
 
 - name: Install base system packages with pacstrap
   ansible.builtin.command: pacstrap -K /mnt base linux linux-firmware linux-zen linux-zen-headers networkmanager ansible
   become: true
 
-# pacmanキーリングの初期化・更新（PGPエラー対策）
+# Initialize and update pacman keyring (to prevent PGP errors)
 - name: Initialize pacman keyring in chroot
   ansible.builtin.command: arch-chroot /mnt pacman-key --init
   become: true
@@ -19,7 +19,7 @@
   ansible.builtin.command: arch-chroot /mnt pacman -Sy
   become: true
 
-# タイムゾーン設定
+# Timezone configuration
 - name: Set timezone in chroot
   ansible.builtin.command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/{{ init.timezone }} /etc/localtime
   become: true
@@ -28,7 +28,7 @@
   ansible.builtin.command: arch-chroot /mnt hwclock --systohc
   become: true
 
-# ローカリゼーション設定
+# Localization configuration
 - name: Enable locales in /etc/locale.gen
   ansible.builtin.lineinfile:
     path: /mnt/etc/locale.gen
@@ -55,7 +55,7 @@
     mode: "0644"
   become: true
 
-# ネットワーク設定
+# Network configuration
 - name: Create hostname file
   ansible.builtin.copy:
     content: "{{ init.hostname | default('archlinux') }}\n"
@@ -67,7 +67,7 @@
   ansible.builtin.command: arch-chroot /mnt systemctl enable NetworkManager
   become: true
 
-# Initramfs再生成（btrfs環境では必要な場合がある）
+# Regenerate initramfs (may be necessary in btrfs environment)
 - name: Regenerate initramfs in chroot
   ansible.builtin.command: arch-chroot /mnt mkinitcpio -P
   become: true
@@ -77,18 +77,18 @@
     - '"Initcpio image generation successful" not in mkinitcpio_result.stdout'
   changed_when: mkinitcpio_result.rc == 0
 
-# rootパスワード設定（interactive回避のため、事前にパスワードを設定）
+# Set root password (pre-configured to avoid interactive prompt)
 - name: Set root password in chroot
   ansible.builtin.shell: arch-chroot /mnt bash -c "echo 'root:{{ default_user_password  }}' | chpasswd"
   become: true
   when: default_user_password is defined
 
-# systemd-bootのセットアップ
+# Setup systemd-boot
 - name: Install systemd-boot in chroot
   ansible.builtin.command: arch-chroot /mnt bootctl install
   become: true
 
-# CPU情報を取得してmicrocodeパッケージを決定
+# Detect CPU information to determine microcode package
 - name: Detect CPU vendor
   ansible.builtin.shell: grep -m1 "vendor_id" /proc/cpuinfo | awk '{print $3}'
   register: cpu_vendor
@@ -159,7 +159,7 @@
     mode: "0644"
   become: true
 
-# linux-zenカーネル用のブートエントリー
+# Boot entry for linux-zen kernel
 - name: Create Arch Linux Zen boot entry
   ansible.builtin.copy:
     content: |

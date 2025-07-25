@@ -1,8 +1,0 @@
----
-- name: Profile-based deployment
-  import_playbook: "profiles/{{ machine_profile | default('desktop') }}.yml"
-  when: machine_profile is defined
-
-- name: Fallback to original mainpc playbook
-  import_playbook: mainpc.yml
-  when: machine_profile is not defined

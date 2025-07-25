@@ -1,5 +1,0 @@
----
-- include_tasks: enhanced_tools.yml
-  tags: [enhanced-tools, shells] # shells タグも追加して後方互換性確保
-- include_tasks: kawazu.yml
-  tags: [kawazu]

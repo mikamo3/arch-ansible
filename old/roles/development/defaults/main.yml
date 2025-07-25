@@ -1,8 +1,0 @@
----
-# Development role configuration
-setup_mise_languages: true
-
-# Default language versions (can be overridden in inventory)
-mise_python_version: "latest"
-mise_node_version: "lts"
-mise_ruby_version: "latest"

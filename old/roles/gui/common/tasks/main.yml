@@ -1,5 +1,0 @@
----
-- include_tasks: font.yml
-- include_tasks: icon.yml
-- include_tasks: inputmethod.yml
-- include_tasks: utils.yml

@@ -1,5 +1,5 @@
 ---
-# システムクロックの更新（ライブ環境用）
+# Update system clock (for live environment)
 
 - name: Check systemd-timesyncd status
   ansible.builtin.command: timedatectl status
@@ -8,7 +8,7 @@
 - name: Show timedatectl status
   ansible.builtin.debug:
     var: timedatectl_status.stdout
-# 必要に応じて時刻同期の強制更新も追加可能
+# Optional: force time sync update can be added as needed
 # - name: Force time sync
 #   ansible.builtin.command: timedatectl set-ntp true
 #   become: true

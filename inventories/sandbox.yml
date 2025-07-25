@@ -5,7 +5,7 @@ sandbox:
       ansible_host: 192.168.122.100
       ansible_port: 22
       ansible_user: ansible
-      ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
       target_disk: /dev/vda
   vars:
     # Init role configuration (system installation)
@@ -13,9 +13,9 @@ sandbox:
       timezone: "Asia/Tokyo"
       locale:
         enabled:
-          - "en_US.UTF-8 UTF-8" 
+          - "en_US.UTF-8 UTF-8"
           - "ja_JP.UTF-8 UTF-8"
-        lang: "en_US.UTF-8"
+        lang: "ja_JP.UTF-8 UTF-8"
       hostname: "sandboxvm"
 
     # Base role configuration
@@ -42,14 +42,14 @@ sandbox:
     devices:
       gpu:
         install: true
-        type: "vm-qemu"  # VirtIO video + SPICE
+        type: "vm-qemu" # VirtIO video + SPICE
       audio:
-        install: true    # ICH9 audio + SPICE available
+        install: true # ICH9 audio + SPICE available
       bluetooth:
-        install: false   # No Bluetooth in VM
+        install: false # No Bluetooth in VM
       printer:
-        install: false   # No printer in VM
-    
+        install: false # No printer in VM
+
     # Desktop role configuration (for testing)
     desktop:
       environment:
@@ -66,42 +66,42 @@ sandbox:
         method: "fcitx5"
       common:
         install: true
-    
+
     # Storage configuration (for testing)
     storage:
-      cloud_sync: false     # Skip in sandbox
-      encryption: false     # Skip in sandbox
-    
+      cloud_sync: false # Skip in sandbox
+      encryption: false # Skip in sandbox
+
     # Office configuration (for testing)
     office:
-      office_suite: true    # Test LibreOffice
-    
+      office_suite: true # Test LibreOffice
+
     # Media configuration (for testing)
     media:
-      cli_tools: false      # Skip CLI media tools in sandbox
-      playback: false       # Skip heavy applications in sandbox
-      editing: false        # Skip heavy editing tools in sandbox
-    
+      cli_tools: false # Skip CLI media tools in sandbox
+      playback: false # Skip heavy applications in sandbox
+      editing: false # Skip heavy editing tools in sandbox
+
     # CAD configuration (for testing)
     cad:
-      install: false        # Skip heavy CAD tools in sandbox
-    
+      install: false # Skip heavy CAD tools in sandbox
+
     # Container configuration (for testing)
     container:
       install: true
       enable_service: true
       add_user_to_group: true
       tools:
-        install_compose: true   # Test Docker Compose
-        install_buildah: false  # Skip in sandbox
-        install_skopeo: false   # Skip in sandbox
-    
+        install_compose: true # Test Docker Compose
+        install_buildah: false # Skip in sandbox
+        install_skopeo: false # Skip in sandbox
+
     # Development configuration (for testing)
     development:
       install: true
-      install_vscode: true      # GUI development editor
-      git_tools: true           # Git enhanced tools
-    
+      install_vscode: true # GUI development editor
+      git_tools: true # Git enhanced tools
+
     # Virtualization configuration (for testing)
     virtualization:
       install: true
@@ -109,26 +109,26 @@ sandbox:
         install_virt_manager: true
       networking:
         enable_default_network: true
-        enable_bridge: false    # Keep it simple for sandbox
+        enable_bridge: false # Keep it simple for sandbox
       user:
         add_to_libvirt_group: true
       services:
         enable_libvirtd: true
         start_on_boot: true
-    
+
     # Home directory configuration (for testing)
     home:
       install: true
       xdg:
-        force_english: true     # Force English directory names
+        force_english: true # Force English directory names
       directories:
-        create_structure: true  # Create organized directory structure
-        create_dev_dirs: true   # Create source directory for testing
+        create_structure: true # Create organized directory structure
+        create_dev_dirs: true # Create source directory for testing
       shell:
-        configure: true         # Test shell configuration
-        preferred_shell: "/usr/bin/fish"  # Test with fish shell
+        configure: true # Test shell configuration
+        preferred_shell: "/usr/bin/fish" # Test with fish shell
       dotfiles:
-        install_kawazu: true    # Install kawazu for testing
-        manage_dotfiles: true   # Test dotfiles application
+        install_kawazu: true # Install kawazu for testing
+        manage_dotfiles: true # Test dotfiles application
         repository: "https://github.com/mikamo3/dotfiles"
         branch: "master"

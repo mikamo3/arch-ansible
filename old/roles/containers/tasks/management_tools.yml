@@ -1,8 +1,0 @@
----
-- name: install container management tools
-  become: true
-  become_user: aur
-  aur:
-    name:
-      - lazydocker # Easy Docker TUI management
-      - ctop # Container monitoring

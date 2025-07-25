@@ -1,8 +1,0 @@
----
-- name: install icon theme
-  become: true
-  become_user: aur
-  aur:
-    name:
-      - bibata-cursor-git
-      - rose-pine-hyprcursor

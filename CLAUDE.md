@@ -229,7 +229,6 @@ ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-f
 
 ### Filesystem Handling
 - All btrfs operations use `compress=zstd:3,ssd,discard=async,space_cache=v2`
-- Cleanup handlers automatically unmount `/mnt` filesystems after installation
 - `genfstab -U` generates UUID-based fstab entries
 
 ### Legacy Structure

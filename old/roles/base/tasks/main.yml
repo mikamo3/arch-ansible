@@ -1,5 +1,0 @@
----
-- include_tasks: package_config.yml
-- include_tasks: essential_packages.yml
-- include_tasks: system_config.yml
-- include_tasks: core_services.yml
