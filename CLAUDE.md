@@ -59,6 +59,16 @@ This is an Ansible automation project for Arch Linux installation and configurat
   - Components: 3D CAD (FreeCAD), 2D CAD (LibreCAD), electronic design (KiCad)
   - Design: Professional design and engineering workflow support
 
+- **container role**: Container runtime and development tools
+  - Purpose: Container runtime for application deployment and development
+  - Components: Docker, Docker Compose, Buildah, container management tools
+  - Design: Independent container infrastructure, separate from development environment
+
+- **development role**: Software development environment
+  - Purpose: Programming and development tools (excluding containers)
+  - Components: IDEs (Visual Studio Code), version control (Git), development utilities
+  - Design: Pure development environment setup, containers handled separately
+
 - **devices role**: Hardware-specific driver and device management
   - Purpose: Install and configure hardware-dependent packages based on inventory specification
   - Components: GPU drivers, audio systems, Bluetooth, printer support
@@ -180,7 +190,7 @@ ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-f
 - **Phase**: Role restructuring completed, optimization phase
 - **Focus**: Function-based role architecture implementation completed
 - **Completed restructuring**: All core roles restructured to function-based architecture
-- **New role structure**: shell, desktop, storage, office, media, cad, development, devices, virtualization, home
+- **New role structure**: shell, desktop, storage, office, media, cad, container, development, devices, virtualization, home
 
 ### Testing Changes
 1. Test in sandbox environment first: `./run_sandbox.sh --check`
@@ -198,7 +208,7 @@ ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-f
 - **Function-based grouping**: Roles organized by primary function rather than interface type (CLI/GUI)
 - **Clear responsibility separation**: Each role has distinct purpose and scope
 - **Minimal cross-dependencies**: Roles should be largely independent except for clear hierarchical dependencies
-- **Consistent naming**: Role names reflect primary function (shell, desktop, storage, office, media, development, cad, devices, virtualization, home)
+- **Consistent naming**: Role names reflect primary function (shell, desktop, storage, office, media, cad, container, development, devices, virtualization, home)
 - **Variable-controlled execution**: Default role settings are `false` - enable per-machine via inventory variables
 - **Single playbook approach**: `playbook/main.yml` serves all machines, controlled by inventory-specific variables
 
