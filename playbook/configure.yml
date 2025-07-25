@@ -1,14 +1,13 @@
 ---
-# Legacy main playbook - DEPRECATED
-# Use install.yml for system installation and configure.yml for system configuration
-# This file is kept for backward compatibility only
+# Arch Linux System Configuration Playbook  
+# This playbook configures an already installed Arch Linux system
+# Safe to run multiple times for updates and configuration changes
 
 - hosts: all
   become: true
   vars_files:
     - ../vars/secret.yml
   roles:
-    - { role: init, tags: [init, never] }
     - { role: base, tags: [base] }
     - { role: shell, tags: [shell] }
     - { role: devices, tags: [devices] }

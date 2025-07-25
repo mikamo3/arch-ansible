@@ -2,6 +2,9 @@
 # Default variables for init role - System installation configuration using role-scoped naming
 
 init:
+  # Target disk for installation (will be completely wiped)
+  target_disk: "/dev/sda"  # Default target disk - OVERRIDE IN INVENTORY
+  
   # System localization
   timezone: "Asia/Tokyo"
   locale:

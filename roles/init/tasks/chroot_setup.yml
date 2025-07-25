@@ -120,7 +120,7 @@
   when: cpu_vendor.stdout not in ["GenuineIntel", "AuthenticAMD"]
 
 - name: Get root partition UUID
-  ansible.builtin.shell: blkid -s UUID -o value {{ target_disk }}2
+  ansible.builtin.shell: blkid -s UUID -o value {{ init.target_disk }}2
   register: root_uuid
   become: true
 

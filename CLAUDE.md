@@ -8,9 +8,10 @@ This is an Ansible automation project for Arch Linux installation and configurat
 
 ## Key Architecture Components
 
-### Two-Phase Setup Process
+### Three-Phase Setup Process
 1. **Installation Media Phase**: Run `init.sh` on Arch Linux installation disk to prepare Ansible environment
-2. **Ansible Automation Phase**: Execute playbooks from external machine to perform partitioning and system installation
+2. **System Installation Phase**: Execute `install.yml` playbook (init role) from external machine to perform disk partitioning and base system installation
+3. **System Configuration Phase**: Execute `configure.yml` playbook (all other roles) to configure the installed system
 
 ### Core Roles Structure
 
@@ -123,26 +124,37 @@ This is an Ansible automation project for Arch Linux installation and configurat
 
 ## Common Commands
 
-### Main Playbook Execution
+### System Installation (from Arch Linux installation media)
 ```bash
-# Run main playbook (all roles except init)
-./run_sandbox.sh
+# Interactive installation (recommended)
+./install_system.sh
 
-# Dry run
-./run_sandbox.sh --check
+# Direct inventory specification
+./install_system.sh -i inventories/sandbox.yml
 
-# Verbose output  
-./run_sandbox.sh --verbose
-
-# Run specific role
-./run_sandbox.sh --role shell
-./run_sandbox.sh --tags base,shell
-
-# Skip specific role
-./run_sandbox.sh --skip-tags desktop
+# Dry run to check configuration
+./install_system.sh -c
 
 # Manual execution
-ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-file .vault_pass --extra-vars "@password.yml"
+ansible-playbook -i inventories/sandbox.yml playbook/install.yml --vault-password-file .vault_pass --extra-vars "@password.yml"
+```
+
+### System Configuration (after installation)
+```bash
+# Interactive configuration (all roles)
+./run_playbook.sh
+
+# Direct inventory specification
+./run_playbook.sh -i inventories/sandbox.yml
+
+# Dry run
+./run_playbook.sh -c
+
+# Specific roles only
+./run_playbook.sh -t base,shell
+
+# Manual execution
+ansible-playbook -i inventories/sandbox.yml playbook/configure.yml --vault-password-file .vault_pass --extra-vars "@password.yml"
 ```
 
 ### Installation Media Setup
@@ -162,8 +174,8 @@ ansible-galaxy collection install community.general
 # Test connectivity
 ansible sandbox -i inventories/sandbox.yml -m ping
 
-# Run with vault password
-ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-file .vault_pass
+# Run system configuration
+ansible-playbook -i inventories/sandbox.yml playbook/configure.yml --vault-password-file .vault_pass
 ```
 
 ## Configuration Files
@@ -184,18 +196,31 @@ ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-f
 - Host key checking disabled for automation
 - Python interpreter: `/usr/bin/python`
 
+### Playbook Structure
+- `playbook/install.yml`: System installation (init role only) - **WARNING: Destructive operation**
+- `playbook/configure.yml`: System configuration (all roles except init) - Safe to run multiple times
+- `playbook/main.yml`: Legacy playbook (deprecated) - Kept for backward compatibility
+
+**Execution Scripts:**
+- `install_system.sh`: Interactive script for system installation with safety confirmations
+- `run_playbook.sh`: Interactive script for system configuration with role selection
+
 ## Development Workflow
 
 ### Current Development Status
-- **Phase**: Role restructuring completed, optimization phase
-- **Focus**: Function-based role architecture implementation completed
-- **Completed restructuring**: All core roles restructured to function-based architecture
-- **New role structure**: shell, desktop, storage, office, media, cad, container, development, devices, virtualization, home
+- **Phase**: Infrastructure refactoring completed, ready for feature development
+- **Completed Tasks**:
+  - Function-based role architecture implementation
+  - Variable restructuring to role-scoped naming (`rolename.variable`)
+  - Playbook separation into installation and configuration phases
+  - Interactive execution scripts with fzf integration
+- **Current Structure**: shell, desktop, storage, office, media, cad, container, development, devices, virtualization, home
 
 ### Testing Changes
-1. Test in sandbox environment first: `./run_sandbox.sh --check`
-2. Verify partition layout with `lsblk` after successful run
-3. Check mounted subvolumes in `/mnt` directory structure
+1. Test system configuration in sandbox environment first: `./run_playbook.sh -c`
+2. For installation testing: `./install_system.sh -c` (dry run)
+3. Verify partition layout with `lsblk` after successful installation run
+4. Check mounted subvolumes in `/mnt` directory structure
 
 ### Adding New Tasks
 - Add tasks to appropriate files in respective role directories (`roles/{role_name}/tasks/`)

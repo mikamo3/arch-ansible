@@ -28,7 +28,7 @@ check_dependencies() {
 
 # Show usage information
 show_help() {
-    echo -e "${CYAN}===== Arch Linux Ansible Interactive Runner =====${NC}"
+    echo -e "${CYAN}===== Arch Linux System Configuration Runner =====${NC}"
     echo "Usage: $0 [OPTIONS]"
     echo ""
     echo "Options:"
@@ -266,9 +266,9 @@ run_ansible() {
 #        exit 1
 #    fi
     
-    # Execute playbook
+    # Execute playbook  
     echo -e "${GREEN}🚀 Executing Ansible playbook...${NC}"
-    echo ansible-playbook -i "$inventory" playbook/main.yml "${ansible_opts[@]}" --vault-password-file .vault_pass --extra-vars "@password.yml"
+    echo ansible-playbook -i "$inventory" playbook/configure.yml "${ansible_opts[@]}" --vault-password-file .vault_pass --extra-vars "@password.yml"
     
     echo -e "${GREEN}✅ Completed${NC}"
 }
@@ -283,7 +283,7 @@ main() {
         exit 0
     fi
     
-    echo -e "${CYAN}===== Arch Linux Ansible Interactive Runner =====${NC}"
+    echo -e "${CYAN}===== Arch Linux System Configuration Runner =====${NC}"
     
     local inventory=""
     local tags=""
