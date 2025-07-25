@@ -236,3 +236,17 @@ ansible-playbook -i inventories/sandbox.yml playbook/main.yml --vault-password-f
 - `old/` directory contains previous iteration with extensive role collection
 - Current structure focuses on core installation functionality
 - Legacy roles available for reference: GUI (GNOME, Hyprland, i3), development tools, containers, etc.
+
+## Code Style Guidelines
+
+### Language and Comments
+- **Use English for all code comments, variable names, and messages**
+- Avoid Japanese text in code except for user-facing messages where appropriate
+- Write clear, concise comments that explain the purpose and logic
+- Use consistent naming conventions throughout the codebase
+
+### Code Organization
+- Follow existing patterns and conventions in the codebase
+- Use meaningful function and variable names that describe their purpose
+- Keep functions focused on a single responsibility
+- Group related functionality together
