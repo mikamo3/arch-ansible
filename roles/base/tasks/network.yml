@@ -14,25 +14,25 @@
       ansible.builtin.copy:
         content: |
           [connection]
-          id=static-{{ static_network.interface }}
+          id=static-{{ base.static_network.interface }}
           type=ethernet
-          interface-name={{ static_network.interface }}
+          interface-name={{ base.static_network.interface }}
           autoconnect=false
           
           [ethernet]
           
           [ipv4]
           method=manual
-          address1={{ static_network.ip_address }}/{{ static_network.prefix }},{{ static_network.gateway }}
-          dns={{ static_network.dns_servers | join(';') }}
+          address1={{ base.static_network.ip_address }}/{{ base.static_network.prefix }},{{ base.static_network.gateway }}
+          dns={{ base.static_network.dns_servers | join(';') }}
           
           [ipv6]
           method=ignore
           
           [proxy]
-        dest: "/etc/NetworkManager/system-connections/static-{{ static_network.interface }}.nmconnection"
+        dest: "/etc/NetworkManager/system-connections/static-{{ base.static_network.interface }}.nmconnection"
         mode: '0600'
         backup: true
       become: true
       notify: reload networkmanager
-  when: static_network.enabled | default(false)
+  when: base.static_network.enabled | default(false)

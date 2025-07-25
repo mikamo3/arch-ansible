@@ -26,7 +26,7 @@
         daemon_reload: true
       become: true
       
-  when: gui.display_manager.type == "gdm"
+  when: desktop.display_manager.type == "gdm"
 
 - name: Install ly display manager
   block:
@@ -44,4 +44,4 @@
         daemon_reload: true
       become: true
       
-  when: gui.display_manager.type == "ly"
+  when: desktop.display_manager.type == "ly"

@@ -8,8 +8,8 @@
 - name: Include time sync tasks
   ansible.builtin.import_tasks: time_sync.yml
 
-- name: Set timezone to Asia/Tokyo
-  ansible.builtin.command: timedatectl set-timezone Asia/Tokyo
+- name: Set timezone
+  ansible.builtin.command: timedatectl set-timezone {{ init.timezone }}
   become: true
 
 - name: Include chroot system setup tasks

@@ -17,7 +17,7 @@
 
 - name: Install essential packages
   community.general.pacman:
-    name: "{{ base_packages }}"
+    name: "{{ base.essential_packages }}"
     state: present
   become: true
   register: essential_packages_result
@@ -31,7 +31,7 @@
 - name: Run reflector to optimize mirrorlist
   ansible.builtin.command: reflector --country 'JP' --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
   become: true
-  when: essential_packages_result.changed and 'reflector' in base_packages
+  when: essential_packages_result.changed and 'reflector' in base.essential_packages
 
 - name: Setup reflector hook for automatic mirror updates
   block:
@@ -55,7 +55,7 @@
 
 - name: Install AUR packages
   aur:
-    name: "{{ aur_packages }}"
+    name: "{{ base.aur_packages }}"
     state: present
   become_user: "{{ ansible_user }}"
-  when: aur_packages is defined and aur_packages | length > 0
+  when: base.aur_packages is defined and base.aur_packages | length > 0

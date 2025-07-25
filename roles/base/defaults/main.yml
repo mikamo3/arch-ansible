@@ -1,91 +1,92 @@
 ---
-# Default variables for base role
+# Default variables for base role - using role-scoped naming
 
-# Pacman configuration
-parallel_downloads: 5
+base:
+  # Pacman configuration
+  parallel_downloads: 5
 
-# Essential packages
-base_packages:
-  # Core system
-  - base-devel
-  - linux-headers
-  - archlinux-keyring
-  
-  # Network
-  - networkmanager
-  - openssh
-  - wget
-  - curl
-  - inetutils
-  
-  # Essential tools
-  - git
-  - vim
-  - nano
-  - man-db
-  - tree
-  - htop
-  - less
-  - which
-  - sudo
-  - rsync
-  
-  # Archive handling
-  - unzip
-  - zip
-  - p7zip
-  - unrar
-  - atool
-  # tar, gzip are in base group
-  
-  # System tools  
-  - lsof
-  - strace
-  - smartmontools
-  - reflector
-  
-  # Hardware information
-  - lshw
-  - hwinfo  
-  - pciutils
-  - usbutils
-  - dmidecode
-  
-  # File systems
-  - dosfstools
-  - ntfs-3g
-  - btrfs-progs
-  
-  # Security tools
-  - logwatch
-  - rkhunter
+  # Essential packages
+  essential_packages:
+    # Core system
+    - base-devel
+    - linux-headers
+    - archlinux-keyring
+    
+    # Network
+    - networkmanager
+    - openssh
+    - wget
+    - curl
+    - inetutils
+    
+    # Essential tools
+    - git
+    - vim
+    - nano
+    - man-db
+    - tree
+    - htop
+    - less
+    - which
+    - sudo
+    - rsync
+    
+    # Archive handling
+    - unzip
+    - zip
+    - p7zip
+    - unrar
+    - atool
+    # tar, gzip are in base group
+    
+    # System tools  
+    - lsof
+    - strace
+    - smartmontools
+    - reflector
+    
+    # Hardware information
+    - lshw
+    - hwinfo  
+    - pciutils
+    - usbutils
+    - dmidecode
+    
+    # File systems
+    - dosfstools
+    - ntfs-3g
+    - btrfs-progs
+    
+    # Security tools
+    - logwatch
+    - rkhunter
 
-# AUR packages (optional)
-aur_packages: []
-  # - yay-bin  # Alternative to building yay
-  # - google-chrome
+  # AUR packages (optional)
+  aur_packages: []
+    # - yay-bin  # Alternative to building yay
+    # - google-chrome
 
-# System configuration
-hostname: archlinux  # Default hostname (should be overridden in inventory)
+  # System configuration
+  hostname: archlinux  # Default hostname (should be overridden in inventory)
 
-# User configuration
-main_user:
-  name: user  # Override in inventory
-  groups:
-    - wheel
-    - users
-  shell: /bin/bash  # Temporary shell (changed by home role)
-  create_home: true
+  # User configuration
+  main_user:
+    name: user  # Override in inventory
+    groups:
+      - wheel
+      - users
+    shell: /bin/bash  # Temporary shell (changed by home role)
+    create_home: true
 
-# Network configuration
-static_network:
-  enabled: false  # Set to true in inventory to enable static IP
-  interface: eth0  # Network interface to configure
-  ip_address: 192.168.1.100
-  prefix: 24  # CIDR prefix (24 = /24 = 255.255.255.0)
-  gateway: 192.168.1.1
-  dns_servers:
-    - 8.8.8.8
-    - 8.8.4.4
+  # Network configuration
+  static_network:
+    enabled: false  # Set to true in inventory to enable static IP
+    interface: eth0  # Network interface to configure
+    ip_address: 192.168.1.100
+    prefix: 24  # CIDR prefix (24 = /24 = 255.255.255.0)
+    gateway: 192.168.1.1
+    dns_servers:
+      - 8.8.8.8
+      - 8.8.4.4
 
-# Security configuration
+  # Security configuration

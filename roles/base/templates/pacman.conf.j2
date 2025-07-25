@@ -14,7 +14,7 @@ Color
 #NoProgressBar
 CheckSpace
 #VerbosePkgLists
-ParallelDownloads = {{ parallel_downloads | default(5) }}
+ParallelDownloads = {{ base.parallel_downloads | default(5) }}
 ILoveCandy
 
 SigLevel = Required DatabaseOptional

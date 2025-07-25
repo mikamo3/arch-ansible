@@ -5,14 +5,14 @@
   block:
     - name: Create main user
       ansible.builtin.user:
-        name: "{{ main_user.name }}"
-        groups: "{{ main_user.groups }}"
-        shell: "{{ main_user.shell }}"
-        create_home: "{{ main_user.create_home }}"
+        name: "{{ base.main_user.name }}"
+        groups: "{{ base.main_user.groups }}"
+        shell: "{{ base.main_user.shell }}"
+        create_home: "{{ base.main_user.create_home }}"
         password: "{{ default_user_password_hash }}"
         state: present
       become: true
-      when: main_user.name is defined
+      when: base.main_user.name is defined
 
     - name: Configure sudo for wheel group
       ansible.builtin.lineinfile:

@@ -16,7 +16,7 @@
     state: present
   when:
     - container.install
-    - container.install_compose
+    - container.tools.install_compose
 
 - name: Install optional container tools
   pacman:
@@ -40,7 +40,7 @@
 
 - name: Add main user to docker group
   ansible.builtin.user:
-    name: "{{ main_user.name }}"
+    name: "{{ base.main_user.name }}"
     groups: docker
     append: true
   become: true

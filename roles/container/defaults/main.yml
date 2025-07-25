@@ -4,3 +4,9 @@
 # Container configuration options
 container:
   install: false          # Install container runtime and tools
+  enable_service: true    # Enable and start Docker service
+  add_user_to_group: true # Add main user to docker group
+  tools:
+    install_compose: false # Install Docker Compose standalone
+    install_buildah: false # Install Buildah for advanced image building
+    install_skopeo: false  # Install Skopeo for image management

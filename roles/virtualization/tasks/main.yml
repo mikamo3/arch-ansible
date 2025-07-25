@@ -25,7 +25,7 @@
 
 - name: Add main user to libvirt group
   ansible.builtin.user:
-    name: "{{ main_user.name }}"
+    name: "{{ base.main_user.name }}"
     groups: libvirt
     append: true
   become: true
@@ -47,7 +47,7 @@
       ansible.builtin.command: virsh net-list --all --name
       register: existing_networks
       changed_when: false
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       failed_when: false
 
     - name: Create default network XML from template
@@ -55,21 +55,21 @@
         src: default-network.xml.j2
         dest: /tmp/default-network.xml
         mode: "0644"
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"
 
     - name: Define default network
       ansible.builtin.command: virsh net-define /tmp/default-network.xml
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"
 
     - name: Enable default network autostart
       ansible.builtin.command: virsh net-autostart default
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       failed_when: false
       when:
         - existing_networks.rc == 0
@@ -77,7 +77,7 @@
 
     - name: Start default network
       ansible.builtin.command: virsh net-start default
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       failed_when: false
       when:
         - existing_networks.rc == 0
@@ -87,7 +87,7 @@
       ansible.builtin.file:
         path: /tmp/default-network.xml
         state: absent
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"

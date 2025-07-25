@@ -31,7 +31,7 @@
 
     state: present
   become_user: "{{ ansible_user }}"
-  when: gui.fonts.install == "full"
+  when: desktop.fonts.install == "full"
 
 - name: Create system-wide fontconfig
   ansible.builtin.template:
@@ -40,8 +40,8 @@
     mode: "0644"
   become: true
   vars:
-    gui_fonts: "{{ gui_fonts[gui.fonts.install] }}"
-  when: not system_fontconfig_stat.stat.exists
+    desktop_font_families: "{{ desktop.font_families[desktop.fonts.install] }}"
+  when: desktop.fonts.install is defined
 
 - name: Refresh font cache
   ansible.builtin.command: fc-cache -fv

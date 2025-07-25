@@ -1,11 +1,11 @@
 ---
-# Default variables for GUI role - Desktop environment configuration
+# Default variables for desktop role - Desktop environment configuration using role-scoped naming
 
-gui:
+desktop:
   # Desktop environment configuration
-  desktop:
+  environment:
     install: false
-    environment: "none" # none/gnome/hyprland
+    type: "none" # none/gnome/hyprland
     gnome_install: "minimal" # minimal/full
 
   # Display manager configuration
@@ -17,39 +17,6 @@ gui:
   fonts:
     install: "minimal" # minimal/full
 
-# Font family definitions
-gui_fonts:
-  minimal:
-    serif:
-      - "Noto Serif CJK JP"
-      - "Noto Serif"
-    sans_serif:
-      - "Noto Sans CJK JP"
-      - "Noto Sans"
-    monospace:
-      - "Cica"
-      - "DejaVu Sans Mono"
-
-  full:
-    serif:
-      - "Noto Serif CJK JP"
-      - "Noto Serif"
-    sans_serif:
-      - "LINE Seed JP_TTF"
-      - "BIZTER"
-      - "Noto Sans CJK JP"
-      - "Noto Sans"
-    monospace:
-      - "PlemolJP Console"
-      - "Cica"
-      - "IBM Plex Mono"
-      - "Noto Sans Mono"
-      - "DejaVu Sans Mono"
-    cursive:
-      - "Noto Sans CJK JP"
-    fantasy:
-      - "Noto Sans CJK JP"
-
   # Input method configuration (mandatory)
   inputmethod:
     install: true
@@ -58,3 +25,36 @@ gui_fonts:
   # Common utilities (for all desktop environments)
   common:
     install: true
+
+  # Font family definitions
+  font_families:
+    minimal:
+      serif:
+        - "Noto Serif CJK JP"
+        - "Noto Serif"
+      sans_serif:
+        - "Noto Sans CJK JP"
+        - "Noto Sans"
+      monospace:
+        - "Cica"
+        - "DejaVu Sans Mono"
+
+    full:
+      serif:
+        - "Noto Serif CJK JP"
+        - "Noto Serif"
+      sans_serif:
+        - "LINE Seed JP_TTF"
+        - "BIZTER"
+        - "Noto Sans CJK JP"
+        - "Noto Sans"
+      monospace:
+        - "PlemolJP Console"
+        - "Cica"
+        - "IBM Plex Mono"
+        - "Noto Sans Mono"
+        - "DejaVu Sans Mono"
+      cursive:
+        - "Noto Sans CJK JP"
+      fantasy:
+        - "Noto Sans CJK JP"

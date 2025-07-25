@@ -3,17 +3,17 @@
 
 - name: Setup XDG user directories with English names
   ansible.builtin.shell: LC_ALL=C xdg-user-dirs-update --force
-  become_user: "{{ main_user.name }}"
+  become_user: "{{ base.main_user.name }}"
   when:
     - home.install
     - home.xdg.force_english
 
 - name: Create essential home directories
   ansible.builtin.file:
-    path: "/home/{{ main_user.name }}/{{ item }}"
+    path: "/home/{{ base.main_user.name }}/{{ item }}"
     state: directory
-    owner: "{{ main_user.name }}"
-    group: "{{ main_user.name }}"
+    owner: "{{ base.main_user.name }}"
+    group: "{{ base.main_user.name }}"
     mode: "0755"
   become: true
   loop:
@@ -31,10 +31,10 @@
 
 - name: Create source directories
   ansible.builtin.file:
-    path: "/home/{{ main_user.name }}/{{ item }}"
+    path: "/home/{{ base.main_user.name }}/{{ item }}"
     state: directory
-    owner: "{{ main_user.name }}"
-    group: "{{ main_user.name }}"
+    owner: "{{ base.main_user.name }}"
+    group: "{{ base.main_user.name }}"
     mode: "0755"
   become: true
   loop:
@@ -45,7 +45,7 @@
 
 - name: Set user shell
   ansible.builtin.user:
-    name: "{{ main_user.name }}"
+    name: "{{ base.main_user.name }}"
     shell: "{{ home.shell.preferred_shell }}"
   become: true
   when:
@@ -84,16 +84,16 @@
     - name: Clone dotfiles repository
       ansible.builtin.git:
         repo: "{{ home.dotfiles.repository }}"
-        dest: "/home/{{ main_user.name }}/.kawazu/dotfiles"
+        dest: "/home/{{ base.main_user.name }}/.kawazu/dotfiles"
         version: "{{ home.dotfiles.branch }}"
         update: false
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       register: dotfiles_clone_result
 
     - name: Apply dotfiles with kawazu
       ansible.builtin.shell: |
         bash -c 'source /usr/lib/kawazu/kawazu.sh; yes | KAWAZU_ROOT_DIR=/usr/lib/kawazu kawazu -f link'
-      become_user: "{{ main_user.name }}"
+      become_user: "{{ base.main_user.name }}"
       register: kawazu_apply_result
       ignore_errors: true
       when: dotfiles_clone_result.changed

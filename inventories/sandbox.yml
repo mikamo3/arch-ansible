@@ -8,28 +8,35 @@ sandbox:
       ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
       target_disk: /dev/vda
   vars:
-    # System configuration
-    hostname: sandboxvm
+    # Init role configuration (system installation)
+    init:
+      timezone: "Asia/Tokyo"
+      locale:
+        enabled:
+          - "en_US.UTF-8 UTF-8" 
+          - "ja_JP.UTF-8 UTF-8"
+        lang: "en_US.UTF-8"
+      hostname: "sandboxvm"
 
-    # Main user configuration
-    main_user:
-      name: testuser
-      groups:
-        - wheel
-        - users
-      shell: /bin/bash
-      create_home: true
-
-    # Network configuration (optional - disabled by default)
-    static_network:
-      enabled: true
-      interface: enp2s0
-      ip_address: 192.168.122.100
-      prefix: 24
-      gateway: 192.168.122.1
-      dns_servers:
-        - 192.168.122.1
-        - 8.8.8.8
+    # Base role configuration
+    base:
+      hostname: sandboxvm
+      main_user:
+        name: testuser
+        groups:
+          - wheel
+          - users
+        shell: /bin/bash
+        create_home: true
+      static_network:
+        enabled: true
+        interface: enp2s0
+        ip_address: 192.168.122.100
+        prefix: 24
+        gateway: 192.168.122.1
+        dns_servers:
+          - 192.168.122.1
+          - 8.8.8.8
 
     # Devices configuration (for testing)
     devices:
@@ -43,11 +50,11 @@ sandbox:
       printer:
         install: false   # No printer in VM
     
-    # GUI configuration (for testing)
-    gui:
-      desktop:
+    # Desktop role configuration (for testing)
+    desktop:
+      environment:
         install: true
-        environment: "gnome"
+        type: "gnome"
         gnome_install: "minimal"
       display_manager:
         install: true
@@ -59,28 +66,35 @@ sandbox:
         method: "fcitx5"
       common:
         install: true
-      applications:
-        install: true
-        document:
-          office_suite: true    # Test LibreOffice
-        media:
-          playback: false       # Skip heavy applications in sandbox
-          editing: false        # Skip heavy editing tools in sandbox
-        storage:
-          cloud_sync: false     # Skip in sandbox
-          encryption: false     # Skip in sandbox
-        specialty:
-          cad: false           # Skip heavy CAD tools in sandbox
+    
+    # Storage configuration (for testing)
+    storage:
+      cloud_sync: false     # Skip in sandbox
+      encryption: false     # Skip in sandbox
+    
+    # Office configuration (for testing)
+    office:
+      office_suite: true    # Test LibreOffice
+    
+    # Media configuration (for testing)
+    media:
+      cli_tools: false      # Skip CLI media tools in sandbox
+      playback: false       # Skip heavy applications in sandbox
+      editing: false        # Skip heavy editing tools in sandbox
+    
+    # CAD configuration (for testing)
+    cad:
+      install: false        # Skip heavy CAD tools in sandbox
     
     # Container configuration (for testing)
     container:
       install: true
-      install_compose: false  # Use bundled docker compose
-      add_user_to_group: true
       enable_service: true
+      add_user_to_group: true
       tools:
-        install_buildah: false
-        install_skopeo: false
+        install_compose: true   # Test Docker Compose
+        install_buildah: false  # Skip in sandbox
+        install_skopeo: false   # Skip in sandbox
     
     # Development configuration (for testing)
     development:

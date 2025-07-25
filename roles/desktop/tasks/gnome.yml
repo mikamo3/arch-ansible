@@ -10,7 +10,7 @@
 
     state: present
   become_user: "{{ ansible_user }}"
-  when: gui.desktop.install | default(false)
+  when: desktop.environment.install | default(false)
 
 - name: Install additional GNOME packages for full installation
   aur:
@@ -30,5 +30,5 @@
     state: present
   become_user: "{{ ansible_user }}"
   when:
-    - gui.desktop.install | default(false)
-    - gui.desktop.gnome_install | default("minimal") == "full"
+    - desktop.environment.install | default(false)
+    - desktop.environment.gnome_install | default("minimal") == "full"

@@ -20,8 +20,8 @@
   become: true
 
 # タイムゾーン設定
-- name: Set timezone to Asia/Tokyo in chroot
-  ansible.builtin.command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+- name: Set timezone in chroot
+  ansible.builtin.command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/{{ init.timezone }} /etc/localtime
   become: true
 
 - name: Generate /etc/adjtime in chroot
@@ -34,9 +34,7 @@
     path: /mnt/etc/locale.gen
     line: "{{ item }}"
     state: present
-  loop:
-    - "en_US.UTF-8 UTF-8"
-    - "ja_JP.UTF-8 UTF-8"
+  loop: "{{ init.locale.enabled }}"
   become: true
 
 - name: Generate locales in chroot
@@ -45,7 +43,7 @@
 
 - name: Create /etc/locale.conf
   ansible.builtin.copy:
-    content: "LANG=en_US.UTF-8\n"
+    content: "LANG={{ init.locale.lang }}\n"
     dest: /mnt/etc/locale.conf
     mode: "0644"
   become: true
@@ -60,7 +58,7 @@
 # ネットワーク設定
 - name: Create hostname file
   ansible.builtin.copy:
-    content: "{{ hostname | default('archlinux') }}\n"
+    content: "{{ init.hostname | default('archlinux') }}\n"
     dest: /mnt/etc/hostname
     mode: "0644"
   become: true
