@@ -53,8 +53,25 @@ sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 systemctl reload sshd
 
+# IP address detection and display
+echo "Detecting network configuration..."
+NETWORK_INTERFACES=$(ip -4 addr show | grep -E '^[0-9]+:' | awk '{print $2}' | sed 's/://' | grep -v lo)
+IP_ADDRESSES=""
+
+for iface in $NETWORK_INTERFACES; do
+    IP=$(ip -4 addr show "$iface" 2>/dev/null | grep inet | awk '{print $2}' | cut -d'/' -f1 | head -1)
+    if [[ -n "$IP" ]]; then
+        IP_ADDRESSES="${IP_ADDRESSES}${iface}: ${IP}\n"
+    fi
+done
+
 echo ""
 echo "=== Setup Complete ==="
 echo "You can now connect via SSH and run Ansible playbooks"
-echo "SSH connection: ssh ansible@<ip_address>"
+echo ""
+echo "Available network interfaces:"
+echo -e "$IP_ADDRESSES"
+echo ""
+echo "SSH connection example: ssh ansible@<ip_address>"
+echo "Install system command: ./install_system.sh -t <ip_address>"
 echo ""

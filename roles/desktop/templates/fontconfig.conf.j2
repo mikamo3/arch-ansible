@@ -5,7 +5,7 @@
   <alias>
     <family>serif</family>
     <prefer>
-{% for font in gui_fonts.serif %}
+{% for font in desktop.font_families[desktop.fonts.install].serif %}
       <family>{{ font }}</family>
 {% endfor %}
     </prefer>
@@ -14,7 +14,7 @@
   <alias>
     <family>sans-serif</family>
     <prefer>
-{% for font in gui_fonts.sans_serif %}
+{% for font in desktop.font_families[desktop.fonts.install].sans_serif %}
       <family>{{ font }}</family>
 {% endfor %}
     </prefer>
@@ -23,28 +23,28 @@
   <alias>
     <family>monospace</family>
     <prefer>
-{% for font in gui_fonts.monospace %}
+{% for font in desktop.font_families[desktop.fonts.install].monospace %}
       <family>{{ font }}</family>
 {% endfor %}
     </prefer>
   </alias>
-{% if gui_fonts.cursive is defined %}
+{% if desktop.font_families[desktop.fonts.install].cursive is defined %}
   
   <alias>
     <family>cursive</family>
     <prefer>
-{% for font in gui_fonts.cursive %}
+{% for font in desktop.font_families[desktop.fonts.install].cursive %}
       <family>{{ font }}</family>
 {% endfor %}
     </prefer>
   </alias>
 {% endif %}
-{% if gui_fonts.fantasy is defined %}
+{% if desktop.font_families[desktop.fonts.install].fantasy is defined %}
   
   <alias>
     <family>fantasy</family>
     <prefer>
-{% for font in gui_fonts.fantasy %}
+{% for font in desktop.font_families[desktop.fonts.install].fantasy %}
       <family>{{ font }}</family>
 {% endfor %}
     </prefer>

@@ -1,46 +1,7 @@
 ---
 # System configuration tasks
 
-- name: User management
-  block:
-    - name: Create main user
-      ansible.builtin.user:
-        name: "{{ base.main_user.name }}"
-        groups: "{{ base.main_user.groups }}"
-        shell: "{{ base.main_user.shell }}"
-        create_home: "{{ base.main_user.create_home }}"
-        password: "{{ default_user_password_hash }}"
-        state: present
-      become: true
-      when: base.main_user.name is defined
-
-    - name: Configure sudo for wheel group
-      ansible.builtin.lineinfile:
-        path: /etc/sudoers.d/10-wheel
-        line: "%wheel ALL=(ALL:ALL) ALL"
-        create: true
-        mode: "0440"
-        validate: "visudo -cf %s"
-      become: true
-
-    - name: Configure sudo for ansible user (NOPASSWD for automation - higher priority)
-      ansible.builtin.blockinfile:
-        path: /etc/sudoers.d/20-ansible
-        block: |
-          # Ansible user specific permissions (overrides wheel group)
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/usermod
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/chsh
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/sysctl
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/git
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/tee
-          {{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/mkdir
-        create: true
-        mode: "0440"
-        validate: "visudo -cf %s"
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
-      become: true
+# Note: Main user is created during system installation by init role
 
 - name: System power management
   block:

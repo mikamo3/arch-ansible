@@ -75,7 +75,7 @@ select_inventory() {
         --height=10 \
         --prompt="Inventory> " \
         --header="Select inventory (ESC: exit)" \
-        --preview="echo 'File: inventories/{}.yml'; echo ''; cat inventories/{}.yml | head -20" \
+        --preview="bash -c 'echo \"File: inventories/{}.yml\"; echo \"\"; cat inventories/{}.yml | head -20'" \
         --preview-window=right:60%:wrap
     )
     
@@ -113,12 +113,6 @@ select_execution_mode() {
         --height=8 \
         --prompt="Mode> " \
         --header="Select execution mode (ENTER: default execution, ESC: exit)" \
-        --preview="case {} in 
-            *all-roles*) echo 'Execute all roles except init.\nUsed for normal system configuration.' ;;
-            *custom-roles*) echo 'Select and execute individual roles.\nUsed when building specific features only.' ;;
-            *single-role*) echo 'Execute a single role only.\nUsed for testing or fixing specific roles.' ;;
-            *init-only*) echo 'Execute system installation only.\n⚠️ Target disk will be completely initialized.' ;;
-        esac" \
         --preview-window=down:4:wrap
     )
     
@@ -260,15 +254,15 @@ run_ansible() {
     fi
     
     # Connection test
-#    echo -e "${BLUE}🔗 接続テスト...${NC}"
-#    if ! ansible all -i "$inventory" -m ping --vault-password-file .vault_pass --extra-vars "@password.yml" 2>/dev/null; then
-#        echo -e "${RED}❌ Connection failed. Please check inventory settings and SSH connection.${NC}"
-#        exit 1
-#    fi
+    echo -e "${BLUE}🔗 接続テスト...${NC}"
+    if ! ansible all -i "$inventory" -m ping --vault-password-file .vault_pass --extra-vars "@password.yml" 2>/dev/null; then
+        echo -e "${RED}❌ Connection failed. Please check inventory settings and SSH connection.${NC}"
+        exit 1
+    fi
     
     # Execute playbook  
     echo -e "${GREEN}🚀 Executing Ansible playbook...${NC}"
-    echo ansible-playbook -i "$inventory" playbook/configure.yml "${ansible_opts[@]}" --vault-password-file .vault_pass --extra-vars "@password.yml"
+    ansible-playbook -i "$inventory" playbook/configure.yml "${ansible_opts[@]}" --vault-password-file .vault_pass --extra-vars "@password.yml" --extra-vars "ansible_become_password={{ default_user_password }}"
     
     echo -e "${GREEN}✅ Completed${NC}"
 }

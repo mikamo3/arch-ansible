@@ -9,10 +9,6 @@
   ansible.builtin.import_tasks: packages.yml
   tags: [base, packages]
 
-- name: Include system basic configuration
-  ansible.builtin.import_tasks: system_basic.yml
-  tags: [base, system]
-
 - name: Include system services configuration
   ansible.builtin.import_tasks: services.yml
   tags: [base, services]

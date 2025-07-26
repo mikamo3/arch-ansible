@@ -68,25 +68,8 @@ base:
 
   # System configuration
   hostname: archlinux  # Default hostname (should be overridden in inventory)
-
-  # User configuration
-  main_user:
-    name: user  # Override in inventory
-    groups:
-      - wheel
-      - users
-    shell: /bin/bash  # Temporary shell (changed by home role)
-    create_home: true
-
-  # Network configuration
-  static_network:
-    enabled: false  # Set to true in inventory to enable static IP
-    interface: eth0  # Network interface to configure
-    ip_address: 192.168.1.100
-    prefix: 24  # CIDR prefix (24 = /24 = 255.255.255.0)
-    gateway: 192.168.1.1
-    dns_servers:
-      - 8.8.8.8
-      - 8.8.4.4
+  
+  # Note: main_user configuration moved to init role
+  # Note: static_network configuration moved to init role
 
   # Security configuration

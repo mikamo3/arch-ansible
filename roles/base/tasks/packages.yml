@@ -6,7 +6,7 @@
     src: pacman.conf.j2
     dest: /etc/pacman.conf
     backup: true
-    mode: '0644'
+    mode: "0644"
   become: true
   notify: update package database
 
@@ -22,12 +22,6 @@
   become: true
   register: essential_packages_result
 
-- name: Install AUR helper (yay) with makepkg
-  aur:
-    name: yay
-    use: makepkg
-  become_user: "{{ ansible_user }}"
-
 - name: Run reflector to optimize mirrorlist
   ansible.builtin.command: reflector --country 'JP' --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
   become: true
@@ -41,7 +35,7 @@
         state: directory
         owner: root
         group: root
-        mode: '0755'
+        mode: "0755"
       become: true
 
     - name: Install mirrorupgrade hook
@@ -50,8 +44,14 @@
         dest: /etc/pacman.d/hooks/mirrorupgrade.hook
         owner: root
         group: root
-        mode: '0644'
+        mode: "0644"
       become: true
+
+- name: Install AUR helper (yay) with makepkg
+  aur:
+    name: yay
+    use: makepkg
+  become_user: "{{ ansible_user }}"
 
 - name: Install AUR packages
   aur:

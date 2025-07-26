@@ -31,11 +31,11 @@
   become: true
   when: default_user_password is defined
 
-# Grant passwordless sudo privileges for Ansible
-- name: Setup passwordless sudo for ansible in chroot
+# Setup passwordless sudo for ansible user (for AUR package management)
+- name: Setup passwordless sudo for ansible user in chroot
   ansible.builtin.copy:
     content: "ansible ALL=(ALL) NOPASSWD:ALL\n"
-    dest: /mnt/etc/sudoers.d/ansible
+    dest: /mnt/etc/sudoers.d/10-ansible
     mode: "0440"
   become: true
 

@@ -14,9 +14,5 @@
 - name: Include chroot system setup tasks
   ansible.builtin.include_tasks: chroot_setup.yml
 
-- name: Generate fstab with genfstab
-  ansible.builtin.shell: genfstab -U /mnt > /mnt/etc/fstab
-  become: true
-
 - name: Include ansible setup tasks
   ansible.builtin.include_tasks: ansible_setup.yml

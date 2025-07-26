@@ -2,22 +2,28 @@
 # System configuration within chroot environment
 # Execute each command within chroot using arch-chroot /mnt
 
+# Detect CPU information to determine microcode package
+- name: Detect CPU vendor
+  ansible.builtin.shell: grep -m1 "vendor_id" /proc/cpuinfo | awk '{print $3}'
+  register: cpu_vendor
+  become: true
+
+- name: Set microcode package based on CPU vendor
+  ansible.builtin.set_fact:
+    microcode_package: "{{ 'intel-ucode' if cpu_vendor.stdout == 'GenuineIntel' else ('amd-ucode' if cpu_vendor.stdout == 'AuthenticAMD' else '') }}"
+    microcode_line: "{{ 'initrd  /intel-ucode.img' if cpu_vendor.stdout == 'GenuineIntel' else ('initrd  /amd-ucode.img' if cpu_vendor.stdout == 'AuthenticAMD' else '') }}"
+
 - name: Install base system packages with pacstrap
+  ansible.builtin.command: "pacstrap -K /mnt base linux linux-firmware linux-zen linux-zen-headers networkmanager ansible {{ microcode_package }}"
+  become: true
+  when: microcode_package != ""
+
+- name: Install base system packages without microcode
   ansible.builtin.command: pacstrap -K /mnt base linux linux-firmware linux-zen linux-zen-headers networkmanager ansible
   become: true
+  when: microcode_package == ""
 
-# Initialize and update pacman keyring (to prevent PGP errors)
-- name: Initialize pacman keyring in chroot
-  ansible.builtin.command: arch-chroot /mnt pacman-key --init
-  become: true
-
-- name: Populate pacman keyring in chroot
-  ansible.builtin.command: arch-chroot /mnt pacman-key --populate archlinux
-  become: true
-
-- name: Update pacman package database in chroot
-  ansible.builtin.command: arch-chroot /mnt pacman -Sy
-  become: true
+# Note: pacstrap -K already initializes and populates keyrings
 
 # Timezone configuration
 - name: Set timezone in chroot
@@ -63,9 +69,69 @@
     mode: "0644"
   become: true
 
+- name: Update /etc/hosts with hostname
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ init.hostname }}"
+    create: true
+  become: true
+  when: init.hostname is defined
+
 - name: Enable NetworkManager in chroot
   ansible.builtin.command: arch-chroot /mnt systemctl enable NetworkManager
   become: true
+
+# Create main user in chroot (UID 1000, leaving 1001 for ansible)
+- name: Create main user in chroot
+  ansible.builtin.command: arch-chroot /mnt useradd -m -s {{ init.main_user.shell }} -u 1000 {{ init.main_user.name }}
+  become: true
+  when: init.main_user.name is defined
+
+- name: Add main user to groups in chroot
+  ansible.builtin.command: arch-chroot /mnt usermod -aG {{ init.main_user.groups | join(',') }} {{ init.main_user.name }}
+  become: true
+  when: init.main_user.name is defined and init.main_user.groups is defined
+
+- name: Set main user password in chroot
+  ansible.builtin.shell: arch-chroot /mnt bash -c "echo '{{ init.main_user.name }}:{{ default_user_password }}' | chpasswd"
+  become: true
+  when: init.main_user.name is defined and default_user_password is defined
+
+# Configure static IP address in chroot environment
+- name: Configure static IP address in chroot
+  block:
+    - name: Create NetworkManager connection directory in chroot
+      ansible.builtin.file:
+        path: /mnt/etc/NetworkManager/system-connections
+        state: directory
+        mode: "0755"
+      become: true
+
+    - name: Create static network connection file in chroot
+      ansible.builtin.copy:
+        content: |
+          [connection]
+          id=static-{{ init.static_network.interface }}
+          type=ethernet
+          interface-name={{ init.static_network.interface }}
+          autoconnect=true
+
+          [ethernet]
+
+          [ipv4]
+          method=manual
+          address1={{ init.static_network.ip_address }}/{{ init.static_network.prefix }},{{ init.static_network.gateway }}
+          dns={{ init.static_network.dns_servers | join(';') }}
+
+          [ipv6]
+          method=ignore
+
+          [proxy]
+        dest: "/mnt/etc/NetworkManager/system-connections/static-{{ init.static_network.interface }}.nmconnection"
+        mode: "0600"
+      become: true
+  when: init.static_network.enabled | default(false)
 
 # Regenerate initramfs (may be necessary in btrfs environment)
 - name: Regenerate initramfs in chroot
@@ -88,37 +154,6 @@
   ansible.builtin.command: arch-chroot /mnt bootctl install
   become: true
 
-# Detect CPU information to determine microcode package
-- name: Detect CPU vendor
-  ansible.builtin.shell: grep -m1 "vendor_id" /proc/cpuinfo | awk '{print $3}'
-  register: cpu_vendor
-  become: true
-
-- name: Install Intel microcode
-  ansible.builtin.command: pacstrap -K /mnt intel-ucode
-  become: true
-  when: cpu_vendor.stdout == "GenuineIntel"
-
-- name: Install AMD microcode
-  ansible.builtin.command: pacstrap -K /mnt amd-ucode
-  become: true
-  when: cpu_vendor.stdout == "AuthenticAMD"
-
-- name: Set microcode initrd line for Intel
-  ansible.builtin.set_fact:
-    microcode_line: "initrd  /intel-ucode.img"
-  when: cpu_vendor.stdout == "GenuineIntel"
-
-- name: Set microcode initrd line for AMD
-  ansible.builtin.set_fact:
-    microcode_line: "initrd  /amd-ucode.img"
-  when: cpu_vendor.stdout == "AuthenticAMD"
-
-- name: Set empty microcode line for other CPUs
-  ansible.builtin.set_fact:
-    microcode_line: ""
-  when: cpu_vendor.stdout not in ["GenuineIntel", "AuthenticAMD"]
-
 - name: Get root partition UUID
   ansible.builtin.shell: blkid -s UUID -o value {{ init.target_disk }}2
   register: root_uuid
@@ -135,51 +170,38 @@
     mode: "0644"
   become: true
 
-- name: Create Arch Linux boot entry
-  ansible.builtin.copy:
-    content: |
-      title   Arch Linux
-      linux   /vmlinuz-linux
-      {% if microcode_line %}{{ microcode_line }}
-      {% endif %}initrd  /initramfs-linux.img
-      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
-    dest: /mnt/boot/loader/entries/arch.conf
+- name: Create boot entries
+  ansible.builtin.template:
+    src: boot_entry.conf.j2
+    dest: "/mnt/boot/loader/entries/{{ item.filename }}"
     mode: "0644"
+  loop:
+    - {
+        filename: "arch.conf",
+        title: "Arch Linux",
+        linux: "/vmlinuz-linux",
+        initrd: "/initramfs-linux.img",
+      }
+    - {
+        filename: "arch-fallback.conf",
+        title: "Arch Linux (fallback initramfs)",
+        linux: "/vmlinuz-linux",
+        initrd: "/initramfs-linux-fallback.img",
+      }
+    - {
+        filename: "arch-zen.conf",
+        title: "Arch Linux Zen",
+        linux: "/vmlinuz-linux-zen",
+        initrd: "/initramfs-linux-zen.img",
+      }
+    - {
+        filename: "arch-zen-fallback.conf",
+        title: "Arch Linux Zen (fallback initramfs)",
+        linux: "/vmlinuz-linux-zen",
+        initrd: "/initramfs-linux-zen-fallback.img",
+      }
   become: true
 
-- name: Create Arch Linux fallback boot entry
-  ansible.builtin.copy:
-    content: |
-      title   Arch Linux (fallback initramfs)
-      linux   /vmlinuz-linux
-      {% if microcode_line %}{{ microcode_line }}
-      {% endif %}initrd  /initramfs-linux-fallback.img
-      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
-    dest: /mnt/boot/loader/entries/arch-fallback.conf
-    mode: "0644"
-  become: true
-
-# Boot entry for linux-zen kernel
-- name: Create Arch Linux Zen boot entry
-  ansible.builtin.copy:
-    content: |
-      title   Arch Linux Zen
-      linux   /vmlinuz-linux-zen
-      {% if microcode_line %}{{ microcode_line }}
-      {% endif %}initrd  /initramfs-linux-zen.img
-      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
-    dest: /mnt/boot/loader/entries/arch-zen.conf
-    mode: "0644"
-  become: true
-
-- name: Create Arch Linux Zen fallback boot entry
-  ansible.builtin.copy:
-    content: |
-      title   Arch Linux Zen (fallback initramfs)
-      linux   /vmlinuz-linux-zen
-      {% if microcode_line %}{{ microcode_line }}
-      {% endif %}initrd  /initramfs-linux-zen-fallback.img
-      options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@
-    dest: /mnt/boot/loader/entries/arch-zen-fallback.conf
-    mode: "0644"
+- name: Generate fstab with genfstab
+  ansible.builtin.shell: genfstab -U /mnt > /mnt/etc/fstab
   become: true

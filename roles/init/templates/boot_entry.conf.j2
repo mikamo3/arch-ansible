@@ -1,0 +1,5 @@
+title   {{ item.title }}
+linux   {{ item.linux }}
+{% if microcode_line %}{{ microcode_line }}
+{% endif %}initrd  {{ item.initrd }}
+options root=UUID={{ root_uuid.stdout }} rw rootflags=subvol=/@

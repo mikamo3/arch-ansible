@@ -36,6 +36,7 @@ show_help() {
     echo "Options:"
     echo "  -h, --help           Show this help message"
     echo "  -i, --inventory FILE Specify inventory file directly"
+    echo "  -t, --target IP      Specify target IP address (auto-generates inventory)"
     echo "  -c, --check          Dry run (do not make changes)"
     echo "  -v, --verbose        Verbose output"
     echo ""
@@ -47,6 +48,7 @@ show_help() {
     echo "Examples:"
     echo "  $0                              # Interactive mode"
     echo "  $0 -i inventories/sandbox.yml   # Install on sandbox environment"
+    echo "  $0 -t 192.168.1.100             # Install on target IP (auto-generates inventory)"
     echo "  $0 -c                           # Dry run to check configuration"
     echo ""
     echo -e "${RED}NOTE: This script should only be run from Arch Linux installation media!${NC}"
@@ -83,6 +85,20 @@ select_inventory() {
     fi
     
     echo "inventories/${selected}.yml"
+}
+
+# Override inventory host with target IP
+override_inventory_host() {
+    local inventory="$1"
+    local target_ip="$2"
+    local temp_inventory="/tmp/$(basename "$inventory")"
+    
+    echo -e "${BLUE}📝 Creating temporary inventory with target IP: ${target_ip}${NC}" >&2
+    
+    # Copy original inventory and override ansible_host
+    sed "s/ansible_host: .*/ansible_host: ${target_ip}/" "$inventory" > "$temp_inventory"
+    
+    echo "$temp_inventory"
 }
 
 # Confirm destructive operation
@@ -166,6 +182,7 @@ main() {
     echo -e "${CYAN}===== Arch Linux System Installation Runner =====${NC}"
     
     local inventory=""
+    local target_ip=""
     local options=""
     local check_mode=false
     local verbose_mode=false
@@ -175,6 +192,10 @@ main() {
         case $1 in
             -i|--inventory)
                 inventory="$2"
+                shift 2
+                ;;
+            -t|--target)
+                target_ip="$2"
                 shift 2
                 ;;
             -c|--check)
@@ -193,9 +214,14 @@ main() {
         esac
     done
     
-    # Interactive mode
+    # Interactive mode (always select inventory unless directly specified)
     if [[ -z "$inventory" ]]; then
         inventory=$(select_inventory)
+    fi
+    
+    # Apply target IP override if specified
+    if [[ -n "$target_ip" ]]; then
+        inventory=$(override_inventory_host "$inventory" "$target_ip")
     fi
     
     # Option settings (command line arguments only)
