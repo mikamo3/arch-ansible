@@ -40,7 +40,7 @@
 
 - name: Add main user to docker group
   ansible.builtin.user:
-    name: "{{ base.main_user.name }}"
+    name: "{{ init.main_user.name }}"
     groups: docker
     append: true
   become: true

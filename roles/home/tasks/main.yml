@@ -26,15 +26,3 @@
   when:
     - home.install
     - home.dotfiles.install_kawazu
-
-- name: Clone dotfiles repository for user
-  ansible.builtin.git:
-    repo: "{{ home.dotfiles.repository }}"
-    dest: "/home/{{ init.main_user.name }}/.kawazu/dotfiles"
-    version: "{{ home.dotfiles.branch }}"
-    update: false
-  become_user: "{{ init.main_user.name }}"
-  when:
-    - home.install
-    - home.dotfiles.manage_dotfiles
-    - home.dotfiles.repository is defined

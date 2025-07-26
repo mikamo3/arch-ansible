@@ -14,7 +14,7 @@
       become_user: "{{ ansible_user }}"
       when: detected_gpu == 'intel'
 
-    - name: Install AMD GPU drivers  
+    - name: Install AMD GPU drivers
       aur:
         name:
           - mesa
@@ -65,6 +65,18 @@
       - glxinfo
     state: present
   become_user: "{{ ansible_user }}"
-  when: 
+  when:
     - devices.gpu.install | default(false)
     - not is_virtual_machine
+
+- name: Install CUDA packages for LLM inference
+  aur:
+    name:
+      - cuda
+      - nvidia-container-toolkit
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - devices.gpu.install | default(false)
+    - devices.gpu.cuda_support | default(false)
+    - detected_gpu == 'nvidia'

@@ -2,6 +2,10 @@
 # System configuration within chroot environment
 # Execute each command within chroot using arch-chroot /mnt
 
+- name: Detect disk type and set partition naming
+  ansible.builtin.set_fact:
+    root_partition: "{{ init.target_disk }}{{ 'p' if 'nvme' in init.target_disk or 'mmcblk' in init.target_disk else '' }}2"
+
 # Detect CPU information to determine microcode package
 - name: Detect CPU vendor
   ansible.builtin.shell: grep -m1 "vendor_id" /proc/cpuinfo | awk '{print $3}'
@@ -155,7 +159,7 @@
   become: true
 
 - name: Get root partition UUID
-  ansible.builtin.shell: blkid -s UUID -o value {{ init.target_disk }}2
+  ansible.builtin.shell: blkid -s UUID -o value {{ root_partition }}
   register: root_uuid
   become: true
 

@@ -9,16 +9,10 @@
         state: present
       become: true
 
-    - name: Reset ufw to defaults
-      community.general.ufw:
-        state: reset
-      become: true
-
     - name: Configure ufw defaults
       community.general.ufw:
         direction: "{{ item.direction }}"
         policy: "{{ item.policy }}"
-        state: enabled
       become: true
       loop:
         - { direction: "incoming", policy: "deny" }
