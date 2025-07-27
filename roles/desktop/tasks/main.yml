@@ -17,12 +17,16 @@
 
 - name: Install GNOME desktop environment
   ansible.builtin.import_tasks: gnome.yml
-  when: desktop.environment == "gnome"
+  when: 
+    - desktop.environment.install | default(false)
+    - desktop.environment.type == "gnome"
   tags: [desktop, gnome]
 
 - name: Install Hyprland desktop environment  
   ansible.builtin.import_tasks: hyprland.yml
-  when: desktop.environment == "hyprland"
+  when: 
+    - desktop.environment.install | default(false)
+    - desktop.environment.type == "hyprland"
   tags: [desktop, hyprland]
 
 - name: Configure display manager

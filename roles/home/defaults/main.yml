@@ -3,13 +3,9 @@
 
 home:
   # Core home directory setup
-  install: false              # Setup kawazu and dotfiles repository
-    
+  install: false # Setup kawazu and dotfiles repository
+
   # Dotfiles management with kawazu
   dotfiles:
-    install_kawazu: false          # Install kawazu dotfiles manager
-    manage_dotfiles: false         # Clone dotfiles repository
-    repository: "https://github.com/mikamo3/dotfiles"  # Dotfiles repository URL
-    branch: "master"               # Branch to checkout
-    
-  # Note: XDG directories, directory structure, and shell configuration moved to dotfiles init script
+    install_kawazu: false # Install kawazu dotfiles manager
+    manage_dotfiles: false # Clone dotfiles repository

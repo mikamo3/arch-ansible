@@ -58,7 +58,7 @@
     mode: "0644"
   become: true
 
-- name: Create /etc/vconsole.conf for Japanese keymap
+- name: Create /etc/vconsole.conf for us keymap
   ansible.builtin.copy:
     content: "KEYMAP=us\n"
     dest: /mnt/etc/vconsole.conf

@@ -1,21 +1,24 @@
 ---
 # GNOME desktop environment installation
 
-- name: Install GNOME minimal desktop environment (always installed)
+- name: Install GNOME group packages (minimal installation)
+  community.general.pacman:
+    name: gnome
+    state: present
+  become: true
+
+- name: Install additional GNOME packages and extensions
   aur:
     name:
-      # Core GNOME packages (minimal = gnome group)
-      - gnome # GNOME desktop environment meta-package
       - gnome-tweaks # GNOME customization tool
 
       # GNOME Shell extensions (always installed with GNOME)
-      - gnome-shell-extension-appindicator  # System tray support
-      - gnome-browser-connector            # Browser extension connector
-      - gnome-shell-extension-kimpanel     # Input method panel for fcitx5
+      - gnome-shell-extension-appindicator # System tray support
+      - gnome-browser-connector # Browser extension connector
+      - gnome-shell-extension-kimpanel # Input method panel for fcitx5
 
     state: present
   become_user: "{{ ansible_user }}"
-  when: desktop.environment.install | default(false)
 
 - name: Install additional GNOME packages for full installation
   aur:
@@ -34,5 +37,4 @@
     state: present
   become_user: "{{ ansible_user }}"
   when:
-    - desktop.environment.install | default(false)
     - desktop.environment.gnome_install | default("minimal") == "full"

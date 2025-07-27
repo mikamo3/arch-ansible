@@ -10,11 +10,6 @@
   become: true
   notify: update package database
 
-- name: Update package database
-  community.general.pacman:
-    update_cache: true
-  become: true
-
 - name: Install essential packages
   community.general.pacman:
     name: "{{ base.essential_packages }}"

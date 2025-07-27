@@ -30,6 +30,7 @@ base:
     - which
     - sudo
     - rsync
+    - bc
     
     # Archive handling
     - unzip

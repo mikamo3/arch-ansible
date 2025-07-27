@@ -13,10 +13,6 @@
   ansible.builtin.import_tasks: services.yml
   tags: [base, services]
 
-- name: Include network configuration
-  ansible.builtin.import_tasks: network.yml
-  tags: [base, network]
-
 - name: Include security configuration
   ansible.builtin.import_tasks: security.yml
   tags: [base, security]

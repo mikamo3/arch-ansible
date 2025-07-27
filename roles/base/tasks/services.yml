@@ -7,9 +7,3 @@
     enabled: true
     state: started
   become: true
-
-- name: Verify service status
-  ansible.builtin.command: systemctl is-active systemd-timesyncd
-  register: service_status
-  changed_when: false
-  failed_when: false
