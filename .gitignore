@@ -4,3 +4,6 @@ password.yml
 # Ansible Vault password files (keep these out of repo)
 .vault_pass
 *.vault_pass
+
+# Generated secret files (contain plain text passwords)
+vars/secret.yml

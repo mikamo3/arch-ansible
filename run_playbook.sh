@@ -255,14 +255,14 @@ run_ansible() {
     
     # Connection test
     echo -e "${BLUE}🔗 接続テスト...${NC}"
-    if ! ansible all -i "$inventory" -m ping --vault-password-file .vault_pass --extra-vars "@password.yml" 2>/dev/null; then
+    if ! ansible all -i "$inventory" -m ping --extra-vars "@vars/secret.yml" 2>/dev/null; then
         echo -e "${RED}❌ Connection failed. Please check inventory settings and SSH connection.${NC}"
         exit 1
     fi
     
     # Execute playbook  
     echo -e "${GREEN}🚀 Executing Ansible playbook...${NC}"
-    ansible-playbook -i "$inventory" playbook/configure.yml "${ansible_opts[@]}" --vault-password-file .vault_pass --extra-vars "@password.yml" --extra-vars "ansible_become_password={{ default_user_password }}"
+    ansible-playbook -i "$inventory" playbook/configure.yml "${ansible_opts[@]}" --extra-vars "@vars/secret.yml" --extra-vars "ansible_become_password={{ default_user_password }}"
     
     echo -e "${GREEN}✅ Completed${NC}"
 }

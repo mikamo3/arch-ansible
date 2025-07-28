@@ -35,19 +35,19 @@ chmod +x init.sh
 #### 方法2: GitHub経由でダウンロード
 
 ```bash
-curl -L https://raw.githubusercontent.com/mikamo3/arch-ansible/feature/refactor_2/init.sh -o init.sh
+curl -L https://raw.githubusercontent.com/mikamo3/arch-ansible/master/init.sh -o init.sh
 chmod +x init.sh
 ./init.sh
 ```
 
-#### 方法3: 手動でスクリプトを作成
+#### 方法3: IPアドレス指定での直接実行
 
 ```bash
-cat > init.sh << 'EOF'
-# init.shの内容をここに貼り付け
-EOF
-chmod +x init.sh
-./init.sh
+# ホストマシンで実行（IPアドレスを指定して自動インベントリ生成）
+./install_system.sh -t 192.168.1.100
+
+# または対話的にインベントリファイルを選択
+./install_system.sh
 ```
 
 ### 2. ネットワーク設定（必要に応じて）
@@ -63,7 +63,19 @@ iwctl
 # [iwd]# station wlan0 connect SSID
 ```
 
-### 3. Ansibleでのパーティショニング・初期構築
+### 3. パスワード設定ファイルの生成
+
+システム設定前に、ユーザーパスワードの設定ファイルを生成：
+
+```bash
+# パスワード設定ファイルを生成
+./generate_secret.sh
+
+# 既存ファイルを上書きする場合
+./generate_secret.sh --force
+```
+
+### 4. Ansibleでのパーティショニング・初期構築
 
 別のマシンから、またはVM環境でAnsibleを実行：
 
@@ -71,36 +83,51 @@ iwctl
 # community.generalコレクションをインストール
 ansible-galaxy collection install community.general
 
-# sandbox環境での実行例
-ansible-playbook -i inventories/sandbox.yml playbook/sandbox.yml
+# システム設定の実行
+./run_playbook.sh
 
-# 実機での実行例（inventoryを作成後）
-ansible-playbook -i inventories/mainpc.yml playbook/mainpc.yml
+# または直接実行
+ansible-playbook -i inventories/sandbox.yml playbook/configure.yml --extra-vars "@vars/secret.yml"
 ```
 
 ## ファイル構成
 
 ```
 ├── init.sh                    # インストールディスク用環境準備スクリプト
+├── install_system.sh          # システムインストール実行スクリプト
+├── run_playbook.sh           # システム設定実行スクリプト
 ├── inventories/
-│   └── sandbox.yml           # 実験用VM設定
+│   ├── sandbox.yml           # 実験用VM設定
+│   ├── nucbox.yml           # NUCBox設定
+│   └── ai.yml               # AI環境設定
 ├── playbook/
-│   └── sandbox.yml           # sandbox用playbook
+│   ├── install.yml          # システムインストール用（init roleのみ）
+│   ├── configure.yml        # システム設定用（init以外の全role）
+│   └── main.yml            # レガシー統合playbook
+├── generate_secret.sh        # パスワード設定ファイル生成スクリプト
+├── vars/
+│   └── secret.yml          # 生成される機密情報（gitignore対象）
 └── roles/
-    └── init/
-        ├── defaults/main.yml
-        ├── handlers/main.yml
-        └── tasks/
-            ├── main.yml           # メインタスク
-            ├── btrfs_partition.yml # パーティショニング
-            └── time_sync.yml      # 時刻同期確認
+    ├── init/               # システムインストール（パーティション・chroot）
+    ├── base/              # 基本システム・パッケージ管理
+    ├── shell/             # シェル環境・CLI ツール
+    ├── desktop/           # デスクトップ環境・GUI基盤
+    ├── devices/           # ハードウェア固有ドライバー
+    ├── storage/           # ストレージ・バックアップ・暗号化
+    ├── office/            # オフィス・ドキュメント生産性
+    ├── media/             # メディア編集・再生
+    ├── development/       # ソフトウェア開発環境
+    ├── cad/              # CAD・エンジニアリング設計
+    ├── container/         # コンテナランタイム
+    ├── virtualization/    # 仮想マシン環境
+    └── home/             # ユーザーホームディレクトリ・dotfiles
 ```
 
 ## パーティション構成
 
 UEFI + btrfs + サブボリューム構成：
 
-- `/dev/sdaX1`: EFI システムパーティション (512MB, fat32)
+- `/dev/sdaX1`: EFI システムパーティション (1GB, fat32) → `/boot`
 - `/dev/sdaX2`: btrfs ルートパーティション
   - `@`: ルートサブボリューム（/）
   - `@home`: ホームサブボリューム（/home）
@@ -117,10 +144,51 @@ inventory（例：inventories/sandbox.yml）で以下を設定：
 sandbox:
   hosts:
     sandboxvm:
-      ansible_host: 127.0.0.1
-      ansible_port: 2222
+      ansible_host: 192.168.122.100
+      ansible_port: 22
       ansible_user: ansible
-      target_disk: /dev/vda    # インストール先ディスク
+  vars:
+    # Init role - システムインストール設定
+    init:
+      timezone: "Asia/Tokyo"
+      locale:
+        enabled:
+          - "en_US.UTF-8 UTF-8"
+          - "ja_JP.UTF-8 UTF-8"
+        lang: "ja_JP.UTF-8"
+      hostname: "sandboxvm"
+      target_disk: /dev/vda
+      main_user:
+        name: testuser
+        groups: [wheel, users]
+        shell: /bin/bash
+
+    # 各役割の設定（必要に応じて有効化）
+    devices:
+      gpu:
+        install: true
+        type: "vm-qemu"
+      audio:
+        install: true
+      bluetooth:
+        install: false
+      printer:
+        install: false
+
+    desktop:
+      environment:
+        install: true
+        type: "gnome"        # または "hyprland"
+      display_manager:
+        install: true
+        type: "gdm"          # または "ly"
+      fonts:
+        install: "full"      # または "minimal"
+      inputmethod:
+        install: true
+        method: "fcitx5"
+
+    # container, development, virtualization等も同様に設定可能
 ```
 
 ## 注意事項

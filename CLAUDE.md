@@ -95,6 +95,7 @@ This is an Ansible automation project for Arch Linux installation and configurat
 
 ### Configuration Approach
 - **Package installation**: Primary focus on installing correct packages
+- **Inline package style**: Use direct package listing with comments instead of variable-based approach for better readability and maintenance
 - **AUR module preference**: Use `aur` module instead of `pacman` module for consistency (except for init/base roles before yay installation)
 - **Automatic configuration**: Let pacman and package post-install scripts handle configuration
 - **Manual settings**: Only when absolutely necessary for functionality
@@ -214,6 +215,8 @@ ansible-playbook -i inventories/sandbox.yml playbook/configure.yml --vault-passw
   - Variable restructuring to role-scoped naming (`rolename.variable`)
   - Playbook separation into installation and configuration phases
   - Interactive execution scripts with fzf integration
+  - Package management standardization (inline style with comments)
+  - Handler configuration cleanup and proper notify usage
 - **Current Structure**: shell, desktop, storage, office, media, cad, container, development, devices, virtualization, home
 
 ### Testing Changes
@@ -225,6 +228,8 @@ ansible-playbook -i inventories/sandbox.yml playbook/configure.yml --vault-passw
 ### Adding New Tasks
 - Add tasks to appropriate files in respective role directories (`roles/{role_name}/tasks/`)
 - Use `become: true` for privileged operations
+- Follow inline package style with categorized comments instead of variable-based approach
+- Add appropriate `notify` statements for handlers that require service restarts or reloads
 - Register cleanup handlers for filesystem operations
 - Follow existing patterns for btrfs and mount operations
 - For `devices` role: Use inventory variables to control hardware-specific installations

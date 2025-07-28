@@ -156,14 +156,14 @@ run_installation() {
     
     # Connection test
     echo -e "${BLUE}🔗 Testing connection...${NC}"
-    if ! ansible all -i "$inventory" -m ping --vault-password-file .vault_pass --extra-vars "@password.yml" 2>/dev/null; then
+    if ! ansible all -i "$inventory" -m ping --extra-vars "@vars/secret.yml" 2>/dev/null; then
         echo -e "${RED}❌ Connection failed. Please check inventory settings and SSH connection.${NC}"
         exit 1
     fi
     
     # Execute playbook
     echo -e "${GREEN}🚀 Executing system installation...${NC}"
-    ansible-playbook -i "$inventory" playbook/install.yml "${ansible_opts[@]}" --vault-password-file .vault_pass --extra-vars "@password.yml"
+    ansible-playbook -i "$inventory" playbook/install.yml "${ansible_opts[@]}" --extra-vars "@vars/secret.yml"
     
     echo -e "${GREEN}✅ System installation completed${NC}"
     echo -e "${CYAN}Next step: Use ./run_playbook.sh to configure the installed system${NC}"
