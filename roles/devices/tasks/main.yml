@@ -1,13 +1,24 @@
 ---
-- name: Install bluetooth
-  include_tasks: bluetooth.yml
-  when: bluetooth.enable == true
-- name: Install printer
-  include_tasks: printer.yml
-  when: printer.enable == true
-- name: Install PipeWire
-  include_tasks: pipewire.yml
-  when: sound.enable == true
-- name: install graphics driver
-  include_tasks: graphics.yml
-  when: graphics.driver is defined
+# Devices role main tasks - Hardware driver and device management
+
+- name: Set device configuration facts
+  set_fact:
+    detected_gpu: "{{ devices.gpu.type | default('generic') }}"
+    is_virtual_machine: "{{ ansible_facts.virtualization_role == 'guest' }}"
+  tags: [devices]
+
+- name: Include GPU driver installation tasks
+  ansible.builtin.import_tasks: gpu_drivers.yml
+  tags: [devices, gpu, graphics]
+
+- name: Include audio system configuration tasks
+  ansible.builtin.import_tasks: audio.yml
+  tags: [devices, audio]
+
+- name: Include Bluetooth support tasks
+  ansible.builtin.import_tasks: bluetooth.yml
+  tags: [devices, bluetooth]
+
+- name: Include printer and scanner support tasks
+  ansible.builtin.import_tasks: printer.yml
+  tags: [devices, printer]

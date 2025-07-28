@@ -1,0 +1,30 @@
+---
+# Media role main tasks - Media editing and playback applications
+
+- name: Install CLI media processing tools
+  aur:
+    name:
+      - ffmpeg                  # Video/audio processing toolkit
+      - imagemagick             # Command-line image manipulation
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: media.cli_tools
+
+- name: Install media playback applications
+  aur:
+    name:
+      - spotify                 # Music streaming service
+      - mcomix                  # Comic and manga reader
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: media.playback
+
+- name: Install media editing applications
+  aur:
+    name:
+      - gimp                    # Advanced image editor
+      - inkscape                # Vector graphics editor
+      - gpick                   # Color picker utility
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: media.editing

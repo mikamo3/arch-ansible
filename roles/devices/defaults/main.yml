@@ -1,8 +1,21 @@
-bluetooth:
-  enable: false
-printer:
-  enable: true
-sound:
-  enable: true
-graphics:
-  driver: default
+---
+# Default variables for devices role - Hardware driver and device management
+
+devices:
+  # GPU configuration
+  gpu:
+    install: false
+    type: "generic" # intel/amd/nvidia/generic/vm-qemu
+    cuda_support: false # Enable CUDA for LLM inference (nvidia only)
+
+  # Audio configuration
+  audio:
+    install: false
+
+  # Bluetooth configuration
+  bluetooth:
+    install: false
+
+  # Printer configuration
+  printer:
+    install: false

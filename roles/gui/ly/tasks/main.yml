@@ -1,8 +1,0 @@
----
-- name: install ly
-  pacman:
-    name: ly
-- name: enable ly
-  service:
-    name: ly.service
-    enabled: yes

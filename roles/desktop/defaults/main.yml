@@ -1,0 +1,60 @@
+---
+# Default variables for desktop role - Desktop environment configuration using role-scoped naming
+
+desktop:
+  # Desktop environment configuration
+  environment:
+    install: false
+    type: "none" # none/gnome/hyprland
+    gnome_install: "minimal" # minimal/full
+
+  # Display manager configuration
+  display_manager:
+    install: false
+    type: "none" # none/gdm/ly
+
+  # Font configuration
+  fonts:
+    install: "minimal" # minimal/full
+
+  # Input method configuration (mandatory)
+  inputmethod:
+    install: true
+    method: "fcitx5"
+
+  # Common utilities (for all desktop environments)
+  common:
+    install: true
+
+  # Font family definitions
+  font_families:
+    minimal:
+      serif:
+        - "Noto Serif CJK JP"
+        - "Noto Serif"
+      sans_serif:
+        - "Noto Sans CJK JP"
+        - "Noto Sans"
+      monospace:
+        - "Cica"
+        - "DejaVu Sans Mono"
+
+    full:
+      serif:
+        - "Noto Serif CJK JP"
+        - "Noto Serif"
+      sans_serif:
+        - "LINE Seed JP_TTF"
+        - "BIZTER"
+        - "Noto Sans CJK JP"
+        - "Noto Sans"
+      monospace:
+        - "PlemolJP Console"
+        - "Cica"
+        - "IBM Plex Mono"
+        - "Noto Sans Mono"
+        - "DejaVu Sans Mono"
+      cursive:
+        - "Noto Sans CJK JP"
+      fantasy:
+        - "Noto Sans CJK JP"

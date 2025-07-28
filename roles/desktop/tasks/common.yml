@@ -1,0 +1,66 @@
+---
+# Common GUI utilities for all desktop environments
+
+- name: Install common GUI utilities
+  aur:
+    name:
+      # Terminal emulators
+      - kitty # Modern GPU-accelerated terminal
+
+      # File management
+      - nemo # File manager (Cinnamon-based)
+      - file-roller # Archive manager
+
+      # Text editor (for environments without built-in editor)
+      - featherpad # Qt-based text editor
+
+      # Web browsers
+      - firefox # Firefox browser
+      - chromium # Chromium browser
+      - network-manager-applet # NetworkManager GUI
+
+      # Media viewers and players
+      - vlc # VLC media player
+      - vlc-plugins-all # VLC all plugins/codecs
+      - imv # Image viewer for Wayland
+
+      # PDF viewer
+      - zathura # Minimal PDF viewer
+      - zathura-pdf-poppler # PDF backend for zathura
+
+      # System utilities
+      - xdg-user-dirs # User directory management
+
+      # Wayland utilities (common for all environments)
+      - grim # Screenshot utility for Wayland
+      - slurp # Screen area selection for Wayland
+      - wl-clipboard # Wayland clipboard utilities
+      - wev # Wayland event viewer (debugging)
+
+      # Fonts and rendering
+      - fontconfig # Font configuration
+
+      # Desktop portals (required for modern apps)
+      - xdg-desktop-portal # Base desktop portal framework
+      - xdg-desktop-portal-wlr # wlroots-based portal implementation
+
+      # Theme and appearance
+      - qt5-wayland # Qt5 Wayland support
+      - qt6-wayland # Qt6 Wayland support
+
+      # Miscellaneous utilities
+      - 1password # 1Password password manager
+
+      # X11 compatibility for legacy applications
+      - xorg-xwayland # X11 compatibility layer for Wayland
+
+    state: present
+  become_user: "{{ ansible_user }}"
+
+- name: Install keyring and secret management
+  pacman:
+    name:
+      - gnome-keyring # GNOME keyring daemon
+      - seahorse # Keyring management GUI
+      - libsecret # Secret service library
+    state: present

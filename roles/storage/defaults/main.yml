@@ -1,0 +1,7 @@
+---
+# Default variables for storage role - Storage, backup, and encryption tools
+
+# Storage configuration options
+storage:
+  cloud_sync: true        # Install cloud synchronization tools
+  encryption: true        # Install disk encryption tools

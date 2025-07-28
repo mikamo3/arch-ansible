@@ -1,9 +1,29 @@
 ---
-- name: Install VSCode
-  include_tasks: vscode.yml
+# Development role main tasks - Software development environment
 
-- name: Install Git utilities and NPM tools
-  include_tasks: git.yml
+- name: Install Visual Studio Code
+  aur:
+    name:
+      - visual-studio-code-bin # VS Code - GUI development editor
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - development.install
+    - development.install_vscode
 
-- name: Install QEMU and virtualization tools
-  include_tasks: qemu.yml
+- name: Install Git enhanced tools
+  aur:
+    name:
+      - git-lfs       # Git Large File Storage
+      - tig            # Text-mode interface for Git
+      - diff-so-fancy  # Better diff output
+      - cocogitto     # Conventional commits and semver CLI tool
+      - gibo          # .gitignore template generator
+      - tokei        # Count lines of code
+      - git-delta    # Better git diff viewer
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - development.install
+    - development.git_tools
+

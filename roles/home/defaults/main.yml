@@ -1,2 +1,10 @@
-dotfiles:
-  branch: master
+---
+# Default variables for home role - Kawazu dotfiles manager setup
+
+home:
+  # Core home directory setup
+  install: false # Setup kawazu and dotfiles repository
+
+  # Dotfiles management with kawazu
+  dotfiles:
+    install_kawazu: false # Install kawazu dotfiles manager

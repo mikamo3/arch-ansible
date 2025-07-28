@@ -1,14 +1,14 @@
 ---
-- name: install
-  become: true
-  become_user: aur
+# CAD role main tasks - Computer-aided design and engineering tools
+
+- name: Install CAD applications
   aur:
     name:
-      - freecad
-      - kicad
-      - kicad-library
-      - kicad-library-3d
-      - librecad
-
-  tags:
-    - cad
+      - freecad                 # 3D CAD software
+      - librecad                # 2D CAD software
+      - kicad                   # Electronic design automation
+      - kicad-library           # KiCad component libraries
+      - kicad-library-3d        # KiCad 3D models
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: cad.install

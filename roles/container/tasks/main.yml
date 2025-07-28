@@ -1,0 +1,49 @@
+---
+# Docker installation and configuration for home use
+
+- name: Install Docker packages
+  pacman:
+    name:
+      - docker # Docker engine
+      - docker-buildx # Docker buildx plugin (multi-platform builds)
+    state: present
+  when: container.install
+
+- name: Install Docker Compose (standalone - optional)
+  pacman:
+    name:
+      - docker-compose # Docker Compose standalone (legacy compatibility)
+    state: present
+  when:
+    - container.install
+    - container.tools.install_compose
+
+- name: Install optional container tools
+  pacman:
+    name:
+      - buildah # Advanced container image building
+      - skopeo # Container image management
+    state: present
+  when:
+    - container.install
+    - container.tools.install_buildah or container.tools.install_skopeo
+
+- name: Enable and start Docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
+  become: true
+  when:
+    - container.install
+    - container.enable_service
+
+- name: Add main user to docker group
+  ansible.builtin.user:
+    name: "{{ init.main_user.name }}"
+    groups: docker
+    append: true
+  become: true
+  when:
+    - container.install
+    - container.add_user_to_group

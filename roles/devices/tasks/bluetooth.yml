@@ -1,18 +1,21 @@
 ---
-- name: bluetooth
-  block:
-    - name: install bluetooth packages
-      pacman:
-        name:
-          - bluez
-          - bluez-utils
-          - blueman
-    - name: enable bluetooth
-      service:
-        name: bluetooth
-        enabled: yes
-- name: install overskride
-  become: true
-  become_user: aur
+# Bluetooth support configuration
+
+- name: Install Bluetooth packages
   aur:
-    name: overskride
+    name:
+      - bluez
+      - bluez-utils
+      - blueman
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: devices.bluetooth.install | default(false)
+
+- name: Enable and start Bluetooth service
+  ansible.builtin.systemd:
+    name: bluetooth
+    enabled: true
+    state: started
+  become: true
+  when: devices.bluetooth.install | default(false)
+

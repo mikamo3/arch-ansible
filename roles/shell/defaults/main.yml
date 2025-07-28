@@ -1,0 +1,6 @@
+---
+# Default variables for shell role - using role-scoped naming
+
+shell:
+  # Shell configuration placeholder
+  enabled: true

@@ -1,0 +1,35 @@
+---
+# GNOME desktop environment installation
+
+- name: Install GNOME desktop environment
+  aur:
+    name:
+      - gnome
+      - gnome-tweaks # GNOME customization tool
+
+      # GNOME Shell extensions (always installed with GNOME)
+      - gnome-shell-extension-appindicator # System tray support
+      - gnome-browser-connector # Browser extension connector
+      - gnome-shell-extension-kimpanel # Input method panel for fcitx5
+
+    state: present
+  become_user: "{{ ansible_user }}"
+
+- name: Install additional GNOME packages for full installation
+  aur:
+    name:
+      # Additional GNOME applications and tools
+      - gnome-extra # Additional GNOME applications
+      - dconf-editor # Configuration editor
+
+      # GNOME-specific utilities
+      - extension-manager # GNOME Shell extension manager
+
+      # GNOME applications (beyond gnome meta-package)
+      - gnome-text-editor # New GNOME text editor
+      - gnome-console # New GNOME terminal
+
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - desktop.environment.gnome_install | default("minimal") == "full"

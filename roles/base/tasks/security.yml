@@ -1,0 +1,42 @@
+---
+# Security configuration for local machine
+
+- name: Firewall configuration with ufw
+  block:
+    - name: Install ufw
+      community.general.pacman:
+        name: ufw
+        state: present
+      become: true
+
+    - name: Configure ufw defaults
+      community.general.ufw:
+        direction: "{{ item.direction }}"
+        policy: "{{ item.policy }}"
+      become: true
+      loop:
+        - { direction: "incoming", policy: "deny" }
+        - { direction: "outgoing", policy: "allow" }
+
+    - name: Allow all traffic from LAN networks
+      community.general.ufw:
+        rule: allow
+        src: "{{ item }}"
+      become: true
+      loop:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+
+    - name: Allow localhost traffic
+      community.general.ufw:
+        rule: allow
+        src: 127.0.0.1
+      become: true
+
+    - name: Enable ufw
+      community.general.ufw:
+        state: enabled
+        logging: "on"
+      become: true
+      notify: reload ufw

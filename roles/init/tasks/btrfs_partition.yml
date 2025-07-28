@@ -1,0 +1,148 @@
+# btrfs partitioning and subvolume creation
+# Execute on disk specified in inventories
+
+- name: Detect disk type and set partition naming
+  ansible.builtin.set_fact:
+    partition_suffix: "{{ 'p' if 'nvme' in init.target_disk or 'mmcblk' in init.target_disk else '' }}"
+    efi_partition: "{{ init.target_disk }}{{ 'p' if 'nvme' in init.target_disk or 'mmcblk' in init.target_disk else '' }}1"
+    root_partition: "{{ init.target_disk }}{{ 'p' if 'nvme' in init.target_disk or 'mmcblk' in init.target_disk else '' }}2"
+
+- name: Create GPT partition table
+  community.general.parted:
+    device: "{{ init.target_disk }}"
+    label: gpt
+  become: true
+
+- name: Create EFI system partition
+  community.general.parted:
+    device: "{{ init.target_disk }}"
+    number: 1
+    part_type: primary
+    part_start: 1MiB
+    part_end: 1GiB
+    flags:
+      - esp
+    state: present
+  become: true
+
+- name: Create root partition
+  community.general.parted:
+    device: "{{ init.target_disk }}"
+    number: 2
+    part_type: primary
+    part_start: 1GiB
+    part_end: 100%
+    state: present
+  become: true
+
+- name: Format EFI partition with FAT32
+  ansible.builtin.command: "mkfs.fat -F 32 {{ efi_partition }}"
+  become: true
+
+- name: Create btrfs filesystem on root partition
+  community.general.filesystem:
+    fstype: btrfs
+    dev: "{{ root_partition }}"
+    force: yes
+  become: true
+
+- name: Mount btrfs root partition to /mnt
+  ansible.builtin.mount:
+    path: /mnt
+    src: "{{ root_partition }}"
+    fstype: btrfs
+    state: mounted
+  become: true
+
+# Create btrfs subvolumes
+- name: Create btrfs subvolumes
+  community.general.btrfs_subvolume:
+    name: "/{{ item }}"
+    filesystem_device: "{{ root_partition }}"
+    state: present
+  loop:
+    - "@"
+    - "@home"
+    - "@.snapshots"
+    - "@pkg"
+    - "@log"
+  become: true
+
+- name: Unmount /mnt after subvolume creation
+  ansible.builtin.mount:
+    path: /mnt
+    state: unmounted
+  become: true
+
+# After subvolume creation, mount root and EFI partitions under /mnt
+- name: Mount root subvolume to /mnt
+  ansible.builtin.mount:
+    path: /mnt
+    src: "{{ root_partition }}"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@"
+    state: mounted
+  become: true
+- name: Create directories for subvolumes
+  ansible.builtin.file:
+    path: /mnt/{{ item }}
+    state: directory
+    mode: "0755"
+  loop:
+    - home
+    - .snapshots
+    - var/cache/pacman/pkg
+    - var/log
+  become: true
+
+- name: Create /mnt/boot directory
+  ansible.builtin.file:
+    path: /mnt/boot
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Mount EFI partition to /mnt/boot
+  ansible.builtin.mount:
+    path: /mnt/boot
+    src: "{{ efi_partition }}"
+    fstype: vfat
+    opts: "rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro"
+    state: mounted
+  become: true
+
+- name: Mount home subvolume to /mnt/home
+  ansible.builtin.mount:
+    path: /mnt/home
+    src: "{{ root_partition }}"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@home"
+    state: mounted
+  become: true
+
+- name: Mount snapshots subvolume to /mnt/.snapshots
+  ansible.builtin.mount:
+    path: /mnt/.snapshots
+    src: "{{ root_partition }}"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@.snapshots"
+    state: mounted
+  become: true
+
+- name: Mount package cache subvolume to /mnt/var/cache/pacman/pkg
+  ansible.builtin.mount:
+    path: /mnt/var/cache/pacman/pkg
+    src: "{{ root_partition }}"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@pkg"
+    state: mounted
+  become: true
+
+- name: Mount log subvolume to /mnt/var/log
+  ansible.builtin.mount:
+    path: /mnt/var/log
+    src: "{{ root_partition }}"
+    fstype: btrfs
+    opts: "rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@log"
+    state: mounted
+  become: true

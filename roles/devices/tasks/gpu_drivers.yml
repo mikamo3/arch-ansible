@@ -1,0 +1,84 @@
+---
+# GPU driver installation based on detected hardware
+
+- name: Install GPU drivers
+  block:
+    - name: Install Intel GPU drivers
+      aur:
+        name:
+          - mesa
+          - vulkan-intel
+          - intel-media-driver
+          - libva-intel-driver
+        state: present
+      become_user: "{{ ansible_user }}"
+      when: detected_gpu == 'intel'
+
+    - name: Install AMD GPU drivers
+      aur:
+        name:
+          - mesa
+          - vulkan-radeon
+          - libva-mesa-driver
+          - mesa-vdpau
+        state: present
+      become_user: "{{ ansible_user }}"
+      when: detected_gpu == 'amd'
+
+    - name: Install NVIDIA GPU drivers
+      aur:
+        name:
+          - nvidia-open-dkms
+          - nvidia-utils
+          - nvidia-settings
+          - libva-nvidia-driver
+        state: present
+      become_user: "{{ ansible_user }}"
+      when: detected_gpu == 'nvidia'
+      notify: rebuild initramfs
+
+    - name: Install generic GPU drivers
+      aur:
+        name:
+          - mesa
+          - xf86-video-vesa
+        state: present
+      become_user: "{{ ansible_user }}"
+      when: detected_gpu == 'generic'
+
+    - name: Install VM GPU drivers
+      aur:
+        name:
+          - mesa
+          - xf86-video-qxl
+        state: present
+      become_user: "{{ ansible_user }}"
+      when: detected_gpu == 'vm-qemu'
+
+  when: devices.gpu.install | default(false)
+
+- name: Install graphics acceleration libraries
+  aur:
+    name:
+      - libva-utils
+      - vdpauinfo
+      - vulkan-tools
+      - glxinfo
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - devices.gpu.install | default(false)
+    - not is_virtual_machine
+
+- name: Install CUDA packages for LLM inference
+  aur:
+    name:
+      - cuda
+      - nvidia-container-toolkit
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - devices.gpu.install | default(false)
+    - devices.gpu.cuda_support | default(false)
+    - detected_gpu == 'nvidia'
+  notify: rebuild initramfs

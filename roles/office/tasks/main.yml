@@ -1,0 +1,11 @@
+---
+# Office role main tasks - Office and document productivity tools
+
+- name: Install office suite
+  aur:
+    name:
+      - libreoffice-still       # Stable LibreOffice version
+      - libreoffice-still-ja    # Japanese language support
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: office.office_suite
