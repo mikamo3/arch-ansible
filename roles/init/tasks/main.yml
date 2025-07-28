@@ -1,0 +1,18 @@
+---
+# Arch Linux initial setup role: init
+# Add tasks as needed
+- name: Set timezone
+  ansible.builtin.command: timedatectl set-timezone {{ init.timezone }}
+  become: true
+
+- name: Include btrfs partitioning tasks
+  ansible.builtin.import_tasks: btrfs_partition.yml
+
+- name: Include time sync tasks
+  ansible.builtin.import_tasks: time_sync.yml
+
+- name: Include chroot system setup tasks
+  ansible.builtin.include_tasks: chroot_setup.yml
+
+- name: Include ansible setup tasks
+  ansible.builtin.include_tasks: ansible_setup.yml

@@ -1,67 +1,28 @@
 ---
-- name: change default shell for user
-  user:
-    name: "{{ maintain_user }}"
-    shell: /bin/fish
+# Home directory setup tasks - Kawazu dotfiles manager installation and repository setup
 
-- name: clone dotfiles
-  become: true
-  become_user: "{{ maintain_user }}"
-  git:
-    repo: https://github.com/mikamo3/dotfiles
-    dest: "/home/{{ maintain_user }}/.kawazu/dotfiles"
-    update: no
-    version: "{{ dotfiles.branch }}"
-  register: result_clone_dotfiles
+- name: Install kawazu for dotfiles management
+  block:
+    - name: Check if kawazu is installed
+      ansible.builtin.stat:
+        path: /usr/lib/kawazu
+      register: kawazu_path
 
-- name: apply dotfiles
-  become: true
-  become_user: "{{ maintain_user }}"
-  command: "bash -c 'source /usr/lib/kawazu/kawazu.sh;yes | KAWAZU_ROOT_DIR=/usr/lib/kawazu kawazu -f link'"
-  register: result_apply_dotfiles
-  ignore_errors: true
-  when: result_clone_dotfiles.changed
+    - name: Install kawazu from repository
+      block:
+        - name: Clone kawazu repository
+          ansible.builtin.git:
+            repo: https://github.com/mikamo3/kawazu-git.git
+            dest: /tmp/kawazu
+          become_user: "{{ ansible_user }}"
 
-- name: xdg-user-dirs-update
-  become: true
-  become_user: "{{ maintain_user }}"
-  shell: LC_ALL=C xdg-user-dirs-update --force
-
-- name: Remove user dir (jp)
-  become: true
-  become_user: "{{ maintain_user }}"
-  file:
-    path: "/home/{{ maintain_user }}/{{ item }}"
-    state: absent
-  with_items:
-    - ダウンロード
-    - テンプレート
-    - デスクトップ
-    - ドキュメント
-    - ビデオ
-    - 音楽
-    - 画像
-    - 公開
-
-- name: create dirs
-  become: true
-  become_user: "{{ maintain_user }}"
-  file:
-    path: "/home/{{ maintain_user }}/{{ item }}"
-    state: directory
-  with_items:
-    - Pictures/wallpapers
-    - Pictures/screenshot
-    - .local/log
-    - google-drive
-    - .mozilla/firefox/ai
-
-- name: run mise install
-  become: true
-  become_user: "{{ maintain_user }}"
-  command: "bash -c 'mise trust' && bash -c 'mise install'"
-
-- name: update fish plugin
-  become: true
-  become_user: "{{ maintain_user }}"
-  command: "fish -c 'fisher update'"
+        - name: Install kawazu using makepkg
+          aur:
+            name: kawazu
+            use: makepkg
+            local_pkgbuild: /tmp/kawazu
+          become_user: "{{ ansible_user }}"
+      when: not kawazu_path.stat.exists
+  when:
+    - home.install
+    - home.dotfiles.install_kawazu

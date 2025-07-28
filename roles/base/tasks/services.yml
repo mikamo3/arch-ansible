@@ -1,29 +1,9 @@
 ---
-- name: install docker
-  pacman:
-    name: docker,docker-compose
+# System services configuration
 
-- name: enable docker
-  service:
-    name: docker.service
-    enabled: yes
-
-- name: add {{ maintain_user }} to group docker
-  user:
-    name: "{{ maintain_user }}"
-    groups: docker
-    append: yes
-
-- name: install cronie
-  pacman:
-    name: cronie
-
-- name: enable cronie
-  service:
-    name: cronie
+- name: Enable and start systemd-timesyncd
+  ansible.builtin.systemd:
+    name: systemd-timesyncd
     enabled: true
-
-- name: enable sshd
-  service:
-    name: sshd
-    enabled: true
+    state: started
+  become: true

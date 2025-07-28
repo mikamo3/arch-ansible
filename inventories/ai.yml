@@ -1,31 +1,110 @@
 ---
-all:
-  children:
-    prod:
-      hosts:
-        prod1:
-          ansible_host: 192.168.100.10
-      vars:
-        graphics:
-          driver: nvidia
-        bluetooth:
-          enable: true
-    dev:
-      hosts:
-        dev1:
-          ansible_host: 192.168.122.104
-      vars:
-        virtualmachine: true
-        bluetooth:
-          enable: false
-    local:
-      hosts:
-        local1:
-          ansible_connection: local
+sandbox:
+  hosts:
+    sandboxvm:
+      ansible_host: 192.168.100.10
+      ansible_port: 22
+      ansible_user: ansible
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
   vars:
-    hostname: kamo3ai
-    microcode: amd
-    printer:
-      enable: false
-    sound:
-      enable: false
+    # Init role configuration (system installation)
+    init:
+      timezone: "Asia/Tokyo"
+      locale:
+        enabled:
+          - "en_US.UTF-8 UTF-8"
+          - "ja_JP.UTF-8 UTF-8"
+        lang: "ja_JP.UTF-8"
+      hostname: "kamo3ai"
+      target_disk: /dev/nvme0n1
+      static_network:
+        enabled: true
+        interface: enp7s0
+        ip_address: 192.168.100.10
+        prefix: 24
+        gateway: 192.168.100.1
+        dns_servers:
+          - 192.168.100.1
+          - 8.8.8.8
+      main_user:
+        name: mikamo
+        groups:
+          - wheel
+          - users
+        shell: /bin/bash
+
+    # Base role configuration
+
+    # Devices configuration (for testing)
+    devices:
+      gpu:
+        install: true
+        type: "nvidia" # NVIDIA GPU
+        cuda_support: true # Enable CUDA for LLM inference
+      audio:
+        install: true # ICH9 audio + SPICE available
+      bluetooth:
+        install: true # No Bluetooth in VM
+      printer:
+        install: false # No printer in VM
+
+    # Desktop role configuration (for testing)
+    desktop:
+      environment:
+        install: true
+        type: "gnome"
+        gnome_install: "minimal"
+      display_manager:
+        install: true
+        type: "gdm"
+      fonts:
+        install: "full"
+      inputmethod:
+        install: true
+        method: "fcitx5"
+      common:
+        install: true
+
+    # Storage configuration (for testing)
+    storage:
+      cloud_sync: false # Skip in sandbox
+      encryption: false # Skip in sandbox
+
+    # Office configuration (for testing)
+    office:
+      office_suite: false # Test LibreOffice
+
+    # Media configuration (for testing)
+    media:
+      cli_tools: true # Skip CLI media tools in sandbox
+      playback: true # Skip heavy applications in sandbox
+      editing: true # Skip heavy editing tools in sandbox
+
+    # CAD configuration (for testing)
+    cad:
+      install: false # Skip heavy CAD tools in sandbox
+
+    # Container configuration (for testing)
+    container:
+      install: true
+      enable_service: true
+      add_user_to_group: true
+      tools:
+        install_compose: true # Test Docker Compose
+        install_buildah: true # Skip in sandbox
+        install_skopeo: true # Skip in sandbox
+
+    # Development configuration (for testing)
+    development:
+      install: false
+
+    # Virtualization configuration (for testing)
+    virtualization:
+      install: false
+
+    # Home directory configuration (for testing)
+    home:
+      install: true
+      dotfiles:
+        install_kawazu: true # Install kawazu for dotfiles management
+        manage_dotfiles: true # Clone dotfiles repository

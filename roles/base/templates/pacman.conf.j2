@@ -1,0 +1,30 @@
+#
+# /etc/pacman.conf
+#
+# See the pacman.conf(5) manpage for option and repository directives
+
+[options]
+# The following paths are commented out with their default values listed.
+HoldPkg     = pacman glibc
+Architecture = auto
+
+# Misc options
+#UseSyslog
+Color
+#NoProgressBar
+CheckSpace
+#VerbosePkgLists
+ParallelDownloads = {{ base.parallel_downloads | default(5) }}
+ILoveCandy
+
+SigLevel = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist

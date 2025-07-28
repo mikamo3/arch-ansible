@@ -1,8 +1,0 @@
----
-- name: install fcitx
-  become: true
-  become_user: aur
-  aur:
-    name:
-      - fcitx5-im
-      - fcitx5-mozc

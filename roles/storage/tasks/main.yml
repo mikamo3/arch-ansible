@@ -1,15 +1,27 @@
 ---
-- name: install storage tools
-  become: true
-  become_user: aur
+# Storage role main tasks - Storage, backup, and encryption tools
+
+- name: Install cloud storage sync tools
   aur:
     name:
-      - rclone
-      - inotify-tools
-      - veracrypt
-- name: enable user_allow_other_mounts
-  lineinfile:
-    path: /etc/fuse.conf
-    regexp: "^#?user_allow_other$"
-    line: "user_allow_other"
+      - rclone                  # Cloud storage sync
     state: present
+  become_user: "{{ ansible_user }}"
+  when: storage.cloud_sync
+
+- name: Install encryption tools
+  aur:
+    name:
+      - veracrypt               # Disk encryption utility
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: storage.encryption
+
+- name: Configure FUSE for storage applications
+  ansible.builtin.lineinfile:
+    path: /etc/fuse.conf
+    regexp: '^#user_allow_other'
+    line: 'user_allow_other'
+    backup: true
+  become: true
+  when: storage.cloud_sync or storage.encryption

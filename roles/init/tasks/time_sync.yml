@@ -1,0 +1,14 @@
+---
+# Update system clock (for live environment)
+
+- name: Check systemd-timesyncd status
+  ansible.builtin.command: timedatectl status
+  register: timedatectl_status
+
+- name: Show timedatectl status
+  ansible.builtin.debug:
+    var: timedatectl_status.stdout
+# Optional: force time sync update can be added as needed
+# - name: Force time sync
+#   ansible.builtin.command: timedatectl set-ntp true
+#   become: true

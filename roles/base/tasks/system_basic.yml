@@ -1,0 +1,17 @@
+---
+# Basic system configuration
+
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ base.hostname }}"
+  become: true
+  when: base.hostname is defined
+
+- name: Update /etc/hosts with hostname
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ base.hostname }}"
+    create: true
+  become: true
+  when: base.hostname is defined

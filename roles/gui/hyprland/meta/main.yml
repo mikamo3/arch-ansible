@@ -1,4 +1,0 @@
----
-dependencies:
-  - role: gui/wayland
-  - role: gui/ly

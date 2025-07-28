@@ -1,4 +1,18 @@
-- include_tasks: package_config.yml
-- include_tasks: package.yml
-- include_tasks: system_config.yml
-- include_tasks: services.yml
+---
+# Base role main tasks
+
+- name: Include system configuration (user creation)
+  ansible.builtin.import_tasks: config.yml
+  tags: [base, config]
+
+- name: Include package management tasks
+  ansible.builtin.import_tasks: packages.yml
+  tags: [base, packages]
+
+- name: Include system services configuration
+  ansible.builtin.import_tasks: services.yml
+  tags: [base, services]
+
+- name: Include security configuration
+  ansible.builtin.import_tasks: security.yml
+  tags: [base, security]

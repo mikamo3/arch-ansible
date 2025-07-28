@@ -1,0 +1,22 @@
+---
+# Arch Linux System Configuration Playbook  
+# This playbook configures an already installed Arch Linux system
+# Safe to run multiple times for updates and configuration changes
+
+- hosts: all
+  become: true
+  vars_files:
+    - ../vars/secret.yml
+  roles:
+    - { role: base, tags: [base] }
+    - { role: shell, tags: [shell] }
+    - { role: devices, tags: [devices] }
+    - { role: desktop, tags: [desktop] }
+    - { role: storage, tags: [storage] }
+    - { role: office, tags: [office] }
+    - { role: media, tags: [media] }
+    - { role: cad, tags: [cad] }
+    - { role: container, tags: [container] }
+    - { role: development, tags: [development] }
+    - { role: virtualization, tags: [virtualization] }
+    - { role: home, tags: [home] }

@@ -1,37 +1,108 @@
 ---
-all:
-  children:
-    prod:
-      hosts:
-        prod1:
-          ansible_host: 192.168.100.225
-      vars:
-        microcode: intel
-        bluetooth:
-          enable: true
-        graphics:
-          driver: intel
-    dev:
-      hosts:
-        dev1:
-          ansible_host: 192.168.122.169
-      vars:
-        microcode: amd
-        bluetooth:
-          enable: false
-        graphics:
-          driver: virtio
-    local:
-      hosts:
-        local1:
-          ansible_connection: local
-      vars:
-        microcode: intel
-        bluetooth:
-          enable: true
-        graphics:
-          driver: intel
+sandbox:
+  hosts:
+    sandboxvm:
+      ansible_host: 192.168.100.227
+      ansible_port: 22
+      ansible_user: ansible
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
   vars:
-    hostname: nucbox
-    dotfiles:
-      branch: nucbox
+    # Init role configuration (system installation)
+    init:
+      timezone: "Asia/Tokyo"
+      locale:
+        enabled:
+          - "en_US.UTF-8 UTF-8"
+          - "ja_JP.UTF-8 UTF-8"
+        lang: "ja_JP.UTF-8"
+      hostname: "nucbox"
+      target_disk: /dev/sda
+      static_network:
+        enabled: true
+        interface: enp2s0
+        ip_address: 192.168.100.20
+        prefix: 24
+        gateway: 192.168.100.1
+        dns_servers:
+          - 192.168.100.1
+          - 8.8.8.8
+      main_user:
+        name: mikamo
+        groups:
+          - wheel
+          - users
+        shell: /bin/bash
+
+    # Base role configuration
+
+    # Devices configuration (for testing)
+    devices:
+      gpu:
+        install: true
+        type: "intel" # Intel GPU
+      audio:
+        install: true # ICH9 audio + SPICE available
+      bluetooth:
+        install: true # No Bluetooth in VM
+      printer:
+        install: true # No printer in VM
+
+    # Desktop role configuration (for testing)
+    desktop:
+      environment:
+        install: true
+        type: "hyprland"
+      display_manager:
+        install: true
+        type: "ly"
+      fonts:
+        install: "full"
+      inputmethod:
+        install: true
+        method: "fcitx5"
+      common:
+        install: true
+
+    # Storage configuration (for testing)
+    storage:
+      cloud_sync: false # Skip in sandbox
+      encryption: false # Skip in sandbox
+
+    # Office configuration (for testing)
+    office:
+      office_suite: true # Test LibreOffice
+
+    # Media configuration (for testing)
+    media:
+      cli_tools: false # Skip CLI media tools in sandbox
+      playback: false # Skip heavy applications in sandbox
+      editing: false # Skip heavy editing tools in sandbox
+
+    # CAD configuration (for testing)
+    cad:
+      install: false # Skip heavy CAD tools in sandbox
+
+    # Container configuration (for testing)
+    container:
+      install: true
+      enable_service: true
+      add_user_to_group: true
+      tools:
+        install_compose: true # Test Docker Compose
+        install_buildah: true # Skip in sandbox
+        install_skopeo: true # Skip in sandbox
+
+    # Development configuration (for testing)
+    development:
+      install: false
+
+    # Virtualization configuration (for testing)
+    virtualization:
+      install: false
+
+    # Home directory configuration (for testing)
+    home:
+      install: true
+      dotfiles:
+        install_kawazu: true # Install kawazu for dotfiles management
+        manage_dotfiles: true # Clone dotfiles repository

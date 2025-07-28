@@ -1,0 +1,60 @@
+---
+# Setup Ansible execution environment within chroot
+# Enable Ansible to be used immediately after reboot
+
+# Install required packages in chroot environment
+- name: Install required packages in chroot
+  ansible.builtin.command: pacstrap -K /mnt python sudo openssh
+  become: true
+
+# Grant sudo privileges to wheel group
+- name: Configure sudo for wheel group in chroot
+  ansible.builtin.replace:
+    path: /mnt/etc/sudoers
+    regexp: '^# %wheel ALL=\(ALL:ALL\) ALL'
+    replace: "%wheel ALL=(ALL:ALL) ALL"
+  become: true
+
+# Create ansible user (UID 1001, leaving 1000 for regular user)
+- name: Create ansible user in chroot
+  ansible.builtin.command: arch-chroot /mnt useradd -m -s /bin/bash -u 1001 ansible
+  become: true
+
+# Add ansible user to wheel group
+- name: Add ansible user to wheel group in chroot
+  ansible.builtin.command: arch-chroot /mnt usermod -aG wheel ansible
+  become: true
+
+# Set ansible user password
+- name: Set ansible user password in chroot
+  ansible.builtin.shell: arch-chroot /mnt bash -c "echo 'ansible:{{ default_user_password }}' | chpasswd"
+  become: true
+  when: default_user_password is defined
+
+# Setup passwordless sudo for ansible user (for AUR package management)
+- name: Setup passwordless sudo for ansible user in chroot
+  ansible.builtin.copy:
+    content: "ansible ALL=(ALL) NOPASSWD:ALL\n"
+    dest: /mnt/etc/sudoers.d/10-ansible
+    mode: "0440"
+  become: true
+
+# SSH configuration
+- name: Enable SSH service in chroot
+  ansible.builtin.command: arch-chroot /mnt systemctl enable sshd
+  become: true
+
+# SSH configuration optimization
+- name: Configure SSH PermitRootLogin
+  ansible.builtin.replace:
+    path: /mnt/etc/ssh/sshd_config
+    regexp: "^#PermitRootLogin prohibit-password"
+    replace: "PermitRootLogin yes"
+  become: true
+
+- name: Configure SSH PasswordAuthentication
+  ansible.builtin.replace:
+    path: /mnt/etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication yes"
+    replace: "PasswordAuthentication yes"
+  become: true

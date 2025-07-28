@@ -1,0 +1,19 @@
+---
+# Text editor configuration - System-level setup only
+
+- name: Set Neovim as default editor in system environment
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    line: "{{ item }}"
+    create: true
+  become: true
+  loop:
+    - "EDITOR=nvim"
+    - "VISUAL=nvim"
+
+- name: Configure git to use the default editor globally
+  community.general.git_config:
+    name: core.editor
+    value: "nvim"
+    scope: system
+  become: true

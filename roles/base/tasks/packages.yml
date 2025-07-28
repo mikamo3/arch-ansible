@@ -1,0 +1,119 @@
+---
+# Package management configuration
+
+- name: Initialize pacman database
+  community.general.pacman:
+    update_cache: true
+  become: true
+
+- name: Update pacman configuration
+  ansible.builtin.template:
+    src: pacman.conf.j2
+    dest: /etc/pacman.conf
+    backup: true
+    mode: "0644"
+  become: true
+  notify: update package database
+
+- name: Install essential packages
+  community.general.pacman:
+    name:
+      # Core system
+      - base-devel
+      - linux-headers
+      - archlinux-keyring
+
+      # Network
+      - networkmanager
+      - openssh
+      - wget
+      - curl
+      - inetutils
+
+      # Essential tools
+      - git
+      - vim
+      - nano
+      - man-db
+      - tree
+      - htop
+      - less
+      - which
+      - sudo
+      - rsync
+      - bc
+
+      # Archive handling
+      - unzip
+      - zip
+      - 7zip
+      - unrar
+      - atool
+      # tar, gzip are in base group
+
+      # System tools
+      - lsof
+      - strace
+      - smartmontools
+      - reflector
+
+      # Hardware information
+      - lshw
+      - hwinfo
+      - pciutils
+      - usbutils
+      - dmidecode
+
+      # File systems
+      - dosfstools
+      - ntfs-3g
+      - btrfs-progs
+
+      # Security tools
+      - logwatch
+      - rkhunter
+    state: present
+  become: true
+  register: essential_packages_result
+
+- name: Run reflector to optimize mirrorlist
+  ansible.builtin.command: reflector --country 'JP' --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
+  become: true
+  when: essential_packages_result.changed
+
+- name: Setup reflector hook for automatic mirror updates
+  block:
+    - name: Create pacman hooks directory
+      ansible.builtin.file:
+        path: /etc/pacman.d/hooks
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      become: true
+
+    - name: Install mirrorupgrade hook
+      ansible.builtin.copy:
+        src: mirrorupgrade.hook
+        dest: /etc/pacman.d/hooks/mirrorupgrade.hook
+        owner: root
+        group: root
+        mode: "0644"
+      become: true
+
+- name: Install AUR helper (yay) with makepkg
+  aur:
+    name: yay
+    use: makepkg
+  become_user: "{{ ansible_user }}"
+
+- name: Install AUR packages (optional)
+  aur:
+    name:
+      []
+      # Add AUR packages here if needed
+      # - yay-bin  # Alternative to building yay
+      # - google-chrome
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: false  # Enable this when AUR packages are needed

@@ -1,0 +1,48 @@
+---
+# System configuration tasks
+
+# Note: Main user is created during system installation by init role
+
+- name: System power management
+  block:
+    - name: Configure systemd-logind for power button suspend
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/logind.conf
+        regexp: "^#?HandlePowerKey="
+        line: "HandlePowerKey=suspend"
+        backup: true
+      become: true
+      notify: restart systemd-logind
+
+    - name: Configure suspend settings
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/sleep.conf
+        regexp: "^#?{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+        backup: true
+      become: true
+      loop:
+        - { key: "AllowSuspend", value: "yes" }
+        - { key: "AllowHibernation", value: "no" }
+        - { key: "AllowSuspendThenHibernate", value: "no" }
+        - { key: "AllowHybridSleep", value: "no" }
+      notify: restart systemd-logind
+
+- name: Configure journald
+  block:
+    - name: Configure systemd-journald settings
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/journald.conf
+        regexp: "^#?{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+        backup: true
+      become: true
+      loop:
+        - { key: "Storage", value: "persistent" }
+        - { key: "Compress", value: "yes" }
+        - { key: "SystemMaxUse", value: "1G" }
+        - { key: "SystemKeepFree", value: "2G" }
+        - { key: "SystemMaxFileSize", value: "128M" }
+        - { key: "MaxRetentionSec", value: "1month" }
+        - { key: "MaxFileSec", value: "1week" }
+      notify: restart journald

@@ -1,4 +1,0 @@
----
-dependencies:
-  - role: gui/xorg
-  - role: gui/lightdm

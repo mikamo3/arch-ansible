@@ -1,19 +1,21 @@
 ---
-- name: install cups
-  pacman:
+# Printer and scanner support
+
+- name: Install printing and scanning system
+  aur:
     name:
       - cups
       - gutenprint
       - sane
       - simple-scan
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: devices.printer.install | default(false)
 
-- name: enable cups
-  service:
+- name: Enable and start CUPS service
+  ansible.builtin.systemd:
     name: cups
-    enabled: yes
-
-- name: install sane
-  pacman:
-    name:
-      - sane
-      - simple-scan
+    enabled: true
+    state: started
+  become: true
+  when: devices.printer.install | default(false)

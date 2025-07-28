@@ -1,0 +1,14 @@
+---
+# Virtualization role handlers
+
+- name: restart libvirtd
+  ansible.builtin.systemd:
+    name: libvirtd
+    state: restarted
+  become: true
+
+- name: reload libvirtd
+  ansible.builtin.systemd:
+    name: libvirtd
+    state: reloaded
+  become: true

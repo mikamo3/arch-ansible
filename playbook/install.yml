@@ -1,0 +1,11 @@
+---
+# Arch Linux System Installation Playbook
+# This playbook performs the initial system installation on Arch Linux installation media
+# WARNING: This will completely wipe the target disk specified in inventory
+
+- hosts: all
+  become: true
+  vars_files:
+    - ../vars/secret.yml
+  roles:
+    - { role: init, tags: [init] }

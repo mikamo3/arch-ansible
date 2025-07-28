@@ -1,0 +1,100 @@
+---
+# Virtualization role main tasks - QEMU/KVM virtualization for home use
+
+- name: Install QEMU virtualization packages
+  aur:
+    name:
+      - qemu-desktop # QEMU for desktop use (lighter than qemu-full)
+      - libvirt # Virtualization management library
+      - edk2-ovmf # UEFI firmware for virtual machines
+      - dnsmasq # DHCP/DNS for virtual networks
+      - bridge-utils # Network bridge utilities
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: virtualization.install
+
+- name: Install virt-manager GUI
+  aur:
+    name:
+      - virt-manager # GUI management tool for libvirt
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - virtualization.install
+    - virtualization.gui.install_virt_manager
+
+- name: Add main user to libvirt group
+  ansible.builtin.user:
+    name: "{{ init.main_user.name }}"
+    groups: libvirt
+    append: true
+  become: true
+  when:
+    - virtualization.install
+    - virtualization.user.add_to_libvirt_group
+  notify: restart libvirtd
+
+- name: Enable and start libvirtd service
+  ansible.builtin.systemd:
+    name: libvirtd
+    enabled: "{{ virtualization.services.start_on_boot }}"
+    state: started
+  become: true
+  when: 
+    - virtualization.install
+    - virtualization.services.enable_libvirtd
+
+- name: Configure default network
+  block:
+    - name: Check if default network exists
+      ansible.builtin.command: virsh net-list --all --name
+      register: existing_networks
+      changed_when: false
+      become_user: "{{ init.main_user.name }}"
+      failed_when: false
+
+    - name: Create default network XML from template
+      ansible.builtin.template:
+        src: default-network.xml.j2
+        dest: /tmp/default-network.xml
+        mode: "0644"
+      become_user: "{{ init.main_user.name }}"
+      when:
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+      notify: reload libvirtd
+
+    - name: Define default network
+      ansible.builtin.command: virsh net-define /tmp/default-network.xml
+      become_user: "{{ init.main_user.name }}"
+      when:
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+
+    - name: Enable default network autostart
+      ansible.builtin.command: virsh net-autostart default
+      become_user: "{{ init.main_user.name }}"
+      failed_when: false
+      when:
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+
+    - name: Start default network
+      ansible.builtin.command: virsh net-start default
+      become_user: "{{ init.main_user.name }}"
+      failed_when: false
+      when:
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+
+    - name: Clean up temporary network file
+      ansible.builtin.file:
+        path: /tmp/default-network.xml
+        state: absent
+      become_user: "{{ init.main_user.name }}"
+      when:
+        - existing_networks.rc == 0
+        - "'default' not in existing_networks.stdout_lines"
+  when:
+    - virtualization.install
+    - virtualization.networking.enable_default_network

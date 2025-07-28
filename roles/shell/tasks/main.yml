@@ -1,0 +1,11 @@
+---
+# CUI role main tasks - Modern command line interface
+
+- name: Include CLI tools installation
+  ansible.builtin.import_tasks: cli_tools.yml
+  tags: [cui, cli-tools]
+
+
+- name: Include editor configuration
+  ansible.builtin.import_tasks: editor.yml
+  tags: [cui, editor]

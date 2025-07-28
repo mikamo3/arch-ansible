@@ -1,0 +1,35 @@
+---
+# Desktop role main tasks - Desktop environment foundation
+
+- name: Install common GUI utilities
+  ansible.builtin.import_tasks: common.yml
+  when: desktop.common.install | default(true)
+  tags: [desktop, common]
+
+- name: Install fonts
+  ansible.builtin.import_tasks: fonts.yml
+  tags: [desktop, fonts]
+
+- name: Install fcitx5 input method
+  ansible.builtin.import_tasks: fcitx5.yml
+  when: desktop.inputmethod.install | default(true)
+  tags: [desktop, fcitx5, inputmethod]
+
+- name: Install GNOME desktop environment
+  ansible.builtin.import_tasks: gnome.yml
+  when: 
+    - desktop.environment.install | default(false)
+    - desktop.environment.type == "gnome"
+  tags: [desktop, gnome]
+
+- name: Install Hyprland desktop environment  
+  ansible.builtin.import_tasks: hyprland.yml
+  when: 
+    - desktop.environment.install | default(false)
+    - desktop.environment.type == "hyprland"
+  tags: [desktop, hyprland]
+
+- name: Configure display manager
+  ansible.builtin.import_tasks: display_manager.yml
+  when: desktop.display_manager.install | default(false)
+  tags: [desktop, display-manager]
