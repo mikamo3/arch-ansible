@@ -1,6 +1,11 @@
 ---
 # Package management configuration
 
+- name: Initialize pacman database
+  community.general.pacman:
+    update_cache: true
+  become: true
+
 - name: Update pacman configuration
   ansible.builtin.template:
     src: pacman.conf.j2
@@ -12,7 +17,61 @@
 
 - name: Install essential packages
   community.general.pacman:
-    name: "{{ base.essential_packages }}"
+    name:
+      # Core system
+      - base-devel
+      - linux-headers
+      - archlinux-keyring
+
+      # Network
+      - networkmanager
+      - openssh
+      - wget
+      - curl
+      - inetutils
+
+      # Essential tools
+      - git
+      - vim
+      - nano
+      - man-db
+      - tree
+      - htop
+      - less
+      - which
+      - sudo
+      - rsync
+      - bc
+
+      # Archive handling
+      - unzip
+      - zip
+      - 7zip
+      - unrar
+      - atool
+      # tar, gzip are in base group
+
+      # System tools
+      - lsof
+      - strace
+      - smartmontools
+      - reflector
+
+      # Hardware information
+      - lshw
+      - hwinfo
+      - pciutils
+      - usbutils
+      - dmidecode
+
+      # File systems
+      - dosfstools
+      - ntfs-3g
+      - btrfs-progs
+
+      # Security tools
+      - logwatch
+      - rkhunter
     state: present
   become: true
   register: essential_packages_result
@@ -20,7 +79,7 @@
 - name: Run reflector to optimize mirrorlist
   ansible.builtin.command: reflector --country 'JP' --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
   become: true
-  when: essential_packages_result.changed and 'reflector' in base.essential_packages
+  when: essential_packages_result.changed
 
 - name: Setup reflector hook for automatic mirror updates
   block:
@@ -48,9 +107,13 @@
     use: makepkg
   become_user: "{{ ansible_user }}"
 
-- name: Install AUR packages
+- name: Install AUR packages (optional)
   aur:
-    name: "{{ base.aur_packages }}"
+    name:
+      []
+      # Add AUR packages here if needed
+      # - yay-bin  # Alternative to building yay
+      # - google-chrome
     state: present
   become_user: "{{ ansible_user }}"
-  when: base.aur_packages is defined and base.aur_packages | length > 0
+  when: false  # Enable this when AUR packages are needed

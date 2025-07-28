@@ -2,7 +2,7 @@
 sandbox:
   hosts:
     sandboxvm:
-      ansible_host: 192.168.100.20
+      ansible_host: 192.168.100.227
       ansible_port: 22
       ansible_user: ansible
       ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
@@ -19,7 +19,7 @@ sandbox:
       target_disk: /dev/sda
       static_network:
         enabled: true
-        interface: enp7s0
+        interface: enp2s0
         ip_address: 192.168.100.20
         prefix: 24
         gateway: 192.168.100.1

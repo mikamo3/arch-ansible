@@ -1,15 +1,10 @@
 ---
 # GNOME desktop environment installation
 
-- name: Install GNOME group packages (minimal installation)
-  community.general.pacman:
-    name: gnome
-    state: present
-  become: true
-
-- name: Install additional GNOME packages and extensions
+- name: Install GNOME desktop environment
   aur:
     name:
+      - gnome
       - gnome-tweaks # GNOME customization tool
 
       # GNOME Shell extensions (always installed with GNOME)

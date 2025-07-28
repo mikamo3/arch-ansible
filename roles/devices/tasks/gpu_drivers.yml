@@ -35,6 +35,7 @@
         state: present
       become_user: "{{ ansible_user }}"
       when: detected_gpu == 'nvidia'
+      notify: rebuild initramfs
 
     - name: Install generic GPU drivers
       aur:
@@ -80,3 +81,4 @@
     - devices.gpu.install | default(false)
     - devices.gpu.cuda_support | default(false)
     - detected_gpu == 'nvidia'
+  notify: rebuild initramfs

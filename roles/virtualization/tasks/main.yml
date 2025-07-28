@@ -32,6 +32,7 @@
   when:
     - virtualization.install
     - virtualization.user.add_to_libvirt_group
+  notify: restart libvirtd
 
 - name: Enable and start libvirtd service
   ansible.builtin.systemd:
@@ -61,6 +62,7 @@
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"
+      notify: reload libvirtd
 
     - name: Define default network
       ansible.builtin.command: virsh net-define /tmp/default-network.xml

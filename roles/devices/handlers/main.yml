@@ -18,28 +18,3 @@
     state: reloaded
   become: true
 
-- name: restart audio services
-  block:
-    - name: Restart PipeWire services
-      ansible.builtin.systemd:
-        name: "{{ item }}"
-        state: restarted
-        scope: user
-        daemon_reload: true
-      become_user: "{{ ansible_user }}"
-      loop:
-        - pipewire.service
-        - pipewire-pulse.service
-        - wireplumber.service
-      failed_when: false
-      when: devices_config.audio_system == "pipewire"
-
-    - name: Restart PulseAudio service
-      ansible.builtin.systemd:
-        name: pulseaudio.service
-        state: restarted
-        scope: user
-        daemon_reload: true
-      become_user: "{{ ansible_user }}"
-      failed_when: false
-      when: devices_config.audio_system == "pulseaudio"

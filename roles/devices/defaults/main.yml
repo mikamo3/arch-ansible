@@ -11,28 +11,11 @@ devices:
   # Audio configuration
   audio:
     install: false
-    packages:
-      - pipewire # Modern audio system
-      - pipewire-alsa # ALSA compatibility
-      - pipewire-pulse # PulseAudio compatibility
-      - pipewire-jack # JACK compatibility
-      - wireplumber # Session manager for PipeWire
-      - alsa-utils # ALSA utilities
 
   # Bluetooth configuration
   bluetooth:
     install: false
-    packages:
-      - bluez # Bluetooth protocol stack
-      - bluez-utils # Bluetooth utilities
-      - blueman # Bluetooth manager GUI
 
   # Printer configuration
   printer:
     install: false
-    packages:
-      - cups # CUPS printing system
-      - gutenprint # Additional printer drivers
-      - sane # Scanner access
-      - simple-scan # Simple scanning application
-
