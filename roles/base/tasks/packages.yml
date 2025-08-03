@@ -110,10 +110,9 @@
 - name: Install AUR packages (optional)
   aur:
     name:
-      []
+      - openssh-askpass
       # Add AUR packages here if needed
       # - yay-bin  # Alternative to building yay
       # - google-chrome
     state: present
   become_user: "{{ ansible_user }}"
-  when: false  # Enable this when AUR packages are needed

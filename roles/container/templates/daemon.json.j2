@@ -1,0 +1,8 @@
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "{{ container.logging.max_size | default('10m') }}",
+    "max-file": "{{ container.logging.max_file | default('3') }}"
+  }{% if container.logging.level is defined %},
+  "log-level": "{{ container.logging.level }}"{% endif %}
+}

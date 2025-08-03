@@ -98,6 +98,7 @@ sandbox:
       install: true
       install_vscode: true # GUI development editor
       git_tools: true # Git enhanced tools
+      python_tools: true # Python development tools
 
     # Virtualization configuration (for testing)
     virtualization:

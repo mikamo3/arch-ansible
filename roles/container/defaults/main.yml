@@ -10,3 +10,7 @@ container:
     install_compose: false # Install Docker Compose standalone
     install_buildah: false # Install Buildah for advanced image building
     install_skopeo: false  # Install Skopeo for image management
+  logging:
+    max_size: "10m"       # Maximum size of log files before rotation
+    max_file: "3"         # Maximum number of log files to retain
+    # level: "info"       # Optional: Docker daemon log level (debug, info, warn, error, fatal)

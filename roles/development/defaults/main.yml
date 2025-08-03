@@ -11,3 +11,6 @@ development:
   # Git enhanced tools  
   git_tools: true          # Install Git enhanced tools (GitHub CLI, etc.)
   
+  # Python development tools
+  python_tools: true       # Install Python development tools (uv, etc.)
+  

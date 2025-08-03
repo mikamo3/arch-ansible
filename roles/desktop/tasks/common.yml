@@ -50,9 +50,13 @@
 
       # Miscellaneous utilities
       - 1password # 1Password password manager
+      - 1password-cli # 1Password CLI tool
 
       # X11 compatibility for legacy applications
       - xorg-xwayland # X11 compatibility layer for Wayland
+
+      # Cursors and themes
+      - catppuccin-cursors-mocha
 
     state: present
   become_user: "{{ ansible_user }}"

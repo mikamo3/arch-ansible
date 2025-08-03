@@ -27,3 +27,13 @@
     - development.install
     - development.git_tools
 
+- name: Install Python development tools
+  aur:
+    name:
+      - uv           # Fast Python package installer and resolver
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - development.install
+    - development.python_tools
+

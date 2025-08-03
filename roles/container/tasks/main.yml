@@ -47,3 +47,21 @@
   when:
     - container.install
     - container.add_user_to_group
+
+- name: Create Docker configuration directory
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    mode: '0755'
+  become: true
+  when: container.install
+
+- name: Configure Docker daemon logging
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+    backup: true
+  become: true
+  when: container.install
+  notify: restart docker

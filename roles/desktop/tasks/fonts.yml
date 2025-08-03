@@ -20,6 +20,7 @@
       # Additional programming/Monospace fonts
       - ttf-plemoljp-bin # PlemolJP font family
       - ttf-ibm-plex # IBM Plex font family
+      - ttf-udev-gothic # UDEV Gothic font (Japanese)
 
       # Design/Display fonts
       - ttf-bizter # Bizter font
