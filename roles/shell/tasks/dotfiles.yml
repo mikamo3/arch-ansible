@@ -1,5 +1,5 @@
 ---
-# Home directory setup tasks - Kawazu dotfiles manager installation and repository setup
+# Dotfiles management tasks - Kawazu dotfiles manager installation
 
 - name: Install kawazu for dotfiles management
   block:
@@ -23,6 +23,4 @@
             local_pkgbuild: /tmp/kawazu
           become_user: "{{ ansible_user }}"
       when: not kawazu_path.stat.exists
-  when:
-    - home.install
-    - home.dotfiles.install_kawazu
+  when: shell.dotfiles.install_kawazu | default(false)

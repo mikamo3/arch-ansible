@@ -1,0 +1,17 @@
+[connection]
+id=static-{{ init.static_network.interface }}
+type=ethernet
+interface-name={{ init.static_network.interface }}
+autoconnect=true
+
+[ethernet]
+
+[ipv4]
+method=manual
+address1={{ init.static_network.ip_address }}/{{ init.static_network.prefix }},{{ init.static_network.gateway }}
+dns={{ init.static_network.dns_servers | join(';') }}
+
+[ipv6]
+method=ignore
+
+[proxy]

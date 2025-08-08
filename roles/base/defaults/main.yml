@@ -4,6 +4,3 @@
 base:
   # Pacman configuration
   parallel_downloads: 5
-
-  # System configuration
-  hostname: archlinux # Default hostname (should be overridden in inventory)

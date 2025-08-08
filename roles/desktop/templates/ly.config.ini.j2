@@ -1,0 +1,150 @@
+# Ly Display Manager Configuration
+# Managed by Ansible - Do not edit manually
+
+# Allow empty password or not when authenticating
+allow_empty_password = {{ desktop.display_manager.ly.allow_empty_password | default('false') }}
+
+# The active animation
+# none     -> Nothing
+# doom     -> PSX DOOM fire
+# matrix   -> CMatrix
+# colormix -> Color mixing shader
+animation = {{ desktop.display_manager.ly.animation | default('matrix') }}
+
+# Stop the animation after some time
+# 0 -> Run forever
+# 1..2e12 -> Stop the animation after this many seconds
+animation_timeout_sec = {{ desktop.display_manager.ly.animation_timeout_sec | default('0') }}
+
+# The character used to mask the password
+asterisk = {{ desktop.display_manager.ly.asterisk | default('*') }}
+
+# The number of failed authentications before a special animation is played
+auth_fails = {{ desktop.display_manager.ly.auth_fails | default('10') }}
+
+# Background color id
+bg = {{ desktop.display_manager.ly.bg | default('0x00000000') }}
+
+# Change the state and language of the big clock
+bigclock = {{ desktop.display_manager.ly.bigclock | default('none') }}
+
+# Blank main box background
+blank_box = {{ desktop.display_manager.ly.blank_box | default('true') }}
+
+# Border foreground color id
+border_fg = {{ desktop.display_manager.ly.border_fg | default('0x00FFFFFF') }}
+
+# Title to show at the top of the main box
+box_title = {{ desktop.display_manager.ly.box_title | default('null') }}
+
+# Brightness controls
+brightness_down_cmd = {{ desktop.display_manager.ly.brightness_down_cmd | default('/usr/bin/brightnessctl -q s 10%-') }}
+brightness_down_key = {{ desktop.display_manager.ly.brightness_down_key | default('F5') }}
+brightness_up_cmd = {{ desktop.display_manager.ly.brightness_up_cmd | default('/usr/bin/brightnessctl -q s +10%') }}
+brightness_up_key = {{ desktop.display_manager.ly.brightness_up_key | default('F6') }}
+
+# Erase password input on failure
+clear_password = {{ desktop.display_manager.ly.clear_password | default('false') }}
+
+# Format string for clock in top right corner (see strftime specification)
+clock = {{ desktop.display_manager.ly.clock | default('null') }}
+
+# CMatrix animation settings
+cmatrix_fg = {{ desktop.display_manager.ly.cmatrix_fg | default('0x0000FF00') }}
+cmatrix_min_codepoint = {{ desktop.display_manager.ly.cmatrix_min_codepoint | default('0x21') }}
+cmatrix_max_codepoint = {{ desktop.display_manager.ly.cmatrix_max_codepoint | default('0x7B') }}
+
+# Color mixing animation settings
+colormix_col1 = {{ desktop.display_manager.ly.colormix_col1 | default('0x00FF0000') }}
+colormix_col2 = {{ desktop.display_manager.ly.colormix_col2 | default('0x000000FF') }}
+colormix_col3 = {{ desktop.display_manager.ly.colormix_col3 | default('0x20000000') }}
+
+# Console path
+console_dev = {{ desktop.display_manager.ly.console_dev | default('/dev/console') }}
+
+# Input box active by default on startup
+default_input = {{ desktop.display_manager.ly.default_input | default('login') }}
+
+# DOOM animation colors
+doom_top_color = {{ desktop.display_manager.ly.doom_top_color | default('0x00FF0000') }}
+doom_middle_color = {{ desktop.display_manager.ly.doom_middle_color | default('0x00FFFF00') }}
+doom_bottom_color = {{ desktop.display_manager.ly.doom_bottom_color | default('0x00FFFFFF') }}
+
+# Error colors
+error_bg = {{ desktop.display_manager.ly.error_bg | default('0x00000000') }}
+error_fg = {{ desktop.display_manager.ly.error_fg | default('0x01FF0000') }}
+
+# Foreground color id
+fg = {{ desktop.display_manager.ly.fg | default('0x00FFFFFF') }}
+
+# UI settings
+hide_borders = {{ desktop.display_manager.ly.hide_borders | default('false') }}
+hide_key_hints = {{ desktop.display_manager.ly.hide_key_hints | default('false') }}
+
+# Initial text to show on the info line
+initial_info_text = {{ desktop.display_manager.ly.initial_info_text | default('null') }}
+
+# Input boxes length
+input_len = {{ desktop.display_manager.ly.input_len | default('34') }}
+
+# Active language
+lang = {{ desktop.display_manager.ly.lang | default('en') }}
+
+# Load the saved desktop and username
+load = {{ desktop.display_manager.ly.load | default('true') }}
+
+# Login and logout commands
+login_cmd = {{ desktop.display_manager.ly.login_cmd | default('null') }}
+logout_cmd = {{ desktop.display_manager.ly.logout_cmd | default('null') }}
+
+# Main box margins
+margin_box_h = {{ desktop.display_manager.ly.margin_box_h | default('2') }}
+margin_box_v = {{ desktop.display_manager.ly.margin_box_v | default('1') }}
+
+# Event timeout in milliseconds
+min_refresh_delta = {{ desktop.display_manager.ly.min_refresh_delta | default('5') }}
+
+# Set numlock on/off at startup
+numlock = {{ desktop.display_manager.ly.numlock | default('false') }}
+
+# Default path
+path = {{ desktop.display_manager.ly.path | default('/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin') }}
+
+# Power management commands
+restart_cmd = {{ desktop.display_manager.ly.restart_cmd | default('/sbin/shutdown -r now') }}
+restart_key = {{ desktop.display_manager.ly.restart_key | default('F2') }}
+shutdown_cmd = {{ desktop.display_manager.ly.shutdown_cmd | default('/sbin/shutdown -a now') }}
+shutdown_key = {{ desktop.display_manager.ly.shutdown_key | default('F1') }}
+sleep_cmd = {{ desktop.display_manager.ly.sleep_cmd | default('null') }}
+sleep_key = {{ desktop.display_manager.ly.sleep_key | default('F3') }}
+
+# Save the current desktop and login as defaults
+save = {{ desktop.display_manager.ly.save | default('true') }}
+
+# Service name
+service_name = {{ desktop.display_manager.ly.service_name | default('ly') }}
+
+# Session log file path
+session_log = {{ desktop.display_manager.ly.session_log | default('ly-session.log') }}
+
+# Setup command
+setup_cmd = {{ desktop.display_manager.ly.setup_cmd | default('/etc/ly/setup.sh') }}
+
+# Center the session name
+text_in_center = {{ desktop.display_manager.ly.text_in_center | default('false') }}
+
+# TTY in use
+tty = {{ desktop.display_manager.ly.tty | default('2') }}
+
+# Vi mode settings
+vi_default_mode = {{ desktop.display_manager.ly.vi_default_mode | default('normal') }}
+vi_mode = {{ desktop.display_manager.ly.vi_mode | default('false') }}
+
+# Session directories
+waylandsessions = {{ desktop.display_manager.ly.waylandsessions | default('/usr/share/wayland-sessions') }}
+xsessions = {{ desktop.display_manager.ly.xsessions | default('/usr/share/xsessions') }}
+
+# X11 settings
+x_cmd = {{ desktop.display_manager.ly.x_cmd | default('/usr/bin/X') }}
+xauth_cmd = {{ desktop.display_manager.ly.xauth_cmd | default('/usr/bin/xauth') }}
+xinitrc = {{ desktop.display_manager.ly.xinitrc | default('~/.xinitrc') }}

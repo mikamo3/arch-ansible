@@ -1,7 +1,7 @@
 ---
 # fcitx5 input method installation and configuration
 
-- name: Install fcitx5 input method
+- name: Install fcitx5 base packages
   aur:
     name:
       # Core fcitx5 packages
@@ -10,11 +10,24 @@
       - fcitx5-gtk # GTK integration
       - fcitx5-qt # Qt integration
 
-      # Japanese input method
-      - fcitx5-mozc # Japanese input (Mozc)
-
       # Theme and appearance
       - fcitx5-material-color # Material color theme
 
     state: present
   become_user: "{{ ansible_user }}"
+
+- name: Install fcitx5-mozc (standard Mozc)
+  aur:
+    name:
+      - fcitx5-mozc # Japanese input (Mozc)
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: desktop.inputmethod.method == "fcitx5"
+
+- name: Install fcitx5-mozc-ut (UT dictionary Mozc)
+  aur:
+    name:
+      - fcitx5-mozc-ut # Japanese input (Mozc with UT dictionary)
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: desktop.inputmethod.method == "fcitx5-mozc-ut"

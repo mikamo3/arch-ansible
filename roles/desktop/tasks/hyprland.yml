@@ -44,4 +44,3 @@
 
     state: present
   become_user: "{{ ansible_user }}"
-  when: desktop.environment.install | default(false)

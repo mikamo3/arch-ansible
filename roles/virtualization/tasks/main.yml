@@ -6,6 +6,7 @@
     name:
       - qemu-desktop # QEMU for desktop use (lighter than qemu-full)
       - libvirt # Virtualization management library
+      - virt-manager # GUI management tool for libvirt
       - edk2-ovmf # UEFI firmware for virtual machines
       - dnsmasq # DHCP/DNS for virtual networks
       - bridge-utils # Network bridge utilities
@@ -13,36 +14,22 @@
   become_user: "{{ ansible_user }}"
   when: virtualization.install
 
-- name: Install virt-manager GUI
-  aur:
-    name:
-      - virt-manager # GUI management tool for libvirt
-    state: present
-  become_user: "{{ ansible_user }}"
-  when:
-    - virtualization.install
-    - virtualization.gui.install_virt_manager
-
 - name: Add main user to libvirt group
   ansible.builtin.user:
     name: "{{ init.main_user.name }}"
     groups: libvirt
     append: true
   become: true
-  when:
-    - virtualization.install
-    - virtualization.user.add_to_libvirt_group
+  when: virtualization.install
   notify: restart libvirtd
 
 - name: Enable and start libvirtd service
   ansible.builtin.systemd:
     name: libvirtd
-    enabled: "{{ virtualization.services.start_on_boot }}"
+    enabled: true
     state: started
   become: true
-  when: 
-    - virtualization.install
-    - virtualization.services.enable_libvirtd
+  when: virtualization.install
 
 - name: Configure default network
   block:

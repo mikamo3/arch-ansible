@@ -2,15 +2,6 @@
 # Default variables for development role - Software development environment
 
 development:
-  # Core development tools installation
-  install: false           # Install development tools
-  
-  # GUI development editor
-  install_vscode: true     # Install Visual Studio Code
-  
-  # Git enhanced tools  
-  git_tools: true          # Install Git enhanced tools (GitHub CLI, etc.)
-  
-  # Python development tools
-  python_tools: true       # Install Python development tools (uv, etc.)
+  # Install all development tools and applications
+  install: false           # Install development environment (VS Code, Git tools, Python tools)
   

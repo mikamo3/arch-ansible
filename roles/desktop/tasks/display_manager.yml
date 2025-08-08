@@ -37,6 +37,21 @@
         state: present
       become_user: "{{ ansible_user }}"
     
+    - name: Create ly configuration directory
+      ansible.builtin.file:
+        path: /etc/ly
+        state: directory
+        mode: "0755"
+      become: true
+    
+    - name: Deploy ly configuration file
+      ansible.builtin.template:
+        src: ly.config.ini.j2
+        dest: /etc/ly/config.ini
+        mode: "0644"
+        backup: true
+      become: true
+    
     - name: Enable ly service
       ansible.builtin.systemd:
         name: ly

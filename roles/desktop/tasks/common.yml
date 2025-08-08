@@ -19,9 +19,7 @@
       - chromium # Chromium browser
       - network-manager-applet # NetworkManager GUI
 
-      # Media viewers and players
-      - vlc # VLC media player
-      - vlc-plugins-all # VLC all plugins/codecs
+      # Media viewers
       - imv # Image viewer for Wayland
 
       # PDF viewer

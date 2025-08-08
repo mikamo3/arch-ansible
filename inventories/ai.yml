@@ -1,7 +1,7 @@
 ---
-sandbox:
+kamo3ai:
   hosts:
-    sandboxvm:
+    kamo3ai:
       ansible_host: 192.168.100.10
       ansible_port: 22
       ansible_user: ansible
@@ -87,12 +87,6 @@ sandbox:
     # Container configuration (for testing)
     container:
       install: true
-      enable_service: true
-      add_user_to_group: true
-      tools:
-        install_compose: true # Test Docker Compose
-        install_buildah: true # Skip in sandbox
-        install_skopeo: true # Skip in sandbox
 
     # Development configuration (for testing)
     development:
@@ -102,9 +96,7 @@ sandbox:
     virtualization:
       install: false
 
-    # Home directory configuration (for testing)
-    home:
-      install: true
+    # Shell configuration - dotfiles management
+    shell:
       dotfiles:
         install_kawazu: true # Install kawazu for dotfiles management
-        manage_dotfiles: true # Clone dotfiles repository

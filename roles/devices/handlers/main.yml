@@ -5,16 +5,3 @@
   ansible.builtin.command: mkinitcpio -P
   become: true
 
-- name: restart bluetooth
-  ansible.builtin.systemd:
-    name: bluetooth.service
-    state: restarted
-    daemon_reload: true
-  become: true
-
-- name: reload udev rules
-  ansible.builtin.systemd:
-    name: systemd-udevd.service
-    state: reloaded
-  become: true
-

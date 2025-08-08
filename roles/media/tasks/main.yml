@@ -13,6 +13,9 @@
 - name: Install media playback applications
   aur:
     name:
+      - vlc                     # VLC media player
+      - vlc-plugins-all         # VLC all plugins/codecs
+      - gthumb                  # Image viewer and organizer
       - spotify                 # Music streaming service
       - mcomix                  # Comic and manga reader
     state: present

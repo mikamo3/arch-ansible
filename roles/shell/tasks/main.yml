@@ -5,7 +5,10 @@
   ansible.builtin.import_tasks: cli_tools.yml
   tags: [cui, cli-tools]
 
-
 - name: Include editor configuration
   ansible.builtin.import_tasks: editor.yml
   tags: [cui, editor]
+
+- name: Include dotfiles management
+  ansible.builtin.import_tasks: dotfiles.yml
+  tags: [cui, dotfiles]

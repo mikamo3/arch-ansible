@@ -1,19 +1,16 @@
 ---
 # Development role main tasks - Software development environment
 
-- name: Install Visual Studio Code
+- name: Install development tools and applications
   aur:
     name:
+      # GUI development editor
       - visual-studio-code-bin # VS Code - GUI development editor
-    state: present
-  become_user: "{{ ansible_user }}"
-  when:
-    - development.install
-    - development.install_vscode
-
-- name: Install Git enhanced tools
-  aur:
-    name:
+      
+      # Development environment management
+      - mise         # Modern development environment manager
+      
+      # Git enhanced tools
       - git-lfs       # Git Large File Storage
       - tig            # Text-mode interface for Git
       - diff-so-fancy  # Better diff output
@@ -21,19 +18,18 @@
       - gibo          # .gitignore template generator
       - tokei        # Count lines of code
       - git-delta    # Better git diff viewer
-    state: present
-  become_user: "{{ ansible_user }}"
-  when:
-    - development.install
-    - development.git_tools
-
-- name: Install Python development tools
-  aur:
-    name:
+      
+      # Python development tools
       - uv           # Fast Python package installer and resolver
+      
+      # CLI development tools (moved from shell role)
+      - jq           # JSON processor
+      - yq           # YAML processor
+      - difftastic   # Semantic diff tool
+      - ghq          # Git repository manager
+      - github-cli   # GitHub CLI tool
+      
     state: present
   become_user: "{{ ansible_user }}"
-  when:
-    - development.install
-    - development.python_tools
+  when: development.install
 

@@ -9,24 +9,6 @@
     state: present
   when: container.install
 
-- name: Install Docker Compose (standalone - optional)
-  pacman:
-    name:
-      - docker-compose # Docker Compose standalone (legacy compatibility)
-    state: present
-  when:
-    - container.install
-    - container.tools.install_compose
-
-- name: Install optional container tools
-  pacman:
-    name:
-      - buildah # Advanced container image building
-      - skopeo # Container image management
-    state: present
-  when:
-    - container.install
-    - container.tools.install_buildah or container.tools.install_skopeo
 
 - name: Enable and start Docker service
   ansible.builtin.systemd:
@@ -34,9 +16,7 @@
     enabled: true
     state: started
   become: true
-  when:
-    - container.install
-    - container.enable_service
+  when: container.install
 
 - name: Add main user to docker group
   ansible.builtin.user:
@@ -44,9 +24,7 @@
     groups: docker
     append: true
   become: true
-  when:
-    - container.install
-    - container.add_user_to_group
+  when: container.install
 
 - name: Create Docker configuration directory
   ansible.builtin.file:
@@ -65,3 +43,14 @@
   become: true
   when: container.install
   notify: restart docker
+
+- name: Install container management CLI tools
+  aur:
+    name:
+      # Container management tools (moved from shell role)
+      - lazydocker # Docker TUI management
+      - ctop       # Container monitoring
+    state: present
+    use: yay
+  become_user: "{{ ansible_user }}"
+  when: container.install

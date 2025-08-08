@@ -27,13 +27,6 @@
       - hyperfine # Command-line benchmarking tool
       - neofetch # System information display
 
-      # Development and text processing
-      - jq # JSON processor
-      - yq # YAML processor
-      - difftastic # Semantic diff tool
-      - ghq # Git repository manager
-      - github-cli # GitHub CLI tool
-
       # File watching and automation
       - watchexec # File watching and auto-execution
       - usage # Command usage examples tool
@@ -61,7 +54,6 @@
       - ncdu # NCurses disk usage
       - tmux # Terminal multiplexer (traditional alternative to zellij)
       - handlr # Default application handler
-      - rclone # Cloud storage sync tool
       - inotify-tools # File system event monitoring
 
       # Additional AUR-only packages for enhanced functionality
@@ -69,9 +61,6 @@
       - bottom # System monitor (alternative to btop)
       - tealdeer # Fast tldr client
       - broot # Tree view and navigation
-      - lazydocker # Docker TUI management
-      - ctop # Container monitoring
-      - mise # Modern development environment manager
     state: present
     use: yay
   become_user: "{{ ansible_user }}"
