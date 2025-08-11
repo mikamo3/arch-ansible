@@ -7,3 +7,4 @@ password.yml
 
 # Generated secret files (contain plain text passwords)
 vars/secret.yml
+.serena/cache
