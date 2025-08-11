@@ -49,6 +49,10 @@
       # Miscellaneous utilities
       - 1password # 1Password password manager
       - 1password-cli # 1Password CLI tool
+      - remmina # Remote desktop client
+      - freerdp # RDP protocol implementation for remmina
+      - libvncserver # VNC protocol support for remmina
+      - webkit2gtk # Web browser plugin support for remmina
 
       # X11 compatibility for legacy applications
       - xorg-xwayland # X11 compatibility layer for Wayland

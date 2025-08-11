@@ -8,6 +8,7 @@
       - hyprland # Hyprland compositor
       - hyprpaper # Wallpaper utility for Hyprland
       - hypridle # Idle management for Hyprland
+      - swayidle # Alternative idle management daemon for Wayland
       - hyprlock # Screen locker for Hyprland
       - hyprpicker # Color picker for Hyprland
       - hyprcursor # Hyprland cursor theme

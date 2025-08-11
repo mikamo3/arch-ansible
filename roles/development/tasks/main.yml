@@ -6,30 +6,29 @@
     name:
       # GUI development editor
       - visual-studio-code-bin # VS Code - GUI development editor
-      
+
       # Development environment management
-      - mise         # Modern development environment manager
-      
+      - mise # Modern development environment manager
+
       # Git enhanced tools
-      - git-lfs       # Git Large File Storage
-      - tig            # Text-mode interface for Git
-      - diff-so-fancy  # Better diff output
-      - cocogitto     # Conventional commits and semver CLI tool
-      - gibo          # .gitignore template generator
-      - tokei        # Count lines of code
-      - git-delta    # Better git diff viewer
-      
+      - git-lfs # Git Large File Storage
+      - tig # Text-mode interface for Git
+      - diff-so-fancy # Better diff output
+      - cocogitto # Conventional commits and semver CLI tool
+      - gibo # .gitignore template generator
+      - tokei # Count lines of code
+      - git-delta # Better git diff viewer
+
       # Python development tools
-      - uv           # Fast Python package installer and resolver
-      
+      - uv # Fast Python package installer and resolver
+
       # CLI development tools (moved from shell role)
-      - jq           # JSON processor
-      - yq           # YAML processor
-      - difftastic   # Semantic diff tool
-      - ghq          # Git repository manager
-      - github-cli   # GitHub CLI tool
-      
+      - jq # JSON processor
+      - yq # YAML processor
+      - difftastic # Semantic diff tool
+      - ghq # Git repository manager
+      - github-cli # GitHub CLI tool
+
     state: present
   become_user: "{{ ansible_user }}"
   when: development.install
-
