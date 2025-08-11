@@ -1,0 +1,6 @@
+---
+# Storage role handlers
+
+- name: reload nfs exports
+  ansible.builtin.command: exportfs -ra
+  become: true

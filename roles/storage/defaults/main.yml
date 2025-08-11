@@ -5,3 +5,22 @@
 storage:
   cloud_sync: true        # Install cloud synchronization tools
   encryption: true        # Install disk encryption tools
+  nfs: false              # Install NFS client and server utilities
+  
+  # NFS server configuration (optional)
+  # nfs_server:
+  #   enabled: false
+  #   exports:
+  #     - path: "/home/user/shared"
+  #       clients: "192.168.1.0/24(rw,sync,no_subtree_check)"
+  
+  # NFS client configuration (optional)
+  # nfs_client:
+  #   enabled: false
+  #   mounts:
+  #     - server: "192.168.1.100"
+  #       remote_path: "/home/user/shared"
+  #       local_path: "/mnt/nfs-shared"
+  #       options: "rw,hard,intr"
+  #       auto_mount: true
+  #       create_home_symlink: false

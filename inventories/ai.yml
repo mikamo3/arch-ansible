@@ -71,6 +71,16 @@ kamo3ai:
     storage:
       cloud_sync: false # Skip in sandbox
       encryption: false # Skip in sandbox
+      nfs: true # Enable NFS
+      nfs_client:
+        enabled: true
+        mounts:
+          - server: "192.168.100.100"
+            remote_path: "/home/mikamo/src"
+            local_path: "/mnt/mainpc-src"
+            options: "rw,soft,timeo=30,retry=3,intr"
+            auto_mount: false
+            create_home_symlink: true
 
     # Office configuration (for testing)
     office:

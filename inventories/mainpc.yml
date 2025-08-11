@@ -64,6 +64,12 @@ mainpc:
     storage:
       cloud_sync: true # Skip in sandbox
       encryption: true # Skip in sandbox
+      nfs: true # Enable NFS
+      nfs_server:
+        enabled: true
+        exports:
+          - path: "/home/mikamo/src"
+            clients: "192.168.100.10(rw,sync,no_subtree_check,no_root_squash)"
 
     # Office configuration (for testing)
     office:

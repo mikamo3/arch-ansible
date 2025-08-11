@@ -1,0 +1,49 @@
+---
+# NFS Server configuration tasks
+
+- name: Enable and start NFS server services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  become: true
+  loop:
+    - nfs-server
+    - rpcbind
+  when: storage.nfs_server.enabled
+
+- name: Create NFS export directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  become: true
+  loop: "{{ storage.nfs_server.exports }}"
+  when: storage.nfs_server.enabled and storage.nfs_server.exports is defined
+
+- name: Configure NFS exports
+  ansible.builtin.lineinfile:
+    path: /etc/exports
+    line: "{{ item.path }} {{ item.clients }}"
+    create: true
+    backup: true
+  become: true
+  loop: "{{ storage.nfs_server.exports }}"
+  when: storage.nfs_server.enabled and storage.nfs_server.exports is defined
+  notify: reload nfs exports
+
+- name: Open firewall ports for NFS
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: true
+  become: true
+  loop:
+    - nfs
+    - rpc-bind
+    - mountd
+  when: storage.nfs_server.enabled
+  ignore_errors: true # Firewall may not be running

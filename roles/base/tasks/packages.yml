@@ -29,6 +29,7 @@
       - wget
       - curl
       - inetutils
+      - openbsd-netcat
 
       # Essential tools
       - git
@@ -110,9 +111,10 @@
 - name: Install AUR packages (optional)
   aur:
     name:
-      - openssh-askpass
       # Add AUR packages here if needed
+      # - openssh-askpass  # Currently broken due to CMake compatibility
       # - yay-bin  # Alternative to building yay
       # - google-chrome
     state: present
   become_user: "{{ ansible_user }}"
+  when: false  # Disabled until we have working AUR packages to install

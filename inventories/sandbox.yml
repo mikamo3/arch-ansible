@@ -71,6 +71,7 @@ sandbox:
     storage:
       cloud_sync: true # Skip in sandbox
       encryption: true # Skip in sandbox
+      nfs: true # Enable NFS for testing
 
     # Office configuration (for testing)
     office:

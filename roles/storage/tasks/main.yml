@@ -17,6 +17,22 @@
   become_user: "{{ ansible_user }}"
   when: storage.encryption
 
+- name: Install NFS utilities
+  aur:
+    name:
+      - nfs-utils               # NFS client and server utilities
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: storage.nfs
+
+- name: Configure NFS server
+  ansible.builtin.include_tasks: nfs_server.yml
+  when: storage.nfs and storage.nfs_server is defined and storage.nfs_server.enabled
+
+- name: Configure NFS client
+  ansible.builtin.include_tasks: nfs_client.yml
+  when: storage.nfs and storage.nfs_client is defined and storage.nfs_client.enabled
+
 - name: Configure FUSE for storage applications
   ansible.builtin.lineinfile:
     path: /etc/fuse.conf

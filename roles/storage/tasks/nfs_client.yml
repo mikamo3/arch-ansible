@@ -1,0 +1,53 @@
+---
+# NFS Client configuration tasks
+
+- name: Create NFS mount directories
+  ansible.builtin.file:
+    path: "{{ item.local_path }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  become: true
+  loop: "{{ storage.nfs_client.mounts }}"
+  when: storage.nfs_client.enabled and storage.nfs_client.mounts is defined
+
+- name: Configure NFS mounts in fstab
+  ansible.posix.mount:
+    path: "{{ item.local_path }}"
+    src: "{{ item.server }}:{{ item.remote_path }}"
+    fstype: nfs
+    opts: "{{ item.options | default('rw,soft,timeo=30,retry=3,intr') }},noauto,user"
+    state: "{{ 'mounted' if item.auto_mount | default(false) else 'present' }}"
+    backup: true
+  become: true
+  loop: "{{ storage.nfs_client.mounts }}"
+  when: storage.nfs_client.enabled and storage.nfs_client.mounts is defined
+
+- name: Create NFS mount management scripts
+  ansible.builtin.template:
+    src: "{{ item.template }}"
+    dest: "/usr/local/bin/{{ item.script_name }}"
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+  loop:
+    - template: nfs_mount.sh.j2
+      script_name: mount-nfs-shares
+    - template: nfs_umount.sh.j2
+      script_name: umount-nfs-shares
+    - template: nfs_status.sh.j2
+      script_name: nfs-status
+  when: storage.nfs_client.enabled and storage.nfs_client.mounts is defined
+
+- name: Create symlink in user home for easy access
+  ansible.builtin.file:
+    src: "{{ item.local_path }}"
+    dest: "{{ ansible_user_dir }}/{{ item.local_path | basename }}"
+    state: link
+  loop: "{{ storage.nfs_client.mounts }}"
+  when: 
+    - storage.nfs_client.enabled 
+    - storage.nfs_client.mounts is defined
+    - item.create_home_symlink | default(false)
