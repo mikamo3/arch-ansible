@@ -12,5 +12,4 @@
       - alsa-utils
     state: present
   become_user: "{{ ansible_user }}"
-  when: devices.audio.install | default(false)
 

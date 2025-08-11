@@ -1,7 +1,7 @@
 ---
 nucbox:
   hosts:
-    nucbox:
+    nucbox-host:
       ansible_host: 192.168.100.20
       ansible_port: 22
       ansible_user: ansible
@@ -62,6 +62,9 @@ nucbox:
         method: "fcitx5"
       common:
         install: true
+      appearance:
+        install: true
+        preset: "small"
 
     # Storage configuration (for testing)
     storage:

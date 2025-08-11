@@ -1,0 +1,48 @@
+---
+# Appearance resources - wallpapers, cursors, and themes only (no tools/programs)
+
+- name: Install appearance resources (small preset)
+  aur:
+    name:
+      # Basic wallpaper collections
+      - nordic-wallpapers # Nord color scheme wallpapers
+
+      # Basic cursor theme
+      - catppuccin-cursors-mocha
+
+      # Basic themes
+      - papirus-icon-theme # Icon theme
+
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - desktop.appearance.preset == "small"
+  tags: [desktop, appearance]
+
+- name: Install appearance resources (full preset)
+  aur:
+    name:
+      # Comprehensive wallpaper collections
+      - nordic-wallpapers # Nord color scheme wallpapers
+      - nostalgia # Historic GNOME wallpapers
+      - pokemon-wallpapers # Pokemon wallpaper collection
+      - system76-wallpapers # System76 wallpapers
+      - elementary-wallpapers-git # Elementary OS wallpapers
+
+      # Comprehensive cursor themes
+      - catppuccin-cursors-mocha
+      - catppuccin-cursors-macchiato
+      - catppuccin-cursors-latte
+      - catppuccin-cursors-frappe
+
+      # Professional themes
+      - papirus-icon-theme
+      - arc-gtk-theme
+      - materia-gtk-theme
+      - adapta-gtk-theme
+
+    state: present
+  become_user: "{{ ansible_user }}"
+  when:
+    - desktop.appearance.preset == "full"
+  tags: [desktop, appearance]

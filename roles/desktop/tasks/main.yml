@@ -33,3 +33,8 @@
   ansible.builtin.import_tasks: display_manager.yml
   when: desktop.display_manager.install | default(false)
   tags: [desktop, display-manager]
+
+- name: Install appearance packages
+  ansible.builtin.import_tasks: appearance.yml
+  when: desktop.appearance.install | default(false)
+  tags: [desktop, appearance]

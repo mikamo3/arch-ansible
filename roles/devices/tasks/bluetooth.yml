@@ -9,7 +9,6 @@
       - blueman
     state: present
   become_user: "{{ ansible_user }}"
-  when: devices.bluetooth.install | default(false)
 
 - name: Enable and start Bluetooth service
   ansible.builtin.systemd:
@@ -17,5 +16,4 @@
     enabled: true
     state: started
   become: true
-  when: devices.bluetooth.install | default(false)
 

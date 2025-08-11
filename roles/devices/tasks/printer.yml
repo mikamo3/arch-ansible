@@ -10,7 +10,6 @@
       - simple-scan
     state: present
   become_user: "{{ ansible_user }}"
-  when: devices.printer.install | default(false)
 
 - name: Enable and start CUPS service
   ansible.builtin.systemd:
@@ -18,4 +17,3 @@
     enabled: true
     state: started
   become: true
-  when: devices.printer.install | default(false)

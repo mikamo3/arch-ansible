@@ -18,12 +18,12 @@ desktop:
       bg: "0x00000000"
       fg: "0x00FFFFFF"
       border_fg: "0x00FFFFFF"
-      
+
       # Authentication
       allow_empty_password: false
       clear_password: false
       auth_fails: 10
-      
+
       # UI settings
       hide_borders: false
       hide_key_hints: false
@@ -31,13 +31,13 @@ desktop:
       input_len: 34
       margin_box_h: 2
       margin_box_v: 1
-      
+
       # System settings
       tty: 2
       lang: "en"
       numlock: false
       vi_mode: false
-      
+
       # Power management keys
       shutdown_key: "F1"
       restart_key: "F2"
@@ -57,6 +57,11 @@ desktop:
   # Common utilities (for all desktop environments)
   common:
     install: true
+
+  # Appearance configuration (wallpapers, cursors, themes)
+  appearance:
+    install: false
+    preset: "small" # small/full
 
   # Font family definitions
   font_families:

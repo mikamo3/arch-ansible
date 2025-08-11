@@ -9,16 +9,20 @@
 
 - name: Include GPU driver installation tasks
   ansible.builtin.import_tasks: gpu_drivers.yml
+  when: devices.gpu.install | default(false)
   tags: [devices, gpu, graphics]
 
 - name: Include audio system configuration tasks
   ansible.builtin.import_tasks: audio.yml
+  when: devices.audio.install | default(false)
   tags: [devices, audio]
 
 - name: Include Bluetooth support tasks
   ansible.builtin.import_tasks: bluetooth.yml
+  when: devices.bluetooth.install | default(false)
   tags: [devices, bluetooth]
 
 - name: Include printer and scanner support tasks
   ansible.builtin.import_tasks: printer.yml
+  when: devices.printer.install | default(false)
   tags: [devices, printer]

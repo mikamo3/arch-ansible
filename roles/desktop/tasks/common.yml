@@ -57,8 +57,6 @@
       # X11 compatibility for legacy applications
       - xorg-xwayland # X11 compatibility layer for Wayland
 
-      # Cursors and themes
-      - catppuccin-cursors-mocha
 
     state: present
   become_user: "{{ ansible_user }}"

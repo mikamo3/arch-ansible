@@ -1,56 +1,54 @@
 ---
 # Docker installation and configuration for home use
 
-- name: Install Docker packages
-  pacman:
-    name:
-      - docker # Docker engine
-      - docker-buildx # Docker buildx plugin (multi-platform builds)
-    state: present
-  when: container.install
+- name: Install and configure Docker
+  block:
+    - name: Install Docker packages
+      pacman:
+        name:
+          - docker # Docker engine
+          - docker-buildx # Docker buildx plugin (multi-platform builds)
+        state: present
 
+    - name: Enable and start Docker service
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+      become: true
 
-- name: Enable and start Docker service
-  ansible.builtin.systemd:
-    name: docker
-    enabled: true
-    state: started
-  become: true
-  when: container.install
+    - name: Add main user to docker group
+      ansible.builtin.user:
+        name: "{{ init.main_user.name }}"
+        groups: docker
+        append: true
+      become: true
 
-- name: Add main user to docker group
-  ansible.builtin.user:
-    name: "{{ init.main_user.name }}"
-    groups: docker
-    append: true
-  become: true
-  when: container.install
+    - name: Create Docker configuration directory
+      ansible.builtin.file:
+        path: /etc/docker
+        state: directory
+        mode: '0755'
+      become: true
 
-- name: Create Docker configuration directory
-  ansible.builtin.file:
-    path: /etc/docker
-    state: directory
-    mode: '0755'
-  become: true
-  when: container.install
+    - name: Configure Docker daemon logging
+      ansible.builtin.template:
+        src: daemon.json.j2
+        dest: /etc/docker/daemon.json
+        mode: '0644'
+        backup: true
+      become: true
+      notify: restart docker
 
-- name: Configure Docker daemon logging
-  ansible.builtin.template:
-    src: daemon.json.j2
-    dest: /etc/docker/daemon.json
-    mode: '0644'
-    backup: true
-  become: true
-  when: container.install
-  notify: restart docker
+    - name: Install container management CLI tools
+      aur:
+        name:
+          # Container management tools (moved from shell role)
+          - lazydocker # Docker TUI management
+          - ctop       # Container monitoring
+        state: present
+        use: yay
+      become_user: "{{ ansible_user }}"
 
-- name: Install container management CLI tools
-  aur:
-    name:
-      # Container management tools (moved from shell role)
-      - lazydocker # Docker TUI management
-      - ctop       # Container monitoring
-    state: present
-    use: yay
-  become_user: "{{ ansible_user }}"
   when: container.install
+  tags: [container, docker]

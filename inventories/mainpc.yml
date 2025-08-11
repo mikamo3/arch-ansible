@@ -1,7 +1,7 @@
 ---
 mainpc:
   hosts:
-    mainpc:
+    mainpc-host:
       ansible_host: 192.168.100.100
       ansible_port: 22
       ansible_user: ansible
@@ -56,6 +56,9 @@ mainpc:
         method: "fcitx5-mozc-ut"
       common:
         install: true
+      appearance:
+        install: true
+        preset: "full"
 
     # Storage configuration (for testing)
     storage:
