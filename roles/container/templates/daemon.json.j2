@@ -4,5 +4,11 @@
     "max-size": "{{ container.logging.max_size | default('10m') }}",
     "max-file": "{{ container.logging.max_file | default('3') }}"
   }{% if container.logging.level is defined %},
-  "log-level": "{{ container.logging.level }}"{% endif %}
+  "log-level": "{{ container.logging.level }}"{% endif %}{% if container.nvidia_runtime | default(false) %},
+  "runtimes": {
+    "nvidia": {
+      "path": "nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }{% endif %}
 }

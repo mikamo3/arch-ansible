@@ -16,6 +16,7 @@
 
       # Web browsers
       - firefox # Firefox browser
+      - firefox-i18n-ja # Japanese language pack for Firefox
       - chromium # Chromium browser
       - network-manager-applet # NetworkManager GUI
 
@@ -46,17 +47,20 @@
       - qt5-wayland # Qt5 Wayland support
       - qt6-wayland # Qt6 Wayland support
 
-      # Miscellaneous utilities
-      - 1password # 1Password password manager
-      - 1password-cli # 1Password CLI tool
+      # File transfer and remote access
+      - filezilla # FTP/SFTP client
       - remmina # Remote desktop client
       - freerdp # RDP protocol implementation for remmina
       - libvncserver # VNC protocol support for remmina
       - webkit2gtk # Web browser plugin support for remmina
+      - qbittorrent # BitTorrent client
+
+      # Miscellaneous utilities
+      - 1password # 1Password password manager
+      - 1password-cli # 1Password CLI tool
 
       # X11 compatibility for legacy applications
       - xorg-xwayland # X11 compatibility layer for Wayland
-
 
     state: present
   become_user: "{{ ansible_user }}"

@@ -30,9 +30,11 @@
       - curl
       - inetutils
       - openbsd-netcat
+      - ldns
 
       # Essential tools
       - git
+      - git-crypt
       - vim
       - nano
       - man-db
@@ -43,6 +45,7 @@
       - sudo
       - rsync
       - bc
+      - mise
 
       # Archive handling
       - unzip
@@ -73,6 +76,7 @@
       # Security tools
       - logwatch
       - rkhunter
+      - firejail
     state: present
   become: true
   register: essential_packages_result
@@ -117,4 +121,4 @@
       # - google-chrome
     state: present
   become_user: "{{ ansible_user }}"
-  when: false  # Disabled until we have working AUR packages to install
+  when: false # Disabled until we have working AUR packages to install

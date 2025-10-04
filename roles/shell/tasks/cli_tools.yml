@@ -24,6 +24,7 @@
       # System monitoring and debugging
       - btop # Resource monitor (better htop)
       - bandwhich # Network bandwidth monitor
+      - iftop # Network bandwidth usage by connection
       - hyperfine # Command-line benchmarking tool
       - neofetch # System information display
 

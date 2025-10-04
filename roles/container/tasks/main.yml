@@ -7,15 +7,9 @@
       pacman:
         name:
           - docker # Docker engine
+          - docker-compose # Docker Compose V2
           - docker-buildx # Docker buildx plugin (multi-platform builds)
         state: present
-
-    - name: Enable and start Docker service
-      ansible.builtin.systemd:
-        name: docker
-        enabled: true
-        state: started
-      become: true
 
     - name: Add main user to docker group
       ansible.builtin.user:
@@ -28,14 +22,14 @@
       ansible.builtin.file:
         path: /etc/docker
         state: directory
-        mode: '0755'
+        mode: "0755"
       become: true
 
     - name: Configure Docker daemon logging
       ansible.builtin.template:
         src: daemon.json.j2
         dest: /etc/docker/daemon.json
-        mode: '0644'
+        mode: "0644"
         backup: true
       become: true
       notify: restart docker
@@ -45,10 +39,17 @@
         name:
           # Container management tools (moved from shell role)
           - lazydocker # Docker TUI management
-          - ctop       # Container monitoring
+          - ctop # Container monitoring
         state: present
         use: yay
       become_user: "{{ ansible_user }}"
+
+    - name: Enable and start Docker service
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+      become: true
 
   when: container.install
   tags: [container, docker]

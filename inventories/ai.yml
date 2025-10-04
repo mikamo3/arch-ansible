@@ -99,6 +99,7 @@ kamo3ai:
     # Container configuration (for testing)
     container:
       install: true
+      nvidia_runtime: true
 
     # Development configuration (for testing)
     development:

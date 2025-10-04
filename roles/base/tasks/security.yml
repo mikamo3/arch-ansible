@@ -34,9 +34,9 @@
         src: 127.0.0.1
       become: true
 
-    - name: Enable ufw
+    - name: Disable ufw
       community.general.ufw:
-        state: enabled
+        state: disabled
         logging: "on"
       become: true
       notify: reload ufw

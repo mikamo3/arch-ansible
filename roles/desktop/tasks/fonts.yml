@@ -24,7 +24,7 @@
 
       # Design/Display fonts
       - ttf-bizter # Bizter font
-      - ttf-line-seed # Line Seed font
+      #      - ttf-line-seed # Line Seed font
 
       # Font management tools
       - gucharmap # Character map utility

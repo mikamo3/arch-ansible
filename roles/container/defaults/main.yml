@@ -4,6 +4,7 @@
 # Container configuration options
 container:
   install: false          # Install container runtime and tools
+  nvidia_runtime: false   # Enable NVIDIA container runtime support
   logging:
     max_size: "10m"       # Maximum size of log files before rotation
     max_file: "3"         # Maximum number of log files to retain
