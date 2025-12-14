@@ -36,6 +36,7 @@
       # Essential tools
       - git
       - git-crypt
+      - ghq
       - vim
       - nano
       - man-db

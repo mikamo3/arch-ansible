@@ -42,30 +42,15 @@ kamo3ai:
         type: "nvidia" # NVIDIA GPU
         cuda_support: true # Enable CUDA for LLM inference
       audio:
-        install: true # ICH9 audio + SPICE available
+        install: false # ICH9 audio + SPICE available
       bluetooth:
-        install: true # No Bluetooth in VM
+        install: false # No Bluetooth in VM
       printer:
         install: false # No printer in VM
 
     # Desktop role configuration (for testing)
     desktop:
-      environment:
-        install: true
-        type: "gnome"
-        gnome_install: "minimal"
-      display_manager:
-        install: true
-        type: "gdm"
-      fonts:
-        install: "full"
-      inputmethod:
-        install: true
-        method: "fcitx5"
-      common:
-        install: true
-      appearance:
-        install: false
+      enabled: false
 
     # Storage configuration (for testing)
     storage:
@@ -88,9 +73,9 @@ kamo3ai:
 
     # Media configuration (for testing)
     media:
-      cli_tools: true # Skip CLI media tools in sandbox
-      playback: true # Skip heavy applications in sandbox
-      editing: true # Skip heavy editing tools in sandbox
+      cli_tools: false # Skip CLI media tools in sandbox
+      playback: false # Skip heavy applications in sandbox
+      editing: false # Skip heavy editing tools in sandbox
 
     # CAD configuration (for testing)
     cad:

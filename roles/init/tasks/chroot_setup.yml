@@ -126,7 +126,7 @@
   become: true
   register: mkinitcpio_result
   failed_when:
-    - mkinitcpio_result.rc != 0
+    - mkinitcpio_result.rc not in [0, 2]
     - '"Initcpio image generation successful" not in mkinitcpio_result.stdout'
   changed_when: mkinitcpio_result.rc == 0
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-
 # Re-execute with bash if run from fish shell
 if [ -n "$FISH_VERSION" ]; then
     exec bash "$0" "$@"
