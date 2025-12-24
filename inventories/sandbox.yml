@@ -19,7 +19,7 @@ sandbox:
       target_disk: /dev/vda
       static_network:
         enabled: true
-        interface: enp2s0
+        interface: enp1s0
         ip_address: 192.168.122.100
         prefix: 24
         gateway: 192.168.122.1

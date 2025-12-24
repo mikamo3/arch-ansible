@@ -1,0 +1,56 @@
+---
+# greetd display manager with tuigreet and UWSM integration
+
+- name: Install greetd display manager with UWSM
+  block:
+    - name: Install greetd packages
+      aur:
+        name:
+          - greetd
+          - greetd-regreet
+          - cage
+          - uwsm
+        state: present
+      become_user: "{{ ansible_user }}"
+
+    - name: Create greetd configuration directory
+      ansible.builtin.file:
+        path: /etc/greetd
+        state: directory
+        mode: "0755"
+      become: true
+
+    - name: Deploy greetd configuration file
+      ansible.builtin.template:
+        src: greetd-config.toml.j2
+        dest: /etc/greetd/config.toml
+        mode: "0644"
+        backup: true
+      become: true
+
+    - name: Ensure greetd user exists
+      ansible.builtin.user:
+        name: greeter
+        system: true
+        shell: /bin/nologin
+        home: /var/lib/greetd
+        state: present
+      become: true
+
+    - name: Create greeter home directory
+      ansible.builtin.file:
+        path: /var/lib/greetd
+        owner: greeter
+        group: greeter
+        mode: "0700"
+        state: directory
+      become: true
+
+    - name: Enable greetd service
+      ansible.builtin.systemd:
+        name: greetd
+        enabled: true
+        daemon_reload: true
+      become: true
+
+  when: desktop.display_manager.type == "greetd"

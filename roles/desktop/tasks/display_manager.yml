@@ -6,26 +6,26 @@
     - name: Install GDM packages
       aur:
         name:
-          - gdm               # GNOME Display Manager
+          - gdm # GNOME Display Manager
         state: present
       become_user: "{{ ansible_user }}"
-    
+
     - name: Hide ansible user from GDM login screen
       ansible.builtin.copy:
         content: |
           [User]
           SystemAccount=true
         dest: "/var/lib/AccountsService/users/{{ ansible_user }}"
-        mode: '0644'
+        mode: "0644"
       become: true
-    
+
     - name: Enable GDM service
       ansible.builtin.systemd:
         name: gdm
         enabled: true
         daemon_reload: true
       become: true
-      
+
   when: desktop.display_manager.type == "gdm"
 
 - name: Install ly display manager
@@ -33,17 +33,17 @@
     - name: Install ly packages
       aur:
         name:
-          - ly                # TUI display manager
+          - ly # TUI display manager
         state: present
       become_user: "{{ ansible_user }}"
-    
+
     - name: Create ly configuration directory
       ansible.builtin.file:
         path: /etc/ly
         state: directory
         mode: "0755"
       become: true
-    
+
     - name: Deploy ly configuration file
       ansible.builtin.template:
         src: ly.config.ini.j2
@@ -51,12 +51,23 @@
         mode: "0644"
         backup: true
       become: true
-    
-    - name: Enable ly service
+
+    - name: Disable getty@tty1 service
       ansible.builtin.systemd:
-        name: ly
+        name: getty@tty1
+        enabled: false
+        daemon_reload: true
+      become: true
+
+    - name: Enable ly@tty1 service
+      ansible.builtin.systemd:
+        name: ly@tty1
         enabled: true
         daemon_reload: true
       become: true
-      
+
   when: desktop.display_manager.type == "ly"
+
+- name: Install greetd display manager with UWSM
+  ansible.builtin.import_tasks: greetd.yml
+  when: desktop.display_manager.type == "greetd"

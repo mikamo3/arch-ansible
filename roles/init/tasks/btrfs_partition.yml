@@ -7,6 +7,17 @@
     efi_partition: "{{ init.target_disk }}{{ 'p' if 'nvme' in init.target_disk or 'mmcblk' in init.target_disk else '' }}1"
     root_partition: "{{ init.target_disk }}{{ 'p' if 'nvme' in init.target_disk or 'mmcblk' in init.target_disk else '' }}2"
 
+- name: Wipe existing partitions for idempotency
+  ansible.builtin.shell: |
+    set -e
+    # Unmount any existing mounted partitions on this disk
+    grep "{{ init.target_disk }}" /proc/mounts | awk '{print $2}' | sort -r | xargs -r umount -f || true
+    # Wipe partition table and first block of disk
+    sgdisk --zap-all {{ init.target_disk }} || true
+    # Overwrite beginning of disk to be safe
+    dd if=/dev/zero of="{{ init.target_disk }}" bs=1M count=10 || true
+  become: true
+
 - name: Create GPT partition table
   community.general.parted:
     device: "{{ init.target_disk }}"

@@ -1,52 +1,4 @@
 ---
-# Hyprland desktop environment installation
-
-# Prerequisite: Ensure qt6-wayland is installed (required for hyprsysteminfo-git)
-- name: Install Qt6 Wayland support
-  pacman:
-    name:
-      - qt6-wayland
-    state: present
-  become: true
-
-# Conflict resolution: Remove stable hyprutils before installing -git variant
-- name: Remove stable hyprutils to avoid conflicts with hyprutils-git
-  pacman:
-    name: hyprutils
-    state: absent
-  become: true
-  ignore_errors: true
-
-# Install hypersysteminfo and dependencies in dependency order
-# to ensure all -git variants build and install successfully
-- name: Install hyprutils-git (base dependency)
-  aur:
-    name:
-      - hyprutils-git
-    state: present
-  become_user: "{{ ansible_user }}"
-
-- name: Install hyprlang-git (dependency for hyprland-qt-support-git)
-  aur:
-    name:
-      - hyprlang-git
-    state: present
-  become_user: "{{ ansible_user }}"
-
-- name: Install hyprland-qt-support-git (dependency for hyprsysteminfo-git)
-  aur:
-    name:
-      - hyprland-qt-support-git
-    state: present
-  become_user: "{{ ansible_user }}"
-
-- name: Install hyprsysteminfo-git (maintained version, stable hyprutils not available)
-  aur:
-    name:
-      - hyprsysteminfo-git
-    state: present
-  become_user: "{{ ansible_user }}"
-
 - name: Install Hyprland desktop environment
   aur:
     name:
@@ -90,4 +42,3 @@
 
     state: present
   become_user: "{{ ansible_user }}"
-

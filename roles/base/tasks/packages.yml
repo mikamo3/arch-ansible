@@ -1,11 +1,6 @@
 ---
 # Package management configuration
 
-- name: Initialize pacman database
-  community.general.pacman:
-    update_cache: true
-  become: true
-
 - name: Update pacman configuration
   ansible.builtin.template:
     src: pacman.conf.j2
@@ -13,7 +8,11 @@
     backup: true
     mode: "0644"
   become: true
-  notify: update package database
+
+- name: update package database
+  community.general.pacman:
+    update_cache: true
+  become: true
 
 - name: Install essential packages
   community.general.pacman:
@@ -123,4 +122,4 @@
       # - google-chrome
     state: present
   become_user: "{{ ansible_user }}"
-  when: false # Disabled until we have working AUR packages to install
+  when: false
