@@ -11,6 +11,9 @@
       - ttf-dejavu # Monospace font (system default)
       - fontconfig # Font configuration system
       - ttf-cica # Programming font with Japanese support
+      # Font management tools
+      - gucharmap # Character map utility
+      - font-manager # Font management GUI
     state: present
   become_user: "{{ ansible_user }}"
 
@@ -24,11 +27,8 @@
 
       # Design/Display fonts
       - ttf-bizter # Bizter font
-      #      - ttf-line-seed # Line Seed font
-
-      # Font management tools
-      - gucharmap # Character map utility
-      - font-manager # Font management GUI
+      - ttf-source-han-sans-jp # Source Han Sans JP (Adobe/Google)
+    #      - ttf-line-seed # Line Seed font
 
     state: present
   become_user: "{{ ansible_user }}"

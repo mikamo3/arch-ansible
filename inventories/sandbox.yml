@@ -51,11 +51,10 @@ sandbox:
     desktop:
       environment:
         install: true
-        type: "gnome"
-        gnome_install: "minimal"
+        type: "hyprland"
       display_manager:
         install: true
-        type: "gdm"
+        type: "greetd"
       fonts:
         install: "full"
       inputmethod:

@@ -1,0 +1,14 @@
+---
+# X11-specific desktop utilities
+
+- name: Install X11 utilities
+  aur:
+    name:
+      - xclip # X11 clipboard utility
+      - xsel # Alternative X11 clipboard handler
+      - maim # Screenshot utility for X11
+      - xorg-xprop # Inspect X11 window properties
+      - xorg-xwininfo # Query window geometry
+      - arandr # Graphical front-end for xrandr
+    state: present
+  become_user: "{{ ansible_user }}"

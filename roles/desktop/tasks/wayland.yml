@@ -1,0 +1,24 @@
+---
+# Wayland-specific desktop utilities
+
+- name: Install Wayland utilities
+  aur:
+    name:
+      - imv # Wayland-native image viewer
+      - grim # Wayland screenshot tool
+      - slurp # Wayland region selector
+      - wl-clipboard # Wayland clipboard helpers
+      - wev # Wayland input/event inspector
+      - qt5-wayland # Qt5 Wayland platform plugin
+      - qt6-wayland # Qt6 Wayland platform plugin
+      - kanshi # Dynamic display configuration
+      - wlr-randr # Display management for wlroots
+      - wlroots # Wayland compositor library
+      - wob # Wayland overlay bar (volume/brightness)
+      - clipman # Clipboard manager
+      - cliphist # Clipboard history
+      - swappy # Screenshot annotation tool
+      - uwsm # Universal Wayland Session Manager
+      - xorg-xwayland # X11 compatibility layer for Wayland
+    state: present
+  become_user: "{{ ansible_user }}"

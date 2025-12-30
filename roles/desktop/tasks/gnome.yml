@@ -12,12 +12,6 @@
       - gnome-browser-connector # Browser extension connector
       - gnome-shell-extension-kimpanel # Input method panel for fcitx5
 
-    state: present
-  become_user: "{{ ansible_user }}"
-
-- name: Install additional GNOME packages for full installation
-  aur:
-    name:
       # Additional GNOME applications and tools
       - gnome-extra # Additional GNOME applications
       - dconf-editor # Configuration editor
@@ -31,5 +25,3 @@
 
     state: present
   become_user: "{{ ansible_user }}"
-  when:
-    - desktop.environment.gnome_install | default("minimal") == "full"

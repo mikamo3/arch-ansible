@@ -34,10 +34,10 @@
 - name: Configure default network
   block:
     - name: Check if default network exists
-      ansible.builtin.command: virsh net-list --all --name
+      ansible.builtin.command: virsh -c {{ virtualization.libvirt_uri | default('qemu:///system') }} net-list --all --name
       register: existing_networks
       changed_when: false
-      become_user: "{{ init.main_user.name }}"
+      become: true
       failed_when: false
 
     - name: Create default network XML from template
@@ -45,30 +45,30 @@
         src: default-network.xml.j2
         dest: /tmp/default-network.xml
         mode: "0644"
-      become_user: "{{ init.main_user.name }}"
+      become: true
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"
       notify: reload libvirtd
 
     - name: Define default network
-      ansible.builtin.command: virsh net-define /tmp/default-network.xml
-      become_user: "{{ init.main_user.name }}"
+      ansible.builtin.command: virsh -c {{ virtualization.libvirt_uri | default('qemu:///system') }} net-define /tmp/default-network.xml
+      become: true
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"
 
     - name: Enable default network autostart
-      ansible.builtin.command: virsh net-autostart default
-      become_user: "{{ init.main_user.name }}"
+      ansible.builtin.command: virsh -c {{ virtualization.libvirt_uri | default('qemu:///system') }} net-autostart default
+      become: true
       failed_when: false
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"
 
     - name: Start default network
-      ansible.builtin.command: virsh net-start default
-      become_user: "{{ init.main_user.name }}"
+      ansible.builtin.command: virsh -c {{ virtualization.libvirt_uri | default('qemu:///system') }} net-start default
+      become: true
       failed_when: false
       when:
         - existing_networks.rc == 0
@@ -78,7 +78,7 @@
       ansible.builtin.file:
         path: /tmp/default-network.xml
         state: absent
-      become_user: "{{ init.main_user.name }}"
+      become: true
       when:
         - existing_networks.rc == 0
         - "'default' not in existing_networks.stdout_lines"

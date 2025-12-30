@@ -4,6 +4,7 @@
 - name: Install common GUI utilities
   aur:
     name:
+      - dex
       # Terminal emulators
       - kitty # Modern GPU-accelerated terminal
 
@@ -20,9 +21,6 @@
       - chromium # Chromium browser
       - network-manager-applet # NetworkManager GUI
 
-      # Media viewers
-      - imv # Image viewer for Wayland
-
       # PDF viewer
       - zathura # Minimal PDF viewer
       - zathura-pdf-poppler # PDF backend for zathura
@@ -30,22 +28,10 @@
       # System utilities
       - xdg-user-dirs # User directory management
 
-      # Wayland utilities (common for all environments)
-      - grim # Screenshot utility for Wayland
-      - slurp # Screen area selection for Wayland
-      - wl-clipboard # Wayland clipboard utilities
-      - wev # Wayland event viewer (debugging)
-
       # Fonts and rendering
       - fontconfig # Font configuration
 
-      # Desktop portals (required for modern apps)
-      - xdg-desktop-portal # Base desktop portal framework
-      - xdg-desktop-portal-wlr # wlroots-based portal implementation
-
       # Theme and appearance
-      - qt5-wayland # Qt5 Wayland support
-      - qt6-wayland # Qt6 Wayland support
 
       # File transfer and remote access
       - filezilla # FTP/SFTP client
@@ -58,9 +44,6 @@
       # Miscellaneous utilities
       - 1password # 1Password password manager
       - 1password-cli # 1Password CLI tool
-
-      # X11 compatibility for legacy applications
-      - xorg-xwayland # X11 compatibility layer for Wayland
 
     state: present
   become_user: "{{ ansible_user }}"

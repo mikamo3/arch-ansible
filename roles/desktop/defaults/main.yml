@@ -6,12 +6,14 @@ desktop:
   environment:
     install: false
     type: "none" # none/gnome/hyprland
-    gnome_install: "minimal" # minimal/full
 
   # Display manager configuration
   display_manager:
     install: false
-    type: "none" # none/gdm/ly
+    type: "none" # none/gdm/ly/greetd
+    greetd:
+      # VT for greetd terminal
+      vt: 1
     ly:
       # Basic appearance
       animation: "matrix" # none/doom/matrix/colormix
@@ -81,9 +83,9 @@ desktop:
         - "Noto Serif CJK JP"
         - "Noto Serif"
       sans_serif:
-        - "LINE Seed JP_TTF"
-        - "BIZTER"
+        - "Source Han Sans JP"
         - "Noto Sans CJK JP"
+        - "BIZTER"
         - "Noto Sans"
       monospace:
         - "PlemolJP Console"

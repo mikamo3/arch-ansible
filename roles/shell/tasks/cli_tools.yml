@@ -6,10 +6,10 @@
     name:
       # File and directory operations
       - bat # Better 'cat' with syntax highlighting
-      - exa # Better 'ls' with colors and git status
+      - lsd # Next gen 'ls' command with colors and git status
       - fd # Better 'find' - simple, fast, and user-friendly
       - ripgrep # Better 'grep' - extremely fast text search
-      - the_silver_searcher # ag - Popular grep alternative
+      - ugrep # Ultra fast grep with extended features
       - sd # Better 'sed' - intuitive find & replace
       - dust # Better 'du' - disk usage analyzer
       - duf # Better 'df' - disk free space
@@ -35,6 +35,7 @@
       # Network and HTTP tools
       - httpie # User-friendly HTTP client
       - curlie # Improved curl with better UX
+      - gh # GitHub CLI - interact with GitHub from terminal
 
       # Text editors and tools
       - neovim # Modern vim
@@ -53,16 +54,15 @@
 
       # Network and system utilities
       - ncdu # NCurses disk usage
-      - tmux # Terminal multiplexer (traditional alternative to zellij)
       - handlr # Default application handler
       - inotify-tools # File system event monitoring
 
       # Additional AUR-only packages for enhanced functionality
-      - lsd # Next gen 'ls' command (alternative to exa)
-      - bottom # System monitor (alternative to btop)
+      - lsd # Next gen 'ls' command with colors and git status
       - tealdeer # Fast tldr client
       - broot # Tree view and navigation
+      - glow # Markdown viewer for terminal
+      - lazygit # Simple git GUI in terminal
     state: present
     use: yay
   become_user: "{{ ansible_user }}"
-
