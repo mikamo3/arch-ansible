@@ -31,6 +31,33 @@
   become: true
   when: virtualization.install
 
+- name: Install VirtualBox packages
+  aur:
+    name:
+      - virtualbox # VirtualBox GUI and core tools
+      - virtualbox-host-dkms # Host kernel modules (DKMS)
+      - virtualbox-guest-iso # Guest additions ISO
+    state: present
+  become_user: "{{ ansible_user }}"
+  when: virtualization.virtualbox.install | default(false)
+
+- name: Add main user to vboxusers group
+  ansible.builtin.user:
+    name: "{{ init.main_user.name }}"
+    groups: vboxusers
+    append: true
+  become: true
+  when: virtualization.virtualbox.install | default(false)
+
+- name: Enable and start VirtualBox kernel modules service
+  ansible.builtin.systemd:
+    name: vboxdrv
+    enabled: true
+    state: started
+    daemon_reload: true
+  become: true
+  when: virtualization.virtualbox.install | default(false)
+
 - name: Configure default network
   block:
     - name: Check if default network exists

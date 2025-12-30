@@ -5,6 +5,10 @@ virtualization:
   # Core virtualization installation
   install: false # Install virtualization tools
 
+  # VirtualBox installation (separate from QEMU/KVM stack)
+  virtualbox:
+    install: false # Install VirtualBox host components
+
   # libvirt connection URI for virsh/virt-manager automation
   # Use system libvirt to manage networks (qemu:///system).
   libvirt_uri: "qemu:///system"

@@ -45,6 +45,8 @@
       - 1password # 1Password password manager
       - 1password-cli # 1Password CLI tool
 
+      - localsend-bin # Local file sharing over LAN
+
     state: present
   become_user: "{{ ansible_user }}"
 
