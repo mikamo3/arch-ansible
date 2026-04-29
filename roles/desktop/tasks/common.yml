@@ -7,6 +7,7 @@
       - dex
       # Terminal emulators
       - kitty # Modern GPU-accelerated terminal
+      - ghostty # Minimal terminal emulator
 
       # File management
       - nemo # File manager (Cinnamon-based)

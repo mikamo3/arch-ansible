@@ -17,6 +17,7 @@
 
       # Terminal enhancements
       - fzf # Fuzzy finder for command line
+      - mcfly # Command line auto-suggester
       - zoxide # Smart 'cd' - learns your habits
       - starship # Cross-shell prompt
       - zellij # Terminal multiplexer (modern alternative to tmux)
@@ -26,7 +27,7 @@
       - bandwhich # Network bandwidth monitor
       - iftop # Network bandwidth usage by connection
       - hyperfine # Command-line benchmarking tool
-      - neofetch # System information display
+      - fastfetch # Fast system information fetcher
 
       # File watching and automation
       - watchexec # File watching and auto-execution
@@ -51,6 +52,7 @@
       # Archive and compression tools (specialized formats)
       - lha # LHA archive support (Japanese format)
       - unarchiver # Universal archive extraction tool
+      - ouch # Simple CLI for extracting archives
 
       # Network and system utilities
       - ncdu # NCurses disk usage
@@ -63,6 +65,7 @@
       - broot # Tree view and navigation
       - glow # Markdown viewer for terminal
       - lazygit # Simple git GUI in terminal
+      - yazi # Blazing fast terminal file manager written in Rust, based on async I/O
     state: present
     use: yay
   become_user: "{{ ansible_user }}"
