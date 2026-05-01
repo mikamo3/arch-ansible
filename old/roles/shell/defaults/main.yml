@@ -1,0 +1,7 @@
+---
+# Default variables for shell role - using role-scoped naming
+
+shell:
+  # Dotfiles management
+  dotfiles:
+    install_kawazu: false # Install kawazu dotfiles manager

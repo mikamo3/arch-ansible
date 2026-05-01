@@ -1,0 +1,6 @@
+---
+# Default variables for office role - Office and document productivity tools
+
+# Office configuration options
+office:
+  office_suite: false     # Install office suite (LibreOffice)

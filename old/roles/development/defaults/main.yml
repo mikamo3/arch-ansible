@@ -1,0 +1,7 @@
+---
+# Default variables for development role - Software development environment
+
+development:
+  # Install all development tools and applications
+  install: false           # Install development environment (VS Code, Git tools, Python tools)
+  

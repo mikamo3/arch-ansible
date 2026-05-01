@@ -1,77 +1,129 @@
+#!/bin/bash
+set -euo pipefail
 
-#!/usr/bin/env bash
-set -e
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
-# Arch Linux install diskでAnsible実行環境を整えるスクリプト
+info()    { echo -e "${GREEN}[INFO]${NC} $*"; }
+warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; }
+error()   { echo -e "${RED}[ERROR]${NC} $*" >&2; exit 1; }
+section() { echo -e "\n${BLUE}=== $* ===${NC}"; }
 
-echo "=== Arch Linux Ansible Setup Script ==="
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIGS_DIR="$SCRIPT_DIR/inventories/archinstall"
 
-# ネットワーク接続確認
-echo "Checking network connectivity..."
-if ! ping -c 1 archlinux.org &> /dev/null; then
-    echo "Error: No network connectivity. Please configure network first."
-    exit 1
+# ---------------------------------------------------------------------------
+# 1. 前提チェック
+# ---------------------------------------------------------------------------
+section "環境チェック"
+
+if [[ $EUID -ne 0 ]]; then
+    error "このスクリプトはroot権限で実行してください"
 fi
 
-# パッケージデータベース更新
-echo "Updating package database..."
-pacman -Sy --noconfirm
-
-# 必要なパッケージのインストール
-echo "Installing required packages..."
-pacman -S --noconfirm \
-    python \
-    sudo \
-    openssh \
-    dosfstools \
-    btrfs-progs \
-    gptfdisk
-
-# wheelグループにsudo権限付与
-echo "Configuring sudo for wheel group..."
-sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-
-# ansibleユーザー作成
-echo "Creating ansible user..."
-if ! id ansible &> /dev/null; then
-    useradd -m -s /bin/bash ansible
-    usermod -aG wheel ansible
-    echo "Please set password for ansible user:"
-    passwd ansible
-else
-    echo "ansible user already exists"
+if ! ping -c1 -W3 archlinux.org &>/dev/null; then
+    error "インターネットに接続されていません"
 fi
 
+if ! command -v archinstall &>/dev/null; then
+    error "archinstallが見つかりません。Arch Linux live環境で実行してください"
+fi
 
-# SSH設定
-echo "Configuring SSH..."
-systemctl start sshd
-systemctl enable sshd
+info "環境チェック OK"
 
-# SSH設定の最適化（必要に応じて）
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-systemctl reload sshd
+# ---------------------------------------------------------------------------
+# 2. マシン選択
+# ---------------------------------------------------------------------------
+section "マシン選択"
 
-# IP address detection and display
-echo "Detecting network configuration..."
-NETWORK_INTERFACES=$(ip -4 addr show | grep -E '^[0-9]+:' | awk '{print $2}' | sed 's/://' | grep -v lo)
-IP_ADDRESSES=""
+configs=()
+while IFS= read -r f; do
+    name="$(basename "$f" .json)"
+    configs+=("$name")
+done < <(find "$CONFIGS_DIR" -name "*.json" | sort)
 
-for iface in $NETWORK_INTERFACES; do
-    IP=$(ip -4 addr show "$iface" 2>/dev/null | grep inet | awk '{print $2}' | cut -d'/' -f1 | head -1)
-    if [[ -n "$IP" ]]; then
-        IP_ADDRESSES="${IP_ADDRESSES}${iface}: ${IP}\n"
-    fi
+if [[ ${#configs[@]} -eq 0 ]]; then
+    error "設定ファイルが見つかりません: $CONFIGS_DIR"
+fi
+
+echo "インストール対象を選択してください:"
+for i in "${!configs[@]}"; do
+    echo "  $((i+1))) ${configs[$i]}"
 done
 
+while true; do
+    read -rp "番号を入力 [1-${#configs[@]}]: " choice
+    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#configs[@]} )); then
+        selected="${configs[$((choice-1))]}"
+        break
+    fi
+    warn "無効な入力です"
+done
+
+config_file="$CONFIGS_DIR/${selected}.json"
+info "設定ファイル: $config_file"
+
+# ---------------------------------------------------------------------------
+# 3. パスワード入力
+# ---------------------------------------------------------------------------
+section "パスワード設定"
+
+while true; do
+    read -rsp "rootパスワード: " root_pass; echo
+    read -rsp "rootパスワード (確認): " root_pass2; echo
+    [[ "$root_pass" == "$root_pass2" ]] && break
+    warn "パスワードが一致しません。再入力してください"
+done
+
+while true; do
+    read -rsp "ユーザーパスワード: " user_pass; echo
+    read -rsp "ユーザーパスワード (確認): " user_pass2; echo
+    [[ "$user_pass" == "$user_pass2" ]] && break
+    warn "パスワードが一致しません。再入力してください"
+done
+
+# ---------------------------------------------------------------------------
+# 4. ユーザー名取得 (configから読む、なければデフォルト)
+# ---------------------------------------------------------------------------
+username="$(python3 -c "
+import json
+with open('$config_file') as f:
+    cfg = json.load(f)
+users = cfg.get('!users', cfg.get('users', []))
+print(users[0].get('username', 'mikamo') if users else 'mikamo')
+" 2>/dev/null || echo "mikamo")"
+
+info "ユーザー名: $username"
+
+# ---------------------------------------------------------------------------
+# 5. archinstall 実行
+# ---------------------------------------------------------------------------
+section "archinstall 実行"
+
+tmp_creds="$(mktemp /tmp/archinstall-creds.XXXXXX.json)"
+trap 'rm -f "$tmp_creds"' EXIT
+
+cat > "$tmp_creds" <<EOF
+{
+  "!root-password": "$root_pass",
+  "!users": [
+    {
+      "username": "$username",
+      "!password": "$user_pass",
+      "sudo": true
+    }
+  ]
+}
+EOF
+
+info "設定ファイルの内容を確認してください"
+warn "この操作はディスクを完全に消去します"
 echo ""
-echo "=== Setup Complete ==="
-echo "You can now connect via SSH and run Ansible playbooks"
-echo ""
-echo "Available network interfaces:"
-echo -e "$IP_ADDRESSES"
-echo ""
-echo "SSH connection example: ssh ansible@<ip_address>"
-echo "Install system command: ./install_system.sh -t <ip_address>"
-echo ""
+
+archinstall --config "$config_file" --creds "$tmp_creds"
+
+info "インストール完了"
+info "再起動してください: reboot"
