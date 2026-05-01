@@ -24,7 +24,7 @@ if [[ $EUID -ne 0 ]]; then
     error "このスクリプトはroot権限で実行してください"
 fi
 
-if ! ping -c1 -W3 archlinux.org &>/dev/null; then
+if ! ping -c1 -W3 google.com &>/dev/null; then
     error "インターネットに接続されていません"
 fi
 
