@@ -1,1 +1,16 @@
 ---
+base:
+  parallel_downloads: 5
+  reflector:
+    country: JP
+    latest: 5
+    sort: rate
+  journald:
+    Storage: persistent
+    Compress: "yes"
+    SystemMaxUse: 1G
+    SystemKeepFree: 2G
+    SystemMaxFileSize: 128M
+    MaxRetentionSec: 1month
+    MaxFileSec: 1week
+  fwupd: true

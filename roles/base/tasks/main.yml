@@ -1,1 +1,20 @@
 ---
+- name: pacman 設定とキャッシュ更新
+  ansible.builtin.import_tasks: pacman.yml
+  tags: [base, pacman]
+
+- name: 基本パッケージのインストール
+  ansible.builtin.import_tasks: packages.yml
+  tags: [base, packages]
+
+- name: AURヘルパー (paru) のセットアップ
+  ansible.builtin.import_tasks: aur.yml
+  tags: [base, aur]
+
+- name: systemd 設定 (logind/journald/oomd)
+  ansible.builtin.import_tasks: systemd.yml
+  tags: [base, systemd]
+
+- name: メンテナンス自動化 (reflector/paccache/fwupd)
+  ansible.builtin.import_tasks: maintenance.yml
+  tags: [base, maintenance]

@@ -1,0 +1,17 @@
+---
+- name: AURビルド用にpacmanをNOPASSWD許可
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/10-aur-builder
+    content: "{{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman\n"
+    mode: "0440"
+    owner: root
+    group: root
+    validate: "/usr/sbin/visudo -cf %s"
+  become: true
+
+- name: paru をインストール
+  aur:
+    name: paru
+    use: makepkg
+    state: present
+  become: false

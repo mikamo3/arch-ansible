@@ -1,0 +1,37 @@
+---
+- name: 基本パッケージをインストール
+  community.general.pacman:
+    name:
+      # ビルド/カーネル
+      - base-devel
+      - linux-headers
+
+      # ファイルシステム
+      - btrfs-progs
+      - dosfstools
+
+      # ドキュメント
+      - man-db
+      - man-pages
+
+      # パッケージ管理
+      - pacman-contrib
+      - reflector
+
+      # ネットワーク/転送
+      - curl
+      - wget
+      - rsync
+
+      # 個別ツール
+      - git-crypt
+      - ghq
+    state: present
+  become: true
+
+- name: fwupd をインストール
+  community.general.pacman:
+    name: fwupd
+    state: present
+  become: true
+  when: base.fwupd | default(true)

@@ -1,0 +1,16 @@
+---
+- name: restart systemd-logind
+  ansible.builtin.systemd:
+    name: systemd-logind
+    state: restarted
+  become: true
+
+- name: restart journald
+  ansible.builtin.systemd:
+    name: systemd-journald
+    state: restarted
+  become: true
+
+- name: run reflector
+  ansible.builtin.command: reflector @/etc/xdg/reflector/reflector.conf
+  become: true
