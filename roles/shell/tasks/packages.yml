@@ -1,0 +1,77 @@
+---
+- name: モダンCLIツール群をインストール
+  aur:
+    name:
+      # ファイル/プロセス操作
+      - bat               # cat 代替、シンタックスハイライト
+      - eza               # ls 代替 (lsd/exa 後継)
+      - fd                # find 代替
+      - ripgrep           # grep 代替
+      - sd                # sed 代替
+      - dust              # du 代替
+      - duf               # df 代替
+      - procs             # ps 代替
+      - htop              # インタラクティブ プロセスビューア
+      - btop              # htop の上位互換
+      - tree              # ディレクトリツリー表示
+
+      # 検索/ナビゲーション
+      - fzf               # ファジーファインダー
+      - zoxide            # cd 代替 (履歴学習)
+      - atuin             # シェル履歴管理 (mcfly 後継)
+      - broot             # ツリー表示+ナビゲーション
+      - yazi              # ファイルマネージャ
+
+      # シェル/プロンプト
+      - fish              # メインシェル
+      - starship          # クロスシェルプロンプト
+      - fisher            # fish プラグインマネージャ
+      - bash-completion   # bash 補完強化
+
+      # Git ツール
+      - lazygit           # ターミナルGit UI
+      - git-delta         # git diff/log ハイライト
+      - github-cli        # GitHub CLI
+
+      # エディタ
+      - neovim            # vim 後継
+      - helix             # ポストモダンモーダルエディタ
+
+      # ネットワーク/HTTP
+      - curlie            # curl 代替 (UX改善)
+      - httpie            # ユーザーフレンドリー HTTP クライアント
+      - bandwhich         # ネットワーク帯域モニタ
+      - dog               # dig 代替
+
+      # システム情報/ベンチマーク
+      - fastfetch         # システム情報表示 (neofetch 後継)
+      - hyperfine         # コマンドベンチマーク
+
+      # アーカイブ
+      - ouch              # 汎用アーカイブ展開
+      - unzip
+      - zip
+      - 7zip
+
+      # ページャ/ビューア
+      - less
+      - glow              # ターミナル Markdown ビューア
+
+      # ドキュメント
+      - tealdeer          # tldr 高速クライアント
+
+      # ファイル監視/自動実行
+      - watchexec
+
+      # ターミナル多重化
+      - zellij
+
+      # ユーティリティ
+      - ncdu              # NCurses ディスク使用量
+      - gum               # シェルスクリプト用 UI
+
+      # ファイル関連付け (Wayland環境向け)
+      - handlr-regex
+    state: present
+    use: paru
+  become: false

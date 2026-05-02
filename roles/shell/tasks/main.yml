@@ -1,1 +1,8 @@
 ---
+- name: シェルツール群のインストール
+  ansible.builtin.import_tasks: packages.yml
+  tags: [shell, packages]
+
+- name: dotfiles 管理ツール (kawazu) のセットアップ
+  ansible.builtin.import_tasks: dotfiles.yml
+  tags: [shell, dotfiles]

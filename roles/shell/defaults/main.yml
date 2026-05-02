@@ -1,1 +1,4 @@
 ---
+shell:
+  dotfiles:
+    install_kawazu: true
