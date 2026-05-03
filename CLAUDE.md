@@ -1,117 +1,43 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Personal Arch Linux 向け Ansible 自動化。対象: mainpc, nucbox, sandbox (VM)。
 
-## Project Overview
+セットアップは2段階:
+1. **Phase 1**: `./init.sh` (live USB) → archinstall (`inventories/archinstall/<hostname>.json`)
+2. **Phase 2**: `playbook/configure.yml` (Ansible)
 
-Ansible automation for personal Arch Linux machines (mainpc, nucbox). Covers post-installation system configuration. `old/` contains a previous iteration kept for reference.
+`old/` は旧実装。設計参考用、移植対象ではない。
 
-## Two-Phase Setup Process
-
-1. **Installation Phase**: `init.sh` — run on Arch Linux live USB. Uses archinstall with a per-machine JSON config.
-2. **Configuration Phase**: `playbook/configure.yml` — run from remote machine during setup, or locally after setup is complete.
-
-### Phase 1 — Installation
+## Phase 2 コマンド
 
 ```bash
-# リポジトリをcloneして実行 (live USB上で)
-git clone https://github.com/mikamo3/arch-ansible
-cd arch-ansible
-./init.sh
+ansible-playbook playbook/configure.yml --limit sandbox                  # 全ロール
+ansible-playbook playbook/configure.yml --limit sandbox --tags base      # 特定ロール
+ansible-playbook playbook/configure.yml --check                          # dry-run
+ansible all -m ping                                                      # 疎通確認
 ```
 
-- マシンを選択すると `inventories/archinstall/<hostname>.json` を使って archinstall を実行する
-- パスワードは対話的に入力する（リポジトリには保存しない）
-- 各マシンのJSONは対話式archinstallを実行後に生成されたものを保存したもの
+## Architecture
 
-### Phase 2 — Configuration
+- **Inventory-driven**: マシン固有設定は `inventories/host_vars/<hostname>/main.yml`。ロールでホスト分岐をハードコードしない。
+- **Wayland-first**: X11 前提を置かない。
+- **Personal use**: production-grade な堅牢化や企業向けパターンを持ち込まない。シンプルさ優先。
 
-```bash
-# リモートから実行 (セットアップ中)
-ansible-playbook -i inventories/hosts.yml playbook/configure.yml --limit mainpc
+## AUR
 
-# ローカルで実行 (運用時)
-ansible-playbook -i inventories/hosts.yml playbook/configure.yml --limit mainpc
+- ヘルパー: **paru** (`base` ロールが makepkg で bootstrap)。
+- `base` 以外のロールは `library/ansible-aur` (git submodule, Collection 構造) の `aur` モジュールを使う。`pacman` モジュールは使わない。
+- `base` ロールが `ansible_user` に `/usr/bin/pacman` の NOPASSWD sudo (`/etc/sudoers.d/10-aur-builder`) を付与。後続ロールの全 AUR ビルドはこれに依存。
+- `-git` パッケージのインストール確認は `ansible.builtin.package_facts` を使う (例: `'kawazu-git' in ansible_facts.packages`)。ファイル存在チェックやビルドキャッシュには頼らない。
 
-# 特定ロールのみ
-ansible-playbook -i inventories/hosts.yml playbook/configure.yml --tags base,shell
+## Style
 
-# ドライラン
-ansible-playbook -i inventories/hosts.yml playbook/configure.yml --check
+- **Inline package style**: パッケージはインラインでコメント付きで列挙。変数化しない (個人用途では可読性優先)。
+- **Templates over inline**: 設定ファイルは `roles/{role}/templates/*.j2`。
+- **Minimal config**: パッケージのデフォルト設定を尊重。必要なものだけ書く。
 
-# 疎通確認
-ansible all -i inventories/hosts.yml -m ping
-```
+## Secrets
 
-## Repository Structure
-
-```
-init.sh                  # Phase 1: live USB上で実行するインストールスクリプト
-inventories/
-  hosts.yml              # host definitions (IP, SSH settings)
-  host_vars/
-    mainpc.yml           # mainpc-specific variables
-    nucbox.yml           # nucbox-specific variables
-  archinstall/
-    sandbox.json         # archinstall config per machine (credentials除く)
-    mainpc.json
-    nucbox.json
-playbook/
-  configure.yml          # main playbook (Phase 2)
-roles/
-  base/                  # core packages, security, services
-  shell/                 # fish, CLI tools, dotfiles
-  devices/               # GPU drivers, audio, Bluetooth, printer
-  desktop/               # DE (Hyprland/GNOME), DM, fonts, fcitx5
-  media/                 # media playback and editing apps
-  office/                # LibreOffice, CAD tools
-  development/           # VS Code, Git, Docker, dev tools
-  virtualization/        # QEMU/KVM, VirtualBox
-library/                 # ansible-aur custom module
-old/                     # previous iteration (reference only)
-```
-
-## Inventory Design
-
-- `inventories/hosts.yml` — host list with connection settings only
-- `inventories/host_vars/<hostname>.yml` — all role variables for that host
-- Each role's behavior is controlled by variables in `host_vars`; roles check these to decide what to install
-
-Example pattern in `host_vars/nucbox.yml`:
-```yaml
-office:
-  libreoffice: false
-  cad: false
-```
-
-## Key Design Rules
-
-- **Inline package style**: List packages directly with inline comments, not variable lists — intentional for readability
-- **AUR module**: Use the `aur` module (from `library/ansible-aur`) instead of `pacman` for all roles except `base` (yay not yet available during base setup)
-- **Inventory-driven**: All machine-specific config is in `host_vars/`; roles must not hard-code host differences
-- **Wayland-first**: No X11 assumptions
-- **Templates over inline content**: Config files go in `roles/{role}/templates/*.j2`
-- **Minimal configuration**: Rely on package post-install scripts; only configure what's strictly necessary
-- **Personal use**: No need for production-level hardening or enterprise patterns — keep it simple
-
-## ansible.cfg Key Settings
-
-```ini
-library = library               # ansible-aur custom module
-inventory = inventories/hosts.yml
-interpreter_python = /usr/bin/python
-host_key_checking = False
-```
-
-## btrfs Subvolume Layout (Phase 1 reference)
-
-```
-EFI (1GB, FAT32)  →  /boot
-btrfs root:
-  @             →  /
-  @home         →  /home
-  @.snapshots   →  /.snapshots
-  @pkg          →  /var/cache/pacman/pkg
-  @log          →  /var/log
-```
-All btrfs mounts use `compress=zstd:3,ssd,discard=async,space_cache=v2`.
+- `.vault_pass` (gitignore済) に Vault パスワード。`ansible.cfg` から自動参照。
+- `inventories/host_vars/<hostname>/secret.yml` (gitignore済) に vault 暗号化された機密情報。主に `ansible_become_password`。編集は `ansible-vault edit`。
+- **secret/password/credential/token/vault を含むファイルは読まない・表示しない**。
