@@ -1,1 +1,9 @@
 ---
+- import_tasks: editor.yml
+  when: development.editor
+
+- import_tasks: git_tools.yml
+  when: development.git_tools
+
+- import_tasks: cli_tools.yml
+  when: development.cli_tools

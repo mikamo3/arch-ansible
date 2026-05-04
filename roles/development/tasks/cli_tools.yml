@@ -1,0 +1,11 @@
+---
+- name: 開発系 CLI ツール
+  aur:
+    name:
+      - jq                       # JSON プロセッサ
+      - yq                       # YAML プロセッサ
+      - ghq                      # Git リポジトリマネージャ
+      - github-cli               # gh コマンド
+    state: present
+    use: paru
+  become: false

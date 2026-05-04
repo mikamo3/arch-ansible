@@ -1,0 +1,8 @@
+---
+- name: Visual Studio Code
+  aur:
+    name:
+      - visual-studio-code-bin   # 公式バイナリ版 (Marketplace 利用可)
+    state: present
+    use: paru
+  become: false

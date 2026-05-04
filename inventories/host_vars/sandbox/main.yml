@@ -28,3 +28,8 @@ media:
 
 office:
   suite: true
+
+development:
+  editor: true
+  git_tools: true
+  cli_tools: true
