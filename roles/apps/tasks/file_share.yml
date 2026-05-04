@@ -1,0 +1,8 @@
+---
+- name: LocalSend (LAN 内ファイル共有)
+  aur:
+    name:
+      - localsend-bin
+    state: present
+    use: paru
+  become: false

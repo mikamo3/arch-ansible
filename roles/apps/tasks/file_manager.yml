@@ -1,0 +1,9 @@
+---
+- name: Nautilus + アーカイブマネージャ
+  aur:
+    name:
+      - nautilus               # GNOME 標準ファイルマネージャ (GTK4/libadwaita)
+      - file-roller            # アーカイブ展開/作成 GUI
+    state: present
+    use: paru
+  become: false

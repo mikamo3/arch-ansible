@@ -1,0 +1,8 @@
+---
+- name: FeatherPad (軽量 GUI テキストエディタ)
+  aur:
+    name:
+      - featherpad
+    state: present
+    use: paru
+  become: false

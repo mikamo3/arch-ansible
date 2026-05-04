@@ -1,0 +1,10 @@
+---
+- name: Remmina (リモートデスクトップ)
+  aur:
+    name:
+      - remmina                # リモートデスクトップ (RDP/VNC/SSH)
+      - freerdp                # RDP プロトコル
+      - libvncserver           # VNC プロトコル
+    state: present
+    use: paru
+  become: false

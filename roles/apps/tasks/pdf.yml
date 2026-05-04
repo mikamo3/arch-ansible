@@ -1,0 +1,9 @@
+---
+- name: zathura (キーボード操作の PDF ビューア)
+  aur:
+    name:
+      - zathura
+      - zathura-pdf-poppler    # PDF バックエンド
+    state: present
+    use: paru
+  become: false

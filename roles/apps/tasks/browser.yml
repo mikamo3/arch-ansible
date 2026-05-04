@@ -1,0 +1,10 @@
+---
+- name: Firefox + Chromium
+  aur:
+    name:
+      - firefox
+      - firefox-i18n-ja        # 日本語ロケール
+      - chromium
+    state: present
+    use: paru
+  become: false
