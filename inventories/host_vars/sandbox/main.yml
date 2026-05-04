@@ -1,2 +1,12 @@
 ---
-# ロール変数はここに追加していく
+devices:
+  gpu:
+    type: vm
+  audio: true
+  bluetooth: false
+  printer: false
+
+desktop:
+  environment: hyprland
+  display_manager: greetd
+  ime: fcitx5

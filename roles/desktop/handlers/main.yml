@@ -1,0 +1,6 @@
+---
+- name: restart greetd
+  ansible.builtin.systemd:
+    name: greetd
+    state: restarted
+  become: true

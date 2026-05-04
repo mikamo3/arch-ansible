@@ -1,0 +1,103 @@
+---
+- name: フォント
+  aur:
+    name:
+      # フォールバック (Noto)
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      # 日本語等幅 (PlemolJP 全部入り)
+      - ttf-plemoljp-bin
+      # プログラミング + 日本語
+      - ttf-cica
+      # 欧文プログラミング (IBM Plex)
+      - ttf-ibm-plex
+      # 日本語 GUI 用 (Morisawa BIZ UDPGothic)
+      - morisawa-biz-ud-gothic-fonts
+      # 欧文 GUI 用
+      - inter-font
+    state: present
+    use: paru
+  become: false
+
+- name: IME (fcitx5 + mozc)
+  aur:
+    name:
+      - fcitx5
+      - fcitx5-configtool
+      - fcitx5-mozc
+      - fcitx5-gtk
+      - fcitx5-qt
+    state: present
+    use: paru
+  become: false
+  when: desktop.ime == 'fcitx5'
+
+- name: /etc/environment.d ディレクトリ作成
+  ansible.builtin.file:
+    path: /etc/environment.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  when: desktop.ime == 'fcitx5'
+
+- name: IME 用環境変数 (XWayland X11 アプリ向けのみ)
+  # GTK4 / Qt6 は Wayland text-input-v3 でネイティブに fcitx5 と通信するため
+  # GTK_IM_MODULE / QT_IM_MODULE は設定しない (設定すると fcitx5 が警告を出す)。
+  # XMODIFIERS のみ XWayland 経由 X11 アプリの IME のために残す。
+  ansible.builtin.copy:
+    dest: /etc/environment.d/10-fcitx5.conf
+    content: |
+      XMODIFIERS=@im=fcitx
+    mode: "0644"
+    owner: root
+    group: root
+  become: true
+  when: desktop.ime == 'fcitx5'
+
+- name: Qt Wayland サポート
+  aur:
+    name:
+      - qt5-wayland
+      - qt6-wayland
+    state: present
+    use: paru
+  become: false
+
+- name: Wayland 共通基盤
+  aur:
+    name:
+      - xorg-xwayland           # Wayland 上で X11 アプリを動かす互換層
+      - xdg-user-dirs           # ~/Documents, ~/Pictures 等の標準ディレクトリ
+    state: present
+    use: paru
+  become: false
+
+- name: Secret / Keyring (1Password 等の credential 保存に必要)
+  aur:
+    name:
+      - gnome-keyring           # keyring デーモン
+      - libsecret               # Secret Service API
+    state: present
+    use: paru
+  become: false
+
+- name: Bluetooth GUI (devices.bluetooth 有効時のみ)
+  aur:
+    name:
+      - blueman
+    state: present
+    use: paru
+  become: false
+  when: devices.bluetooth | default(false)
+
+- name: PipeWire mixer GUI (devices.audio 有効時のみ / pipewire-pulse 経由で動作)
+  aur:
+    name:
+      - pavucontrol
+    state: present
+    use: paru
+  become: false
+  when: devices.audio | default(false)

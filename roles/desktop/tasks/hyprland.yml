@@ -1,0 +1,46 @@
+---
+- name: Hyprland + 周辺ユーティリティ
+  aur:
+    name:
+      # コア
+      - hyprland                       # compositor
+      - uwsm                           # Universal Wayland Session Manager
+      - xdg-desktop-portal-hyprland    # ポータル (画面共有 / ファイル選択)
+      - hyprpolkitagent                # PolicyKit エージェント
+
+      # ターミナル
+      - ghostty
+      - kitty                          # Hyprland デフォルト config が SUPER+Q で起動
+
+      # シェル UI
+      - waybar                         # ステータスバー
+      - wttrbar                        # waybar 用天気モジュール
+      - fuzzel                         # アプリランチャ
+      - mako                           # 通知デーモン
+
+      # デバッグ / 診断
+      - wev                            # Wayland 入力イベント inspector
+
+      # ロック / アイドル / 壁紙
+      - hyprlock                       # 画面ロック
+      - hypridle                       # アイドル管理
+      - hyprpaper                      # 壁紙
+
+      # スクリーンショット
+      - grim                           # 画面キャプチャ
+      - slurp                          # 領域選択
+      - swappy                         # スクリーンショット注釈
+
+      # クリップボード
+      - wl-clipboard
+      - cliphist                       # 履歴
+
+      # ハードウェア制御
+      - brightnessctl                  # 輝度
+      - playerctl                      # メディアキー
+
+      # NetworkManager 連携
+      - network-manager-applet
+    state: present
+    use: paru
+  become: false
