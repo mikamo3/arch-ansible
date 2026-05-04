@@ -1,0 +1,16 @@
+---
+- name: Bluetooth パッケージをインストール
+  aur:
+    name:
+      - bluez
+      - bluez-utils
+    state: present
+    use: paru
+  become: false
+
+- name: bluetooth.service を有効化
+  ansible.builtin.systemd:
+    name: bluetooth
+    enabled: true
+    state: started
+  become: true

@@ -1,1 +1,8 @@
 ---
+devices:
+  gpu:
+    type: none          # intel / amd / nvidia / vm / none
+    cuda: false         # nvidia 時のみ有効
+  audio: false          # pipewire 一式
+  bluetooth: false      # bluez + bluetooth.service
+  printer: false        # cups + cups.service

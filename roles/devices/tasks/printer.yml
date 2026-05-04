@@ -1,0 +1,17 @@
+---
+- name: CUPS / SANE をインストール
+  aur:
+    name:
+      - cups          # 印刷システム
+      - gutenprint    # プリンタドライバ
+      - sane          # スキャナ
+    state: present
+    use: paru
+  become: false
+
+- name: cups.service を有効化
+  ansible.builtin.systemd:
+    name: cups
+    enabled: true
+    state: started
+  become: true

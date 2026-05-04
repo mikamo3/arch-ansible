@@ -1,0 +1,66 @@
+---
+- name: Intel GPU ドライバ
+  aur:
+    name:
+      - mesa                # OpenGL
+      - vulkan-intel        # Vulkan
+      - intel-media-driver  # VA-API (Gen8+)
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'intel'
+
+- name: AMD GPU ドライバ
+  aur:
+    name:
+      - mesa                    # OpenGL
+      - vulkan-radeon           # Vulkan
+      - libva-mesa-driver       # VA-API
+      - linux-firmware-amdgpu   # amdgpu ファームウェア (split package)
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'amd'
+
+- name: NVIDIA GPU ドライバ
+  aur:
+    name:
+      - nvidia-open-dkms    # Turing 以降のオープンカーネルモジュール
+      - nvidia-utils
+      - nvidia-settings
+      - libva-nvidia-driver # VA-API
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'nvidia'
+
+- name: VM GPU ドライバ (virtio-gpu / mesa)
+  aur:
+    name:
+      - mesa
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'vm'
+
+- name: GPU 診断ユーティリティ (物理マシンのみ)
+  aur:
+    name:
+      - libva-utils
+      - vulkan-tools
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type in ['intel', 'amd', 'nvidia']
+
+- name: CUDA (NVIDIA + cuda:true のみ)
+  aur:
+    name:
+      - cuda
+      - nvidia-container-toolkit
+    state: present
+    use: paru
+  become: false
+  when:
+    - devices.gpu.type == 'nvidia'
+    - devices.gpu.cuda | default(false)
