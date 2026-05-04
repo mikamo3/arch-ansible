@@ -20,3 +20,11 @@ apps:
   torrent: true
   password_manager: true
   file_share: true
+
+media:
+  cli_tools: true
+  playback: true
+  editing: true
+
+office:
+  suite: true

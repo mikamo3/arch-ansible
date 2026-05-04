@@ -1,0 +1,9 @@
+---
+- name: メディア処理 CLI
+  aur:
+    name:
+      - ffmpeg                 # 動画/音声コーデック汎用ツール
+      - imagemagick            # 画像変換 CLI
+    state: present
+    use: paru
+  become: false

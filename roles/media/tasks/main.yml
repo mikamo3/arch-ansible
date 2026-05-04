@@ -1,1 +1,9 @@
 ---
+- import_tasks: cli_tools.yml
+  when: media.cli_tools
+
+- import_tasks: playback.yml
+  when: media.playback
+
+- import_tasks: editing.yml
+  when: media.editing

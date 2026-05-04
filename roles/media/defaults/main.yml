@@ -1,1 +1,5 @@
 ---
+media:
+  cli_tools: false         # ffmpeg + imagemagick
+  playback: false          # mpv + loupe + spotify-adblock + mcomix
+  editing: false           # gimp + inkscape + hyprpicker + obs-studio

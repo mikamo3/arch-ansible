@@ -1,1 +1,3 @@
 ---
+office:
+  suite: false              # libreoffice-still + libreoffice-still-ja

@@ -1,0 +1,11 @@
+---
+- name: メディア再生 / 閲覧
+  aur:
+    name:
+      - mpv                    # Wayland ネイティブ動画プレーヤー
+      - loupe                  # GNOME 画像ビューア (GTK4, crop/rotate 対応)
+      - spotify-adblock        # Spotify 公式 + 広告ブロック
+      - mcomix                 # マンガ / コミックビューア (cbz/cbr)
+    state: present
+    use: paru
+  become: false

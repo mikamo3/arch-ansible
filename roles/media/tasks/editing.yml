@@ -1,0 +1,11 @@
+---
+- name: メディア編集
+  aur:
+    name:
+      - gimp                   # ラスター画像編集
+      - inkscape               # ベクター画像編集
+      - hyprpicker             # Wayland カラーピッカー (Hyprland 公式)
+      - obs-studio             # 画面録画 / ライブ配信
+    state: present
+    use: paru
+  become: false

@@ -1,0 +1,9 @@
+---
+- name: LibreOffice (安定版 + 日本語)
+  aur:
+    name:
+      - libreoffice-still      # LibreOffice 安定版
+      - libreoffice-still-ja   # 日本語 UI / 辞書
+    state: present
+    use: paru
+  become: false
