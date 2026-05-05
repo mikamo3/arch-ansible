@@ -1,0 +1,5 @@
+---
+storage:
+  cloud_sync: false       # rclone (クラウドストレージ同期)
+  encryption: false       # veracrypt (ディスク暗号化)
+  nfs: false              # nfs-utils (NFS クライアント)

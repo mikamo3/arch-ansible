@@ -1,0 +1,3 @@
+---
+cad:
+  install: false          # freecad + librecad + kicad (+ ライブラリ)

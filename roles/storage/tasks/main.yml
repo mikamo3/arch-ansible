@@ -1,0 +1,9 @@
+---
+- import_tasks: cloud_sync.yml
+  when: storage.cloud_sync
+
+- import_tasks: encryption.yml
+  when: storage.encryption
+
+- import_tasks: nfs.yml
+  when: storage.nfs

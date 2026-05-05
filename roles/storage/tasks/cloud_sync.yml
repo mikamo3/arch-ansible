@@ -1,0 +1,15 @@
+---
+- name: rclone (クラウドストレージ同期)
+  aur:
+    name:
+      - rclone                  # クラウドストレージ汎用 CLI sync ツール
+    state: present
+    use: paru
+  become: false
+
+- name: FUSE user_allow_other を有効化 (rclone mount で必要)
+  ansible.builtin.lineinfile:
+    path: /etc/fuse.conf
+    regexp: '^#?user_allow_other'
+    line: 'user_allow_other'
+  become: true

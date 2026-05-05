@@ -1,0 +1,8 @@
+---
+- name: nfs-utils (NFS クライアント)
+  aur:
+    name:
+      - nfs-utils               # NFS マウント用ユーティリティ
+    state: present
+    use: paru
+  become: false

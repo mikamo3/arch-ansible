@@ -28,7 +28,6 @@
 
       # 個別ツール
       - git-crypt
-      - ghq
     state: present
   become: true
 

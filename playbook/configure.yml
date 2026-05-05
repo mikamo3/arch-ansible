@@ -11,3 +11,5 @@
     - { role: office, tags: [office] }
     - { role: development, tags: [development] }
     - { role: virtualization, tags: [virtualization] }
+    - { role: storage, tags: [storage] }
+    - { role: cad, tags: [cad] }

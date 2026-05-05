@@ -1,0 +1,8 @@
+---
+- name: veracrypt (ディスク暗号化)
+  aur:
+    name:
+      - veracrypt               # ディスク / コンテナ暗号化
+    state: present
+    use: paru
+  become: false
