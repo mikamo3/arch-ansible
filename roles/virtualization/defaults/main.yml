@@ -1,1 +1,5 @@
 ---
+virtualization:
+  kvm: false                   # qemu-desktop + libvirt + virt-manager + edk2-ovmf
+  kvm_default_network: true    # libvirt default NAT (192.168.122.0/24) を有効化。ホスト NIC が同 subnet の場合は false
+  virtualbox: false            # virtualbox + virtualbox-host-dkms

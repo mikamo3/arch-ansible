@@ -23,11 +23,21 @@
       - wget
       - rsync
 
+      # firewall 基盤 (nftables バックエンド + iptables CLI 互換)
+      - iptables-nft
+
       # 個別ツール
       - git-crypt
       - ghq
     state: present
   become: true
+
+- name: 追加カーネルヘッダ (DKMS 等で必要なカーネル分)
+  community.general.pacman:
+    name: "{{ base.extra_kernel_headers }}"
+    state: present
+  become: true
+  when: base.extra_kernel_headers | length > 0
 
 - name: fwupd をインストール
   community.general.pacman:

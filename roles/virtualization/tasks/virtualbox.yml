@@ -1,0 +1,20 @@
+---
+# DKMS でホストモジュールをビルド (linux-zen 等の非標準カーネルにも対応)。
+# nested VM ではモジュール load が失敗するが install 自体は成功する。
+
+- name: VirtualBox 一式
+  aur:
+    name:
+      - virtualbox                       # GUI + コア
+      - virtualbox-host-dkms             # ホストモジュール (DKMS, 任意カーネル対応)
+      - virtualbox-guest-iso             # Guest Additions ISO
+    state: present
+    use: paru
+  become: false
+
+- name: ansible_user を vboxusers グループに追加
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: vboxusers
+    append: true
+  become: true

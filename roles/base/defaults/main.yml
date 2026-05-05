@@ -14,3 +14,4 @@ base:
     MaxRetentionSec: 1month
     MaxFileSec: 1week
   fwupd: true
+  extra_kernel_headers: []     # 追加カーネルヘッダ (例: [linux-zen-headers, linux-lts-headers])

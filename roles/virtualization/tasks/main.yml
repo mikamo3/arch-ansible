@@ -1,1 +1,6 @@
 ---
+- import_tasks: kvm.yml
+  when: virtualization.kvm
+
+- import_tasks: virtualbox.yml
+  when: virtualization.virtualbox
