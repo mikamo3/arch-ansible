@@ -1,10 +1,18 @@
 ---
-- name: CUPS / SANE をインストール
+- name: CUPS をインストール
   aur:
     name:
-      - cups          # 印刷システム
-      - gutenprint    # プリンタドライバ
-      - sane          # スキャナ
+      - cups              # 印刷システム
+    state: present
+    use: paru
+  become: false
+
+- name: Canon LBP ドライバをインストール
+  aur:
+    name:
+      - libxml2-legacy    # cndrvcups-lt の依存 (ABI 互換)
+      - libglade          # cndrvcups-lt の依存
+      - cndrvcups-lt      # Canon LBP6040 ドライバ
     state: present
     use: paru
   become: false
