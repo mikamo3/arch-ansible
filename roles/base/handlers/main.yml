@@ -14,3 +14,7 @@
 - name: run reflector
   ansible.builtin.command: reflector @/etc/xdg/reflector/reflector.conf
   become: true
+
+- name: reload NetworkManager connections
+  ansible.builtin.command: nmcli con reload
+  become: true

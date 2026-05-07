@@ -1,0 +1,16 @@
+[connection]
+id={{ network.wired.interface }}
+type=ethernet
+interface-name={{ network.wired.interface }}
+autoconnect=true
+
+[ethernet]
+
+[ipv4]
+method=manual
+addresses={{ network.wired.ip }}
+gateway={{ network.wired.gateway }}
+dns={{ network.wired.dns | join(';') }};
+
+[ipv6]
+method=ignore

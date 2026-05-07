@@ -1,0 +1,39 @@
+---
+- name: NetworkManager をインストール
+  aur:
+    name: networkmanager
+    state: present
+    use: paru
+  become: false
+  when: (network.wired is defined) or (network.wifi is defined)
+
+- name: NetworkManager を有効化
+  ansible.builtin.systemd:
+    name: NetworkManager
+    enabled: true
+    state: started
+  become: true
+  when: (network.wired is defined) or (network.wifi is defined)
+
+- name: 有線接続プロファイルを配置
+  ansible.builtin.template:
+    src: nm-wired.nmconnection.j2
+    dest: /etc/NetworkManager/system-connections/{{ network.wired.interface }}.nmconnection
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  when: network.wired is defined
+  notify: reload NetworkManager connections
+
+- name: Wi-Fi 接続プロファイルを配置
+  ansible.builtin.template:
+    src: nm-wifi.nmconnection.j2
+    dest: /etc/NetworkManager/system-connections/wifi-{{ network.wifi.ssid }}.nmconnection
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  when: network.wifi is defined
+  notify: reload NetworkManager connections
+  no_log: true

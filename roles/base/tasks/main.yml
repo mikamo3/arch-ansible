@@ -18,3 +18,7 @@
 - name: メンテナンス自動化 (reflector/paccache/fwupd)
   ansible.builtin.import_tasks: maintenance.yml
   tags: [base, maintenance]
+
+- name: ネットワーク設定 (NetworkManager)
+  ansible.builtin.import_tasks: network.yml
+  tags: [base, network]

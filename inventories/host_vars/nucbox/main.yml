@@ -33,3 +33,15 @@ storage:
   cloud_sync: true
   encryption: true            # 持ち出し端末のため暗号化必須
   nfs: false                  # 宅内ネットワーク外での使用を考慮
+
+network:
+  wired:
+    interface: enp1s0
+    ip: 192.168.100.20/24
+    gateway: 192.168.100.1
+    dns:
+      - 192.168.100.1
+  wifi:
+    interface: wlan0
+    ssid: "{{ wifi_ssid }}"       # secret.yml に定義
+    password: "{{ wifi_password }}" # secret.yml に定義
