@@ -128,11 +128,12 @@
         "ansible",
         "openssh",
         "vim",
-        "python"
+        "python",
+        "networkmanager"
     ],
     "parallel_downloads": 0,
     "script": null,
-    "services": ["sshd"],
+    "services": ["sshd", "NetworkManager"],
     "swap": {
         "algorithm": "zstd",
         "enabled": true
