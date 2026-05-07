@@ -11,8 +11,10 @@ Personal Arch Linux 向け Ansible 自動化。対象: mainpc, nucbox, sandbox (
 ## Phase 2 コマンド
 
 ```bash
+./run.sh                                                                  # 対話的実行 (fzf)
 ansible-playbook playbook/configure.yml --limit sandbox                  # 全ロール
 ansible-playbook playbook/configure.yml --limit sandbox --tags base      # 特定ロール
+ansible-playbook playbook/configure.yml --limit $(hostname) -c local     # ローカル実行
 ansible-playbook playbook/configure.yml --check                          # dry-run
 ansible all -m ping                                                      # 疎通確認
 ```

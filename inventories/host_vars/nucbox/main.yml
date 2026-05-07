@@ -1,0 +1,35 @@
+---
+devices:
+  gpu:
+    type: intel               # Intel 統合グラフィックス
+  audio: true
+  bluetooth: true             # 持ち出し用途のため有効
+  printer: false
+
+desktop:
+  environment: hyprland
+  display_manager: greetd
+  ime: fcitx5
+
+apps:
+  browser: true
+  file_manager: true
+  editor: true
+  pdf: true
+  remote: true
+  torrent: false
+  password_manager: true
+  file_share: false
+
+media:
+  cli_tools: true
+  playback: true
+  editing: false              # 動画編集不要
+
+office:
+  suite: true
+
+storage:
+  cloud_sync: true
+  encryption: true            # 持ち出し端末のため暗号化必須
+  nfs: false                  # 宅内ネットワーク外での使用を考慮
