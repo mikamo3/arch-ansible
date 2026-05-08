@@ -1,29 +1,7 @@
 ---
-- name: インストール済みパッケージ情報を収集
-  ansible.builtin.package_facts:
-    manager: pacman
-
-- name: kawazu をビルド・インストール
-  when:
-    - shell.dotfiles.install_kawazu | default(true)
-    - "'kawazu-git' not in ansible_facts.packages"
-  block:
-    - name: kawazu リポジトリを clone
-      ansible.builtin.git:
-        repo: https://github.com/mikamo3/kawazu-git.git
-        dest: /tmp/kawazu-git
-      become: false
-
-    - name: ローカル PKGBUILD から kawazu をビルド・インストール
-      aur:
-        name: kawazu-git
-        use: makepkg
-        local_pkgbuild: /tmp/kawazu-git
-        state: present
-      become: false
-
-    - name: ビルドディレクトリ削除
-      ansible.builtin.file:
-        path: /tmp/kawazu-git
-        state: absent
-      become: false
+- name: chezmoi をインストール
+  aur:
+    name: chezmoi
+    state: present
+    use: paru
+  become: false

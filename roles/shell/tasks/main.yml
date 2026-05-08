@@ -3,6 +3,6 @@
   ansible.builtin.import_tasks: packages.yml
   tags: [shell, packages]
 
-- name: dotfiles 管理ツール (kawazu) のセットアップ
+- name: dotfiles 管理ツール (chezmoi) のセットアップ
   ansible.builtin.import_tasks: dotfiles.yml
   tags: [shell, dotfiles]
