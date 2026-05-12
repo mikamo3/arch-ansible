@@ -94,6 +94,30 @@ cd dotfiles
 
 `.vault_pass` にはVault パスワードを平文で記載する（gitignore 済み）。
 
+## Tips
+
+### Bluetooth マウスのペアリング (GUI セットアップ前)
+
+GUI 起動前など、ターミナルのみの環境でペアリングする場合は `bluetoothctl` を使う。
+
+```bash
+bluetoothctl
+```
+
+```
+power on
+agent on
+default-agent
+scan on          # マウスをペアリングモードにしてから実行 → MAC アドレスが表示される
+scan off
+pair XX:XX:XX:XX:XX:XX
+trust XX:XX:XX:XX:XX:XX
+connect XX:XX:XX:XX:XX:XX
+exit
+```
+
+GUI 起動後は Bluetooth 設定画面から通常通り操作できる。
+
 ## ホスト一覧
 
 | ホスト | 用途 | IP |

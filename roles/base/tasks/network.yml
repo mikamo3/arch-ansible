@@ -15,6 +15,18 @@
   become: true
   when: (network.wired is defined) or (network.wifi is defined)
 
+- name: systemd-networkd を無効化 (NetworkManager と競合するため)
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  become: true
+  loop:
+    - systemd-networkd
+    - systemd-networkd.socket
+  when: (network.wired is defined) or (network.wifi is defined)
+  failed_when: false
+
 - name: 有線接続プロファイルを配置
   ansible.builtin.template:
     src: nm-wired.nmconnection.j2

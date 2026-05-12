@@ -5,3 +5,9 @@
     state: present
     use: paru
   become: false
+
+- name: デフォルトシェルを zsh に変更
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    shell: /usr/bin/zsh
+  become: true

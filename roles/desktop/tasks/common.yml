@@ -10,6 +10,7 @@
       - ttf-plemoljp-bin
       # プログラミング + 日本語
       - ttf-cica
+      - ttf-udev-gothic
       # 欧文プログラミング (IBM Plex)
       - ttf-ibm-plex
       # 日本語 GUI 用 (Morisawa BIZ UDPGothic)

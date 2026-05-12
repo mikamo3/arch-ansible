@@ -20,6 +20,7 @@
   when: desktop.display_manager == 'greetd'
   notify: restart greetd
 
+
 - name: greetd.service を有効化
   ansible.builtin.systemd:
     name: greetd

@@ -23,15 +23,17 @@
       - yazi              # ファイルマネージャ
 
       # シェル/プロンプト
-      - fish              # メインシェル
+      - zsh               # メインシェル
+      - sheldon           # zsh プラグインマネージャ
+      - fish              # サブシェル
       - starship          # クロスシェルプロンプト
-      - fisher            # fish プラグインマネージャ
       - bash-completion   # bash 補完強化
 
       # Git ツール
       - lazygit           # ターミナルGit UI
       - git-delta         # git diff/log ハイライト
       - github-cli        # GitHub CLI
+      - ghq               # Git リポジトリマネージャ
 
       # エディタ
       - neovim            # vim 後継

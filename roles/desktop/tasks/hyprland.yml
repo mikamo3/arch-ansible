@@ -16,7 +16,7 @@
       - waybar                         # ステータスバー
       - wttrbar                        # waybar 用天気モジュール
       - fuzzel                         # アプリランチャ
-      - mako                           # 通知デーモン
+      - swaync                         # 通知デーモン + 通知センター
 
       # デバッグ / 診断
       - wev                            # Wayland 入力イベント inspector
