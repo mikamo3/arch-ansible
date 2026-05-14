@@ -5,7 +5,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLAYBOOK="$REPO_ROOT/playbook/network_init.yml"
 
-args=(ansible-playbook "$PLAYBOOK" --limit "$(hostname)" -c local)
+args=(ansible-playbook "$PLAYBOOK" --limit "$(cat /etc/hostname)" -c local)
 
 if [[ ! -f "$REPO_ROOT/.vault_pass" ]]; then
   args+=(--ask-vault-pass)
