@@ -1,0 +1,31 @@
+---
+- name: Install Docker
+  community.general.pacman:
+    name:
+      - docker
+      - docker-compose
+      - docker-buildx
+    state: present
+  become: true
+
+- name: Install Docker TUI tools
+  aur:
+    name:
+      - lazydocker  # Docker TUI
+      - ctop        # container monitor
+    state: present
+    use: paru
+  become: false
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+  become: true
+
+- name: Enable docker.service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+  become: true

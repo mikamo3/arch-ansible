@@ -1,0 +1,17 @@
+---
+- name: Install Xorg
+  community.general.pacman:
+    name:
+      - xorg-server
+      - xorg-xinit
+      - xorg-xrandr
+    state: present
+  become: true
+
+- name: Install Openbox
+  aur:
+    name:
+      - openbox
+    state: present
+    use: paru
+  become: false

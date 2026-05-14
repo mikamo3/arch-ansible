@@ -11,3 +11,8 @@
   ansible.builtin.import_tasks: hyprland.yml
   when: desktop.environment == 'hyprland'
   tags: [desktop, hyprland]
+
+- name: Set up Openbox environment
+  ansible.builtin.import_tasks: openbox.yml
+  when: desktop.environment == 'openbox'
+  tags: [desktop, openbox]

@@ -5,7 +5,7 @@
     - { role: base, tags: [base] }
     - { role: shell, tags: [shell] }
     - { role: devices, tags: [devices] }
-    - { role: desktop, tags: [desktop] }
+    - { role: desktop, tags: [desktop], when: desktop is defined }
     - { role: apps, tags: [apps] }
     - { role: media, tags: [media] }
     - { role: office, tags: [office] }

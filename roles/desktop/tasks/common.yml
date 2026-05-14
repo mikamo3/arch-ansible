@@ -11,6 +11,7 @@
       # programming + Japanese
       - ttf-cica
       - ttf-udev-gothic
+      - ttf-hackgen
       # Latin programming (IBM Plex)
       - ttf-ibm-plex
       # Japanese GUI (Morisawa BIZ UDPGothic)

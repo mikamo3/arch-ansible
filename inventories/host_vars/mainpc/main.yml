@@ -1,12 +1,12 @@
 ---
 devices:
   cpu:
-    vendor: intel
+    vendor: amd
   gpu:
-    type: intel # Intel integrated graphics
+    type: amd                   # AMD Radeon 680M (integrated)
   audio: true
-  bluetooth: true # Enabled for portable use
-  printer: false
+  bluetooth: true
+  printer: true
 
 desktop:
   environment: hyprland
@@ -26,26 +26,38 @@ apps:
 media:
   cli_tools: true
   playback: true
-  editing: false # No video editing needed
+  editing: true
 
 office:
   suite: true
 
 development:
+  editor: true
+  git_tools: true
+  cli_tools: true
   docker: true
+
+virtualization:
+  kvm: true
+  kvm_default_network: true
+  virtualbox: true
 
 storage:
   cloud_sync: true
-  encryption: true # Encryption required for portable device
-  nfs: false # Not used outside home network
+  encryption: false
+  nfs: true
+
+cad:
+  install: true
 
 network:
   wired:
-    interface: enp1s0
-    ip: 192.168.100.20/24
+    interface: eno1
+    ip: 192.168.100.100/24
+    gateway: 192.168.100.1
     dns:
       - 192.168.100.1
   wifi:
     interface: wlp2s0
-    ssid: "{{ wifi_ssid }}" # Defined in secret.yml
+    ssid: "{{ wifi_ssid }}"         # Defined in secret.yml
     password: "{{ wifi_password }}" # Defined in secret.yml

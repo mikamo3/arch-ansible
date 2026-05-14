@@ -33,6 +33,7 @@ development:
   editor: true
   git_tools: true
   cli_tools: true
+  docker: true
 
 virtualization:
   kvm: true

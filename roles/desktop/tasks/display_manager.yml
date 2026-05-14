@@ -27,3 +27,19 @@
     enabled: true
   become: true
   when: desktop.display_manager == 'greetd'
+
+- name: Install xrdp
+  aur:
+    name:
+      - xrdp
+    state: present
+    use: paru
+  become: false
+  when: desktop.display_manager == 'xrdp'
+
+- name: Enable xrdp.service
+  ansible.builtin.systemd:
+    name: xrdp
+    enabled: true
+  become: true
+  when: desktop.display_manager == 'xrdp'

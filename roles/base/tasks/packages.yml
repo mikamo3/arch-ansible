@@ -31,6 +31,20 @@
     state: present
   become: true
 
+- name: Install CPU microcode (AMD)
+  community.general.pacman:
+    name: amd-ucode
+    state: present
+  become: true
+  when: devices.cpu.vendor == 'amd'
+
+- name: Install CPU microcode (Intel)
+  community.general.pacman:
+    name: intel-ucode
+    state: present
+  become: true
+  when: devices.cpu.vendor == 'intel'
+
 - name: Install extra kernel headers (for DKMS etc.)
   community.general.pacman:
     name: "{{ base.extra_kernel_headers }}"

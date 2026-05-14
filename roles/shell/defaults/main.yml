@@ -1,4 +1,0 @@
----
-shell:
-  dotfiles:
-    install_chezmoi: true

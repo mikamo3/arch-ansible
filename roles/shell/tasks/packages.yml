@@ -4,7 +4,7 @@
     name:
       # file/process utilities
       - bat               # cat alternative with syntax highlighting
-      - eza               # ls alternative (successor to lsd/exa)
+      - lsd               # ls alternative with icons and colors
       - fd                # find alternative
       - ripgrep           # grep alternative
       - sd                # sed alternative
@@ -25,7 +25,6 @@
       # shell/prompt
       - zsh               # main shell
       - sheldon           # zsh plugin manager
-      - fish              # secondary shell
       - starship          # cross-shell prompt
       - bash-completion   # bash completion enhancements
 

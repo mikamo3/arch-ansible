@@ -43,6 +43,21 @@ cd arch-ansible
 起動後、対象マシンをメニューから選択してパスワードを入力すると archinstall が実行される。
 設定ファイルは `inventories/archinstall/<hostname>.json`。
 
+### ネットワーク事前設定 (chroot)
+
+archinstall 完了後、reboot する前に chroot 内で NM プロファイルを配置しておくと、
+初回起動時から自動接続される（Phase 1.5 の手動接続が不要になる）。
+
+```bash
+arch-chroot /mnt
+
+git clone https://github.com/mikamo3/arch-ansible.git
+cd arch-ansible
+./init_network.sh    # .vault_pass がない場合は Vault パスワードの入力を求められる
+```
+
+完了後は `exit` で chroot を抜けて `reboot`。
+
 ## Phase 1.5: 初回ネットワーク接続 (nucbox)
 
 archinstall 完了後、`reboot` で再起動する。nucbox はネットワーク設定を Ansible で行うため、

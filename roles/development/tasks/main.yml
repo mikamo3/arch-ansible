@@ -7,3 +7,6 @@
 
 - import_tasks: cli_tools.yml
   when: development.cli_tools
+
+- import_tasks: docker.yml
+  when: development.docker | default(true)
