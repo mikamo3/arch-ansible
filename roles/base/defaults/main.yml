@@ -14,6 +14,6 @@ base:
     MaxRetentionSec: 1month
     MaxFileSec: 1week
   fwupd: true
-  extra_kernel_headers: []     # 追加カーネルヘッダ (例: [linux-zen-headers, linux-lts-headers])
+  extra_kernel_headers: []     # Additional kernel headers (e.g. [linux-zen-headers, linux-lts-headers])
 
-network: {}                    # wired / wifi を定義すると NM プロファイルを配置
+network: {}                    # Define wired/wifi to deploy NM profiles

@@ -1,5 +1,5 @@
 ---
-- name: LocalSend (LAN 内ファイル共有)
+- name: Install LocalSend (LAN file sharing)
   aur:
     name:
       - localsend-bin

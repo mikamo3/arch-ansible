@@ -1,11 +1,11 @@
 ---
-- name: メディア再生 / 閲覧
+- name: Install media playback and viewing apps
   aur:
     name:
-      - mpv                    # Wayland ネイティブ動画プレーヤー
-      - loupe                  # GNOME 画像ビューア (GTK4, crop/rotate 対応)
-      - spotify-adblock        # Spotify 公式 + 広告ブロック
-      - mcomix                 # マンガ / コミックビューア (cbz/cbr)
+      - mpv                    # Wayland-native video player
+      - loupe                  # GNOME image viewer (GTK4, supports crop/rotate)
+      - spotify-adblock        # Spotify official + ad blocker
+      - mcomix                 # manga/comic viewer (cbz/cbr)
     state: present
     use: paru
   become: false

@@ -1,40 +1,40 @@
 ---
-- name: ブラウザ
+- name: Install browser
   ansible.builtin.import_tasks: browser.yml
   when: apps.browser | default(false)
   tags: [apps, browser]
 
-- name: ファイルマネージャ
+- name: Install file manager
   ansible.builtin.import_tasks: file_manager.yml
   when: apps.file_manager | default(false)
   tags: [apps, file_manager]
 
-- name: テキストエディタ (GUI)
+- name: Install text editor (GUI)
   ansible.builtin.import_tasks: editor.yml
   when: apps.editor | default(false)
   tags: [apps, editor]
 
-- name: PDF ビューア
+- name: Install PDF viewer
   ansible.builtin.import_tasks: pdf.yml
   when: apps.pdf | default(false)
   tags: [apps, pdf]
 
-- name: リモート接続 / ファイル転送
+- name: Install remote access / file transfer tools
   ansible.builtin.import_tasks: remote.yml
   when: apps.remote | default(false)
   tags: [apps, remote]
 
-- name: BitTorrent クライアント
+- name: Install BitTorrent client
   ansible.builtin.import_tasks: torrent.yml
   when: apps.torrent | default(false)
   tags: [apps, torrent]
 
-- name: パスワードマネージャ
+- name: Install password manager
   ansible.builtin.import_tasks: password_manager.yml
   when: apps.password_manager | default(false)
   tags: [apps, password_manager]
 
-- name: LAN ファイル共有
+- name: Install LAN file sharing
   ansible.builtin.import_tasks: file_share.yml
   when: apps.file_share | default(false)
   tags: [apps, file_share]

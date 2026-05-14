@@ -1,9 +1,9 @@
 ---
-- name: Nautilus + アーカイブマネージャ
+- name: Install Nautilus and archive manager
   aur:
     name:
-      - nautilus               # GNOME 標準ファイルマネージャ (GTK4/libadwaita)
-      - file-roller            # アーカイブ展開/作成 GUI
+      - nautilus               # GNOME default file manager (GTK4/libadwaita)
+      - file-roller            # archive extraction/creation GUI
     state: present
     use: paru
   become: false

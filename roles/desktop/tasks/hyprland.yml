@@ -1,45 +1,45 @@
 ---
-- name: Hyprland + 周辺ユーティリティ
+- name: Install Hyprland and utilities
   aur:
     name:
-      # コア
+      # core
       - hyprland                       # compositor
       - uwsm                           # Universal Wayland Session Manager
-      - xdg-desktop-portal-hyprland    # ポータル (画面共有 / ファイル選択)
-      - hyprpolkitagent                # PolicyKit エージェント
+      - xdg-desktop-portal-hyprland    # portal (screen sharing / file picker)
+      - hyprpolkitagent                # PolicyKit agent
 
-      # ターミナル
+      # terminals
       - ghostty
-      - kitty                          # Hyprland デフォルト config が SUPER+Q で起動
+      - kitty                          # Hyprland default config launches with SUPER+Q
 
-      # シェル UI
-      - waybar                         # ステータスバー
-      - wttrbar                        # waybar 用天気モジュール
-      - fuzzel                         # アプリランチャ
-      - swaync                         # 通知デーモン + 通知センター
+      # shell UI
+      - waybar                         # status bar
+      - wttrbar                        # weather module for waybar
+      - fuzzel                         # app launcher
+      - swaync                         # notification daemon + notification center
 
-      # デバッグ / 診断
-      - wev                            # Wayland 入力イベント inspector
+      # debug/diagnostics
+      - wev                            # Wayland input event inspector
 
-      # ロック / アイドル / 壁紙
-      - hyprlock                       # 画面ロック
-      - hypridle                       # アイドル管理
-      - hyprpaper                      # 壁紙
+      # lock/idle/wallpaper
+      - hyprlock                       # screen locker
+      - hypridle                       # idle manager
+      - hyprpaper                      # wallpaper
 
-      # スクリーンショット
-      - grim                           # 画面キャプチャ
-      - slurp                          # 領域選択
-      - swappy                         # スクリーンショット注釈
+      # screenshots
+      - grim                           # screen capture
+      - slurp                          # region selection
+      - swappy                         # screenshot annotation
 
-      # クリップボード
+      # clipboard
       - wl-clipboard
-      - cliphist                       # 履歴
+      - cliphist                       # clipboard history
 
-      # ハードウェア制御
-      - brightnessctl                  # 輝度
-      - playerctl                      # メディアキー
+      # hardware control
+      - brightnessctl                  # brightness control
+      - playerctl                      # media keys
 
-      # NetworkManager 連携
+      # NetworkManager integration
       - network-manager-applet
     state: present
     use: paru

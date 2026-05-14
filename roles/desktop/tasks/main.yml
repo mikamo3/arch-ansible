@@ -1,13 +1,13 @@
 ---
-- name: 共通 GUI 基盤 (フォント / IME / Qt-Wayland / 基本ユーティリティ)
+- name: Install common GUI base (fonts / IME / Qt-Wayland / basic utilities)
   ansible.builtin.import_tasks: common.yml
   tags: [desktop, common]
 
-- name: ディスプレイマネージャ ({{ desktop.display_manager }})
+- name: Set up display manager ({{ desktop.display_manager }})
   ansible.builtin.import_tasks: display_manager.yml
   tags: [desktop, display_manager]
 
-- name: Hyprland 環境
+- name: Set up Hyprland environment
   ansible.builtin.import_tasks: hyprland.yml
   when: desktop.environment == 'hyprland'
   tags: [desktop, hyprland]

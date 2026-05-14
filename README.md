@@ -6,6 +6,28 @@ Personal Arch Linux setup automation for mainpc / nucbox / sandbox.
 
 Arch Linux インストール USB で対象マシンを起動してから実行する。
 
+### Wi-Fi 接続 (有線 LAN が使えない場合)
+
+```bash
+iwctl
+```
+
+```
+device list                        # インターフェース名を確認 (例: wlan0)
+station wlan0 scan
+station wlan0 get-networks         # SSID 一覧表示
+station wlan0 connect <SSID>       # パスワードを求められたら入力
+exit
+```
+
+接続確認:
+
+```bash
+ping -c 1 archlinux.org
+```
+
+### インストール実行
+
 ```bash
 # 1. git を入手
 pacman -S git

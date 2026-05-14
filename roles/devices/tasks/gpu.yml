@@ -1,5 +1,5 @@
 ---
-- name: Intel GPU ドライバ
+- name: Install Intel GPU drivers
   aur:
     name:
       - mesa                # OpenGL
@@ -10,22 +10,22 @@
   become: false
   when: devices.gpu.type == 'intel'
 
-- name: AMD GPU ドライバ
+- name: Install AMD GPU drivers
   aur:
     name:
       - mesa                    # OpenGL
       - vulkan-radeon           # Vulkan
       - libva-mesa-driver       # VA-API
-      - linux-firmware-amdgpu   # amdgpu ファームウェア (split package)
+      - linux-firmware-amdgpu   # amdgpu firmware (split package)
     state: present
     use: paru
   become: false
   when: devices.gpu.type == 'amd'
 
-- name: NVIDIA GPU ドライバ
+- name: Install NVIDIA GPU drivers
   aur:
     name:
-      - nvidia-open-dkms    # Turing 以降のオープンカーネルモジュール
+      - nvidia-open-dkms    # Open kernel module for Turing and later
       - nvidia-utils
       - nvidia-settings
       - libva-nvidia-driver # VA-API
@@ -34,7 +34,7 @@
   become: false
   when: devices.gpu.type == 'nvidia'
 
-- name: VM GPU ドライバ (virtio-gpu / mesa)
+- name: Install VM GPU drivers (virtio-gpu / mesa)
   aur:
     name:
       - mesa
@@ -43,7 +43,7 @@
   become: false
   when: devices.gpu.type == 'vm'
 
-- name: GPU 診断ユーティリティ (物理マシンのみ)
+- name: Install GPU diagnostic utilities (physical machines only)
   aur:
     name:
       - libva-utils
@@ -53,7 +53,7 @@
   become: false
   when: devices.gpu.type in ['intel', 'amd', 'nvidia']
 
-- name: CUDA (NVIDIA + cuda:true のみ)
+- name: Install CUDA (NVIDIA + cuda:true only)
   aur:
     name:
       - cuda

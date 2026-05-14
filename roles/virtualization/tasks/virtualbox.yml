@@ -1,18 +1,18 @@
 ---
-# DKMS でホストモジュールをビルド (linux-zen 等の非標準カーネルにも対応)。
-# nested VM ではモジュール load が失敗するが install 自体は成功する。
+# Builds host modules via DKMS (supports non-standard kernels like linux-zen).
+# Module load may fail in nested VMs, but installation itself succeeds.
 
-- name: VirtualBox 一式
+- name: Install VirtualBox
   aur:
     name:
-      - virtualbox                       # GUI + コア
-      - virtualbox-host-dkms             # ホストモジュール (DKMS, 任意カーネル対応)
+      - virtualbox                       # GUI + core
+      - virtualbox-host-dkms             # host modules (DKMS, supports any kernel)
       - virtualbox-guest-iso             # Guest Additions ISO
     state: present
     use: paru
   become: false
 
-- name: ansible_user を vboxusers グループに追加
+- name: Add ansible_user to vboxusers group
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: vboxusers

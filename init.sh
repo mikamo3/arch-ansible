@@ -16,28 +16,28 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIGS_DIR="$SCRIPT_DIR/inventories/archinstall"
 
 # ---------------------------------------------------------------------------
-# 1. 前提チェック
+# 1. Prerequisites check
 # ---------------------------------------------------------------------------
-section "環境チェック"
+section "Environment check"
 
 if [[ $EUID -ne 0 ]]; then
-    error "このスクリプトはroot権限で実行してください"
+    error "This script must be run as root"
 fi
 
 if ! ping -c1 -W3 google.com &>/dev/null; then
-    error "インターネットに接続されていません"
+    error "No internet connection"
 fi
 
 if ! command -v archinstall &>/dev/null; then
-    error "archinstallが見つかりません。Arch Linux live環境で実行してください"
+    error "archinstall not found. Run this script from an Arch Linux live environment"
 fi
 
-info "環境チェック OK"
+info "Environment check OK"
 
 # ---------------------------------------------------------------------------
-# 2. マシン選択
+# 2. Machine selection
 # ---------------------------------------------------------------------------
-section "マシン選択"
+section "Machine selection"
 
 configs=()
 while IFS= read -r f; do
@@ -46,47 +46,47 @@ while IFS= read -r f; do
 done < <(find "$CONFIGS_DIR" -name "*.json" | sort)
 
 if [[ ${#configs[@]} -eq 0 ]]; then
-    error "設定ファイルが見つかりません: $CONFIGS_DIR"
+    error "No config files found: $CONFIGS_DIR"
 fi
 
-echo "インストール対象を選択してください:"
+echo "Select installation target:"
 for i in "${!configs[@]}"; do
     echo "  $((i+1))) ${configs[$i]}"
 done
 
 while true; do
-    read -rp "番号を入力 [1-${#configs[@]}]: " choice
+    read -rp "Enter number [1-${#configs[@]}]: " choice
     if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#configs[@]} )); then
         selected="${configs[$((choice-1))]}"
         break
     fi
-    warn "無効な入力です"
+    warn "Invalid input"
 done
 
 config_file="$CONFIGS_DIR/${selected}.json"
-info "設定ファイル: $config_file"
+info "Config file: $config_file"
 
 # ---------------------------------------------------------------------------
-# 3. パスワード入力
+# 3. Password input
 # ---------------------------------------------------------------------------
-section "パスワード設定"
+section "Password setup"
 
 while true; do
-    read -rsp "rootパスワード: " root_pass; echo
-    read -rsp "rootパスワード (確認): " root_pass2; echo
+    read -rsp "Root password: " root_pass; echo
+    read -rsp "Root password (confirm): " root_pass2; echo
     [[ "$root_pass" == "$root_pass2" ]] && break
-    warn "パスワードが一致しません。再入力してください"
+    warn "Passwords do not match. Please try again"
 done
 
 while true; do
-    read -rsp "ユーザーパスワード: " user_pass; echo
-    read -rsp "ユーザーパスワード (確認): " user_pass2; echo
+    read -rsp "User password: " user_pass; echo
+    read -rsp "User password (confirm): " user_pass2; echo
     [[ "$user_pass" == "$user_pass2" ]] && break
-    warn "パスワードが一致しません。再入力してください"
+    warn "Passwords do not match. Please try again"
 done
 
 # ---------------------------------------------------------------------------
-# 4. ユーザー名取得 (configから読む、なければデフォルト)
+# 4. Get username (from config, fallback to default)
 # ---------------------------------------------------------------------------
 username="$(python3 -c "
 import json
@@ -96,12 +96,12 @@ users = cfg.get('!users', cfg.get('users', []))
 print(users[0].get('username', 'mikamo') if users else 'mikamo')
 " 2>/dev/null || echo "mikamo")"
 
-info "ユーザー名: $username"
+info "Username: $username"
 
 # ---------------------------------------------------------------------------
-# 5. archinstall 実行
+# 5. Run archinstall
 # ---------------------------------------------------------------------------
-section "archinstall 実行"
+section "Running archinstall"
 
 tmp_creds="$(mktemp /tmp/archinstall-creds.XXXXXX.json)"
 trap 'rm -f "$tmp_creds"' EXIT
@@ -119,11 +119,11 @@ cat > "$tmp_creds" <<EOF
 }
 EOF
 
-info "設定ファイルの内容を確認してください"
-warn "この操作はディスクを完全に消去します"
+info "Please verify the config file contents"
+warn "This operation will completely wipe the disk"
 echo ""
 
 archinstall --config "$config_file" --creds "$tmp_creds"
 
-info "インストール完了"
-info "再起動してください: reboot"
+info "Installation complete"
+info "Please reboot: reboot"

@@ -1,5 +1,5 @@
 ---
-- name: FeatherPad (軽量 GUI テキストエディタ)
+- name: Install FeatherPad (lightweight GUI text editor)
   aur:
     name:
       - featherpad

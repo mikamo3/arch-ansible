@@ -1,5 +1,5 @@
 ---
-- name: systemd-logind 電源ボタン挙動を設定
+- name: Configure systemd-logind power button behavior
   ansible.builtin.lineinfile:
     path: /etc/systemd/logind.conf
     regexp: "^#?HandlePowerKey="
@@ -8,7 +8,7 @@
   become: true
   notify: restart systemd-logind
 
-- name: systemd sleep 設定
+- name: Configure systemd sleep settings
   ansible.builtin.lineinfile:
     path: /etc/systemd/sleep.conf
     regexp: "^#?{{ item.key }}="
@@ -22,7 +22,7 @@
     - { key: "AllowHybridSleep", value: "no" }
   notify: restart systemd-logind
 
-- name: journald 設定
+- name: Configure journald
   ansible.builtin.lineinfile:
     path: /etc/systemd/journald.conf
     regexp: "^#?{{ item.key }}="
@@ -32,7 +32,7 @@
   loop: "{{ base.journald | dict2items }}"
   notify: restart journald
 
-- name: systemd-oomd を有効化
+- name: Enable systemd-oomd
   ansible.builtin.systemd:
     name: systemd-oomd
     enabled: true

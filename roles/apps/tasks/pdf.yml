@@ -1,9 +1,9 @@
 ---
-- name: zathura (キーボード操作の PDF ビューア)
+- name: Install zathura (keyboard-driven PDF viewer)
   aur:
     name:
       - zathura
-      - zathura-pdf-poppler    # PDF バックエンド
+      - zathura-pdf-poppler    # PDF backend
     state: present
     use: paru
   become: false

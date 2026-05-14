@@ -1,8 +1,8 @@
 ---
-- name: nfs-utils (NFS クライアント)
+- name: Install nfs-utils (NFS client)
   aur:
     name:
-      - nfs-utils               # NFS マウント用ユーティリティ
+      - nfs-utils               # NFS mount utilities
     state: present
     use: paru
   become: false

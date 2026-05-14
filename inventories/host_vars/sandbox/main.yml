@@ -36,7 +36,7 @@ development:
 
 virtualization:
   kvm: true
-  kvm_default_network: false   # ホスト NIC が 192.168.122.0/24 を使用中のため衝突回避
+  kvm_default_network: false   # Disabled to avoid conflict: host NIC uses 192.168.122.0/24
   virtualbox: true
 
 storage:

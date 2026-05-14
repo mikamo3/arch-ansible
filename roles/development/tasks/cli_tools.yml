@@ -1,9 +1,9 @@
 ---
-- name: 開発系 CLI ツール
+- name: Install development CLI tools
   aur:
     name:
-      - jq                       # JSON プロセッサ
-      - yq                       # YAML プロセッサ
+      - jq                       # JSON processor
+      - yq                       # YAML processor
     state: present
     use: paru
   become: false

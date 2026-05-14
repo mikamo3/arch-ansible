@@ -1,5 +1,5 @@
 ---
-- name: greetd + tuigreet をインストール
+- name: Install greetd + tuigreet
   aur:
     name:
       - greetd
@@ -9,7 +9,7 @@
   become: false
   when: desktop.display_manager == 'greetd'
 
-- name: greetd 設定 (uwsm 経由で Hyprland 起動)
+- name: Configure greetd (launch Hyprland via uwsm)
   ansible.builtin.template:
     src: greetd-config.toml.j2
     dest: /etc/greetd/config.toml
@@ -21,7 +21,7 @@
   notify: restart greetd
 
 
-- name: greetd.service を有効化
+- name: Enable greetd.service
   ansible.builtin.systemd:
     name: greetd
     enabled: true

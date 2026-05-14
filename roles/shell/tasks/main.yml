@@ -1,8 +1,8 @@
 ---
-- name: シェルツール群のインストール
+- name: Install shell tools
   ansible.builtin.import_tasks: packages.yml
   tags: [shell, packages]
 
-- name: dotfiles 管理ツール (chezmoi) のセットアップ
+- name: Set up dotfiles manager (chezmoi)
   ansible.builtin.import_tasks: dotfiles.yml
   tags: [shell, dotfiles]

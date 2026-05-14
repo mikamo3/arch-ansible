@@ -1,12 +1,12 @@
 ---
-- name: PipeWire 一式をインストール
+- name: Install PipeWire stack
   aur:
     name:
-      - pipewire           # コア
-      - pipewire-alsa      # ALSA 互換
-      - pipewire-pulse     # PulseAudio 互換
-      - pipewire-jack      # JACK 互換
-      - wireplumber        # セッションマネージャ
+      - pipewire           # core
+      - pipewire-alsa      # ALSA compatibility
+      - pipewire-pulse     # PulseAudio compatibility
+      - pipewire-jack      # JACK compatibility
+      - wireplumber        # session manager
       - alsa-utils         # alsamixer / amixer
     state: present
     use: paru

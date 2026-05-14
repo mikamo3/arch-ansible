@@ -1,20 +1,20 @@
 ---
-- name: GPU ドライバのインストール
+- name: Install GPU drivers
   ansible.builtin.import_tasks: gpu.yml
   when: devices.gpu.type | default('none') != 'none'
   tags: [devices, gpu]
 
-- name: オーディオ (PipeWire) のインストール
+- name: Install audio (PipeWire)
   ansible.builtin.import_tasks: audio.yml
   when: devices.audio | default(false)
   tags: [devices, audio]
 
-- name: Bluetooth のインストール
+- name: Install Bluetooth
   ansible.builtin.import_tasks: bluetooth.yml
   when: devices.bluetooth | default(false)
   tags: [devices, bluetooth]
 
-- name: プリンタ (CUPS) のインストール
+- name: Install printer support (CUPS)
   ansible.builtin.import_tasks: printer.yml
   when: devices.printer | default(false)
   tags: [devices, printer]

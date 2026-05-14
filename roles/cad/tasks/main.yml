@@ -1,12 +1,12 @@
 ---
-- name: CAD アプリケーション
+- name: Install CAD applications
   aur:
     name:
-      - freecad                 # 3D パラメトリック CAD
-      - librecad                # 2D CAD (DXF 対応)
-      - kicad                   # 電子回路 / PCB 設計
-      - kicad-library           # KiCad シンボル / フットプリントライブラリ
-      - kicad-library-3d        # KiCad 3D モデルライブラリ
+      - freecad                 # 3D parametric CAD
+      - librecad                # 2D CAD (DXF support)
+      - kicad                   # electronics / PCB design
+      - kicad-library           # KiCad symbol / footprint libraries
+      - kicad-library-3d        # KiCad 3D model libraries
     state: present
     use: paru
   become: false

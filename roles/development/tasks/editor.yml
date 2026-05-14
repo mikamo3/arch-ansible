@@ -1,8 +1,8 @@
 ---
-- name: Visual Studio Code
+- name: Install Visual Studio Code
   aur:
     name:
-      - visual-studio-code-bin   # 公式バイナリ版 (Marketplace 利用可)
+      - visual-studio-code-bin   # official binary build (Marketplace available)
     state: present
     use: paru
   become: false

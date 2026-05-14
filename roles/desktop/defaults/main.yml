@@ -1,5 +1,5 @@
 ---
 desktop:
-  environment: hyprland       # hyprland (将来: gnome / sway / ...)
-  display_manager: greetd     # greetd (将来: gdm / ly)
+  environment: hyprland       # hyprland (future: gnome / sway / ...)
+  display_manager: greetd     # greetd (future: gdm / ly)
   ime: fcitx5                 # fcitx5 / none

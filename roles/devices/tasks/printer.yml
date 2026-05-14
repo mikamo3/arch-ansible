@@ -1,23 +1,23 @@
 ---
-- name: CUPS をインストール
+- name: Install CUPS
   aur:
     name:
-      - cups              # 印刷システム
+      - cups              # printing system
     state: present
     use: paru
   become: false
 
-- name: Canon LBP ドライバをインストール
+- name: Install Canon LBP driver
   aur:
     name:
-      - libxml2-legacy    # cndrvcups-lt の依存 (ABI 互換)
-      - libglade          # cndrvcups-lt の依存
-      - cndrvcups-lt      # Canon LBP6040 ドライバ
+      - libxml2-legacy    # dependency for cndrvcups-lt (ABI compatibility)
+      - libglade          # dependency for cndrvcups-lt
+      - cndrvcups-lt      # Canon LBP6040 driver
     state: present
     use: paru
   become: false
 
-- name: cups.service を有効化
+- name: Enable cups.service
   ansible.builtin.systemd:
     name: cups
     enabled: true

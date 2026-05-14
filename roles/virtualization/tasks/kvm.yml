@@ -1,19 +1,19 @@
 ---
-- name: QEMU / libvirt 一式
+- name: Install QEMU / libvirt stack
   aur:
     name:
-      - qemu-desktop           # QEMU (デスクトップ用最小構成)
-      - libvirt                # 仮想化管理 API / デーモン
-      - virt-manager           # GUI 管理ツール
-      - virt-viewer            # VM コンソール表示 (virt-manager が内部利用)
-      - dnsmasq                # default NAT 用 DHCP/DNS
-      - edk2-ovmf              # UEFI ファームウェア (UEFI ブートゲスト用)
-      - dmidecode              # DMI 情報 (Wiki 推奨)
+      - qemu-desktop           # QEMU (minimal desktop configuration)
+      - libvirt                # virtualization management API / daemon
+      - virt-manager           # GUI management tool
+      - virt-viewer            # VM console viewer (used internally by virt-manager)
+      - dnsmasq                # DHCP/DNS for default NAT network
+      - edk2-ovmf              # UEFI firmware (for UEFI boot guests)
+      - dmidecode              # DMI information (recommended by Arch Wiki)
     state: present
     use: paru
   become: false
 
-- name: libvirt 関連サービス
+- name: Enable libvirt services
   ansible.builtin.systemd:
     name: "{{ item }}"
     enabled: true
@@ -23,34 +23,34 @@
     - virtlogd.service
   become: true
 
-- name: ansible_user を libvirt グループに追加
+- name: Add ansible_user to libvirt group
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: libvirt
     append: true
   become: true
 
-- name: default ネットワーク設定
+- name: Configure default network
   when: virtualization.kvm_default_network | default(true)
   block:
-    - name: default ネットワークの状態を取得
+    - name: Get default network status
       ansible.builtin.command: virsh net-info default
       register: virsh_default_info
       changed_when: false
       failed_when: false
       become: true
 
-    - name: default ネットワークを定義 (未定義時のみ)
+    - name: Define default network (only if not defined)
       ansible.builtin.command: virsh net-define /usr/share/libvirt/networks/default.xml
       when: virsh_default_info.rc != 0
       become: true
 
-    - name: default ネットワーク autostart を有効化
+    - name: Enable default network autostart
       ansible.builtin.command: virsh net-autostart default
       when: "virsh_default_info.rc != 0 or 'Autostart:      yes' not in virsh_default_info.stdout"
       become: true
 
-    - name: default ネットワークを起動
+    - name: Start default network
       ansible.builtin.command: virsh net-start default
       when: "virsh_default_info.rc != 0 or 'Active:         yes' not in virsh_default_info.stdout"
       become: true

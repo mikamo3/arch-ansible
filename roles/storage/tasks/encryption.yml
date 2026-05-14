@@ -1,8 +1,8 @@
 ---
-- name: veracrypt (ディスク暗号化)
+- name: Install veracrypt (disk encryption)
   aur:
     name:
-      - veracrypt               # ディスク / コンテナ暗号化
+      - veracrypt               # disk / container encryption
     state: present
     use: paru
   become: false

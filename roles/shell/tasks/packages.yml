@@ -1,78 +1,78 @@
 ---
-- name: モダンCLIツール群をインストール
+- name: Install modern CLI tools
   aur:
     name:
-      # ファイル/プロセス操作
-      - bat               # cat 代替、シンタックスハイライト
-      - eza               # ls 代替 (lsd/exa 後継)
-      - fd                # find 代替
-      - ripgrep           # grep 代替
-      - sd                # sed 代替
-      - dust              # du 代替
-      - duf               # df 代替
-      - procs             # ps 代替
-      - htop              # インタラクティブ プロセスビューア
-      - btop              # htop の上位互換
-      - tree              # ディレクトリツリー表示
+      # file/process utilities
+      - bat               # cat alternative with syntax highlighting
+      - eza               # ls alternative (successor to lsd/exa)
+      - fd                # find alternative
+      - ripgrep           # grep alternative
+      - sd                # sed alternative
+      - dust              # du alternative
+      - duf               # df alternative
+      - procs             # ps alternative
+      - htop              # interactive process viewer
+      - btop              # htop with more features
+      - tree              # directory tree display
 
-      # 検索/ナビゲーション
-      - fzf               # ファジーファインダー
-      - zoxide            # cd 代替 (履歴学習)
-      - atuin             # シェル履歴管理 (mcfly 後継)
-      - broot             # ツリー表示+ナビゲーション
-      - yazi              # ファイルマネージャ
+      # search/navigation
+      - fzf               # fuzzy finder
+      - zoxide            # cd alternative with history learning
+      - atuin             # shell history manager (successor to mcfly)
+      - broot             # tree view + navigation
+      - yazi              # file manager
 
-      # シェル/プロンプト
-      - zsh               # メインシェル
-      - sheldon           # zsh プラグインマネージャ
-      - fish              # サブシェル
-      - starship          # クロスシェルプロンプト
-      - bash-completion   # bash 補完強化
+      # shell/prompt
+      - zsh               # main shell
+      - sheldon           # zsh plugin manager
+      - fish              # secondary shell
+      - starship          # cross-shell prompt
+      - bash-completion   # bash completion enhancements
 
-      # Git ツール
-      - lazygit           # ターミナルGit UI
-      - git-delta         # git diff/log ハイライト
+      # git tools
+      - lazygit           # terminal Git UI
+      - git-delta         # git diff/log highlighter
       - github-cli        # GitHub CLI
-      - ghq               # Git リポジトリマネージャ
+      - ghq               # Git repository manager
 
-      # エディタ
-      - neovim            # vim 後継
-      - helix             # ポストモダンモーダルエディタ
+      # editors
+      - neovim            # vim successor
+      - helix             # post-modern modal editor
 
-      # ネットワーク/HTTP
-      - curlie            # curl 代替 (UX改善)
-      - httpie            # ユーザーフレンドリー HTTP クライアント
-      - bandwhich         # ネットワーク帯域モニタ
-      - dog               # dig 代替
+      # network/HTTP
+      - curlie            # curl alternative with improved UX
+      - httpie            # user-friendly HTTP client
+      - bandwhich         # network bandwidth monitor
+      - dog               # dig alternative
 
-      # システム情報/ベンチマーク
-      - fastfetch         # システム情報表示 (neofetch 後継)
-      - hyperfine         # コマンドベンチマーク
+      # system info/benchmark
+      - fastfetch         # system info display (neofetch successor)
+      - hyperfine         # command benchmarking
 
-      # アーカイブ
-      - ouch              # 汎用アーカイブ展開
+      # archives
+      - ouch              # universal archive tool
       - unzip
       - zip
       - 7zip
 
-      # ページャ/ビューア
+      # pagers/viewers
       - less
-      - glow              # ターミナル Markdown ビューア
+      - glow              # terminal Markdown viewer
 
-      # ドキュメント
-      - tealdeer          # tldr 高速クライアント
+      # documentation
+      - tealdeer          # fast tldr client
 
-      # ファイル監視/自動実行
+      # file watching/auto-run
       - watchexec
 
-      # ターミナル多重化
+      # terminal multiplexer
       - zellij
 
-      # ユーティリティ
-      - ncdu              # NCurses ディスク使用量
-      - gum               # シェルスクリプト用 UI
+      # utilities
+      - ncdu              # NCurses disk usage
+      - gum               # UI toolkit for shell scripts
 
-      # ファイル関連付け (Wayland環境向け)
+      # file associations (for Wayland)
       - handlr-regex
     state: present
     use: paru

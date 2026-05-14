@@ -1,44 +1,44 @@
 ---
-- name: 基本パッケージをインストール
+- name: Install base packages
   community.general.pacman:
     name:
-      # ビルド/カーネル
+      # build/kernel
       - base-devel
       - linux-headers
 
-      # ファイルシステム
+      # filesystem
       - btrfs-progs
       - dosfstools
 
-      # ドキュメント
+      # documentation
       - man-db
       - man-pages
 
-      # パッケージ管理
+      # package management
       - pacman-contrib
       - reflector
 
-      # ネットワーク/転送
+      # network/transfer
       - curl
       - wget
       - rsync
 
-      # firewall 基盤 (nftables バックエンド + iptables CLI 互換)
+      # firewall (nftables backend + iptables CLI compatibility)
       - iptables-nft
 
-      # 個別ツール
+      # misc tools
       - git-crypt
     state: present
   become: true
 
-- name: 追加カーネルヘッダ (DKMS 等で必要なカーネル分)
+- name: Install extra kernel headers (for DKMS etc.)
   community.general.pacman:
     name: "{{ base.extra_kernel_headers }}"
     state: present
   become: true
   when: base.extra_kernel_headers | length > 0
 
-- name: fwupd をインストール
+- name: Install fwupd
   community.general.pacman:
     name: fwupd
     state: present

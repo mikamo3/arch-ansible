@@ -1,9 +1,9 @@
 ---
 devices:
   gpu:
-    type: intel               # Intel 統合グラフィックス
+    type: intel               # Intel integrated graphics
   audio: true
-  bluetooth: true             # 持ち出し用途のため有効
+  bluetooth: true             # Enabled for portable use
   printer: false
 
 desktop:
@@ -24,15 +24,15 @@ apps:
 media:
   cli_tools: true
   playback: true
-  editing: false              # 動画編集不要
+  editing: false              # No video editing needed
 
 office:
   suite: true
 
 storage:
   cloud_sync: true
-  encryption: true            # 持ち出し端末のため暗号化必須
-  nfs: false                  # 宅内ネットワーク外での使用を考慮
+  encryption: true            # Encryption required for portable device
+  nfs: false                  # Not used outside home network
 
 network:
   wired:
@@ -42,5 +42,5 @@ network:
       - 192.168.100.1
   wifi:
     interface: wlan0
-    ssid: "{{ wifi_ssid }}"       # secret.yml に定義
-    password: "{{ wifi_password }}" # secret.yml に定義
+    ssid: "{{ wifi_ssid }}"       # Defined in secret.yml
+    password: "{{ wifi_password }}" # Defined in secret.yml
