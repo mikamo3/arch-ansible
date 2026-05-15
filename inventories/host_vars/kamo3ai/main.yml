@@ -39,6 +39,13 @@ storage:
   cloud_sync: false
   encryption: false
   nfs: true
+  btrfs_mounts:
+    - subvol: "@stable_diffusion_data"
+      mountpoint: /sd_data
+      uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
+    - subvol: "@stable_diffusion_output"
+      mountpoint: /sd_output
+      uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
 
 network:
   wired:

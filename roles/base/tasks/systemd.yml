@@ -38,3 +38,25 @@
     enabled: true
     state: started
   become: true
+
+- name: Ensure /etc/systemd/system.conf.d exists
+  ansible.builtin.file:
+    path: /etc/systemd/system.conf.d
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Reduce systemd shutdown timeout (prevents long hangs after GPU crash etc.)
+  ansible.builtin.copy:
+    content: "[Manager]\nDefaultTimeoutStopSec=30s\n"
+    dest: /etc/systemd/system.conf.d/timeout.conf
+    mode: "0644"
+  become: true
+
+- name: Enable SysRq (for emergency reboot/sync when system hangs)
+  ansible.builtin.copy:
+    content: "kernel.sysrq = 1\n"
+    dest: /etc/sysctl.d/99-sysrq.conf
+    mode: "0644"
+  become: true
+  notify: reload sysctl

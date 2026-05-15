@@ -18,3 +18,7 @@
 - name: reload NetworkManager connections
   ansible.builtin.command: nmcli con reload
   become: true
+
+- name: reload sysctl
+  ansible.builtin.command: sysctl --system
+  become: true

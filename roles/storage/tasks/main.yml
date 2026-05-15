@@ -1,4 +1,7 @@
 ---
+- import_tasks: btrfs_mounts.yml
+  when: storage.btrfs_mounts is defined
+
 - import_tasks: cloud_sync.yml
   when: storage.cloud_sync
 
