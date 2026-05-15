@@ -5,7 +5,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLAYBOOK="$REPO_ROOT/playbook/configure.yml"
 INVENTORY="$REPO_ROOT/inventories/hosts.yml"
 
-hosts=$(grep -E '^    [a-z]+:$' "$INVENTORY" | tr -d ' :')
+hosts=$(grep -E '^    [a-z][a-z0-9]*:$' "$INVENTORY" | tr -d ' :')
 tags=$(grep -oE 'tags: \[[a-z_]+\]' "$PLAYBOOK" | sed 's/tags: \[//;s/\]//')
 
 target=$(echo "$hosts" | fzf \

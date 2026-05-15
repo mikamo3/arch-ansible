@@ -10,7 +10,7 @@ devices:
   printer: false
 
 desktop:
-  environment: openbox
+  environment: xfce
   display_manager: xrdp
   ime: fcitx5
 

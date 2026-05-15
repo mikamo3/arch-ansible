@@ -32,9 +32,20 @@
   aur:
     name:
       - xrdp
+      - xorgxrdp
     state: present
     use: paru
   become: false
+  when: desktop.display_manager == 'xrdp'
+
+- name: Allow non-console users to run Xorg (required for xrdp)
+  ansible.builtin.copy:
+    content: "allowed_users=anybody\nneeds_root_rights=yes\n"
+    dest: /etc/X11/Xwrapper.config
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
   when: desktop.display_manager == 'xrdp'
 
 - name: Enable xrdp.service

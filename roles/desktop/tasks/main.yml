@@ -16,3 +16,8 @@
   ansible.builtin.import_tasks: openbox.yml
   when: desktop.environment == 'openbox'
   tags: [desktop, openbox]
+
+- name: Set up XFCE environment
+  ansible.builtin.import_tasks: xfce.yml
+  when: desktop.environment == 'xfce'
+  tags: [desktop, xfce]

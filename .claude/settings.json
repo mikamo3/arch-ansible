@@ -1,5 +1,28 @@
 {
   "permissions": {
-    "ask": ["Bash(git commit*)"]
+    "allow": [
+      "Bash(ssh mikamo@192.168.100.10 \"cat /etc/X11/Xwrapper.config 2>/dev/null || echo 'not found'; ls /tmp/.xrdp-xorg-errors* 2>/dev/null || echo 'no xorg error files'; find /tmp -name '*.log' 2>/dev/null | head -10\")",
+      "Bash(ssh mikamo@192.168.100.10 \"cat /var/log/Xorg.10.log 2>/dev/null | grep -E '\\\\\\(EE\\\\\\)|\\\\\\(WW\\\\\\)' | head -30\")",
+      "Bash(ssh mikamo@192.168.100.10 \"tail -20 /var/log/Xorg.10.log\")",
+      "Bash(ssh mikamo@192.168.100.10 \"ls -la /tmp/.X* 2>/dev/null; ls -la /tmp/.x* 2>/dev/null; stat /var/log/Xorg.10.log | grep Modify\")",
+      "Bash(ssh mikamo@192.168.100.10 \"cat /etc/xrdp/sesman.ini | grep -A5 -i 'xorg\\\\|x11\\\\|session\\\\|script'\")",
+      "Bash(ssh mikamo@192.168.100.10 \"ls -la /usr/lib/Xorg 2>/dev/null || echo 'not found'; ls /etc/xrdp/xorg.conf 2>/dev/null || echo 'no xrdp/xorg.conf'; find /home/mikamo -name '.xorgxrdp*.log' 2>/dev/null | head -5; find /tmp -name '.xorgxrdp*.log' 2>/dev/null | head -5\")",
+      "Bash(ssh mikamo@192.168.100.10 \"cat /home/mikamo/.xorgxrdp.10.log\")",
+      "Bash(ssh mikamo@192.168.100.10 \"pacman -Q xorgxrdp 2>/dev/null || echo 'not installed'\")",
+      "Bash(ssh mikamo@192.168.100.10 \"cat ~/.xorgxrdp.10.log | tail -20; echo '---'; journalctl -u xrdp-sesman --since '3 min ago' --no-pager | tail -15\")",
+      "Bash(ssh mikamo@192.168.100.10 \"cat /etc/xrdp/startwm.sh; echo '---'; ls -la ~/.xsession\")",
+      "Bash(ssh mikamo@192.168.100.10 \"echo 'exec openbox-session' > ~/.xinitrc && chmod +x ~/.xinitrc && cat ~/.xinitrc\")",
+      "Bash(ssh mikamo@192.168.100.10 \"cat ~/.xinitrc && cat ~/.xsession 2>/dev/null || echo 'no .xsession'\")",
+      "Bash(ssh mikamo@192.168.100.10 \"rm ~/.xsession; ls -1 /tmp/.xrdp* 2>/dev/null; who; ps aux | grep -E 'openbox|xfce|Xorg' | grep -v grep\")",
+      "Bash(ssh mikamo@192.168.100.10 \"ps aux | grep -E 'openbox|xfce|Xorg|xrdp' | grep -v grep\")",
+      "Bash(ssh mikamo@192.168.100.10 \"printf 'fcitx5 -d &\\\\nexec startxfce4\\\\n' > ~/.xinitrc && sudo sh -c 'printf \\\\\"GTK_IM_MODULE=fcitx\\\\nQT_IM_MODULE=fcitx\\\\n\\\\\" > /etc/environment.d/11-fcitx5-x11.conf' && echo done\")",
+      "Bash(ssh mikamo@192.168.100.10 \"printf 'fcitx5 -d &\\\\nexec startxfce4\\\\n' > ~/.xinitrc && cat ~/.xinitrc\")",
+      "Bash(git -C /home/mikamo/src/github.com/mikamo3/arch-ansible diff --stat)",
+      "Bash(git -C /home/mikamo/src/github.com/mikamo3/arch-ansible status --short)",
+      "Bash(git -C /home/mikamo/src/github.com/mikamo3/arch-ansible log --oneline -3)"
+    ],
+    "ask": [
+      "Bash(git commit*)"
+    ]
   }
 }
