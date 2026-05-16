@@ -6,7 +6,7 @@ devices:
     type: intel # Intel integrated graphics
   audio: true
   bluetooth: true # Enabled for portable use
-  printer: false
+  printer: true
 
 desktop:
   environment: hyprland
