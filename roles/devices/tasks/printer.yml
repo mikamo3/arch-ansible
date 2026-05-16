@@ -2,7 +2,8 @@
 - name: Install CUPS
   aur:
     name:
-      - cups              # printing system
+      - cups        # printing system
+      - ghostscript # required by cups-filters universal filter
     state: present
     use: paru
   become: false
@@ -10,9 +11,8 @@
 - name: Install Canon LBP driver
   aur:
     name:
-      - libxml2-legacy    # dependency for cndrvcups-lt (ABI compatibility)
-      - libglade          # dependency for cndrvcups-lt
-      - cndrvcups-lt      # Canon LBP6040 driver
+      - libxml2-legacy # dependency for cndrvcups-lt (ABI compatibility)
+      - cndrvcups-lt # Canon LBP6040 driver
     state: present
     use: paru
   become: false
