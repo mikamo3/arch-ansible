@@ -1,34 +1,9 @@
 ---
-# Media role main tasks - Media editing and playback applications
-
-- name: Install CLI media processing tools
-  aur:
-    name:
-      - ffmpeg # Video/audio processing toolkit
-      - imagemagick # Command-line image manipulation
-    state: present
-  become_user: "{{ ansible_user }}"
+- import_tasks: cli_tools.yml
   when: media.cli_tools
 
-- name: Install media playback applications
-  aur:
-    name:
-      - vlc # VLC media player
-      - vlc-plugins-all # VLC all plugins/codecs
-      - gthumb # Image viewer and organizer
-      - spotify # Music streaming service
-      - mcomix # Comic and manga reader
-    state: present
-  become_user: "{{ ansible_user }}"
+- import_tasks: playback.yml
   when: media.playback
 
-- name: Install media editing applications
-  aur:
-    name:
-      - gimp # Advanced image editor
-      - inkscape # Vector graphics editor
-      - gpick # Color picker utility
-      - obs-studio # Screen recording and live streaming
-    state: present
-  become_user: "{{ ansible_user }}"
+- import_tasks: editing.yml
   when: media.editing

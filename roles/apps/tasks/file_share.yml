@@ -1,0 +1,8 @@
+---
+- name: Install LocalSend (LAN file sharing)
+  aur:
+    name:
+      - localsend-bin
+    state: present
+    use: paru
+  become: false

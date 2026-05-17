@@ -1,0 +1,27 @@
+---
+- name: Install Xorg
+  community.general.pacman:
+    name:
+      - xorg-server
+      - xorg-xinit
+      - xorg-xrandr
+    state: present
+  become: true
+
+- name: Install Openbox
+  aur:
+    name:
+      - openbox
+    state: present
+    use: paru
+  become: false
+
+- name: Deploy .xinitrc for xrdp (Arch uses ~/.xinitrc in startwm.sh)
+  ansible.builtin.copy:
+    content: "exec openbox-session\n"
+    dest: "/home/{{ ansible_user }}/.xinitrc"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+  become: true
+

@@ -1,11 +1,4 @@
 ---
-# Handlers for base role
-
-- name: update package database
-  community.general.pacman:
-    update_cache: true
-  become: true
-
 - name: restart systemd-logind
   ansible.builtin.systemd:
     name: systemd-logind
@@ -18,7 +11,14 @@
     state: restarted
   become: true
 
-- name: reload ufw
-  community.general.ufw:
-    state: reloaded
+- name: run reflector
+  ansible.builtin.command: reflector @/etc/xdg/reflector/reflector.conf
+  become: true
+
+- name: reload NetworkManager connections
+  ansible.builtin.command: nmcli con reload
+  become: true
+
+- name: reload sysctl
+  ansible.builtin.command: sysctl --system
   become: true

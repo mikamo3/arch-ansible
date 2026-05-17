@@ -1,0 +1,14 @@
+---
+- name: Install Git tools
+  aur:
+    name:
+      - git-lfs                  # Git Large File Storage
+      - lazygit                  # Git TUI
+      - git-delta                # feature-rich diff viewer
+      - difftastic               # syntax-aware semantic diff
+      - tokei                    # source line counter
+      - gibo                     # .gitignore template fetcher
+      - cocogitto                # Conventional Commits / SemVer CLI
+    state: present
+    use: paru
+  become: false

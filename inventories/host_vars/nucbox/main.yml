@@ -1,0 +1,51 @@
+---
+devices:
+  cpu:
+    vendor: intel
+  gpu:
+    type: intel # Intel integrated graphics
+  audio: true
+  bluetooth: true # Enabled for portable use
+  printer: true
+
+desktop:
+  environment: hyprland
+  display_manager: greetd
+  ime: fcitx5
+
+apps:
+  browser: true
+  file_manager: true
+  editor: true
+  pdf: true
+  remote: true
+  torrent: true
+  password_manager: true
+  file_share: true
+
+media:
+  cli_tools: true
+  playback: true
+  editing: false # No video editing needed
+
+office:
+  suite: true
+
+development:
+  docker: true
+
+storage:
+  cloud_sync: true
+  encryption: true # Encryption required for portable device
+  nfs: false # Not used outside home network
+
+network:
+  wired:
+    interface: enp1s0
+    ip: 192.168.100.20/24
+    dns:
+      - 192.168.100.1
+  wifi:
+    interface: wlp2s0
+    ssid: "{{ wifi_ssid }}" # Defined in secret.yml
+    password: "{{ wifi_password }}" # Defined in secret.yml

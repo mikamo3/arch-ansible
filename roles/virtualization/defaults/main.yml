@@ -1,21 +1,5 @@
 ---
-# Default variables for virtualization role - QEMU/KVM virtualization for home use
-
 virtualization:
-  # Core virtualization installation
-  install: false # Install virtualization tools
-
-  # VirtualBox installation (separate from QEMU/KVM stack)
-  virtualbox:
-    install: false # Install VirtualBox host components
-
-  # libvirt connection URI for virsh/virt-manager automation
-  # Use system libvirt to manage networks (qemu:///system).
-  libvirt_uri: "qemu:///system"
-
-  # QEMU configuration - using desktop variant (lighter for home use)
-
-  # Networking configuration
-  networking:
-    enable_default_network: true # Enable default NAT network
-
+  kvm: false                   # qemu-desktop + libvirt + virt-manager + edk2-ovmf
+  kvm_default_network: true    # Enable libvirt default NAT (192.168.122.0/24). Set false if host NIC uses the same subnet
+  virtualbox: false            # virtualbox + virtualbox-host-dkms

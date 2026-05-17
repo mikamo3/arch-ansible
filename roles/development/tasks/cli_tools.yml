@@ -1,0 +1,9 @@
+---
+- name: Install development CLI tools
+  aur:
+    name:
+      - jq                       # JSON processor
+      - yq                       # YAML processor
+    state: present
+    use: paru
+  become: false

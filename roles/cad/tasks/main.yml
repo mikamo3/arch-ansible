@@ -1,14 +1,13 @@
 ---
-# CAD role main tasks - Computer-aided design and engineering tools
-
 - name: Install CAD applications
   aur:
     name:
-      - freecad                 # 3D CAD software
-      - librecad                # 2D CAD software
-      - kicad                   # Electronic design automation
-      - kicad-library           # KiCad component libraries
-      - kicad-library-3d        # KiCad 3D models
+      - freecad                 # 3D parametric CAD
+      - librecad                # 2D CAD (DXF support)
+      - kicad                   # electronics / PCB design
+      - kicad-library           # KiCad symbol / footprint libraries
+      - kicad-library-3d        # KiCad 3D model libraries
     state: present
-  become_user: "{{ ansible_user }}"
+    use: paru
+  become: false
   when: cad.install

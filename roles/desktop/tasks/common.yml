@@ -1,60 +1,105 @@
 ---
-# Common GUI utilities for all desktop environments
-
-- name: Install common GUI utilities
+- name: Install fonts
   aur:
     name:
-      - dex
-      # Terminal emulators
-      - kitty # Modern GPU-accelerated terminal
-      - ghostty # Minimal terminal emulator
-
-      # File management
-      - nemo # File manager (Cinnamon-based)
-      - file-roller # Archive manager
-
-      # Text editor (for environments without built-in editor)
-      - featherpad # Qt-based text editor
-
-      # Web browsers
-      - firefox # Firefox browser
-      - firefox-i18n-ja # Japanese language pack for Firefox
-      - chromium # Chromium browser
-      - network-manager-applet # NetworkManager GUI
-
-      # PDF viewer
-      - zathura # Minimal PDF viewer
-      - zathura-pdf-poppler # PDF backend for zathura
-
-      # System utilities
-      - xdg-user-dirs # User directory management
-
-      # Fonts and rendering
-      - fontconfig # Font configuration
-
-      # Theme and appearance
-
-      # File transfer and remote access
-      - filezilla # FTP/SFTP client
-      - remmina # Remote desktop client
-      - freerdp # RDP protocol implementation for remmina
-      - libvncserver # VNC protocol support for remmina
-      - webkit2gtk # Web browser plugin support for remmina
-      - qbittorrent # BitTorrent client
-
-      # Miscellaneous utilities
-      - 1password # 1Password password manager
-      - 1password-cli # 1Password CLI tool
-
-      - localsend-bin # Local file sharing over LAN
-
+      # fallback (Noto)
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      # Japanese monospace (PlemolJP full)
+      - ttf-plemoljp-bin
+      # programming + Japanese
+      - ttf-cica
+      - ttf-udev-gothic
+      - ttf-hackgen
+      # Latin programming (IBM Plex)
+      - ttf-ibm-plex
+      # Japanese GUI (Morisawa BIZ UDPGothic)
+      - morisawa-biz-ud-gothic-fonts
+      # Latin GUI
+      - inter-font
     state: present
-  become_user: "{{ ansible_user }}"
+    use: paru
+  become: false
 
-- name: Install keyring and secret management
-  pacman:
+- name: Install IME (fcitx5 + mozc)
+  aur:
     name:
-      - gnome-keyring # GNOME keyring daemon
-      - seahorse # Keyring management GUI
-      - libsecret # Secret service library
+      - fcitx5
+      - fcitx5-configtool
+      - fcitx5-mozc
+      - fcitx5-gtk
+      - fcitx5-qt
     state: present
+    use: paru
+  become: false
+  when: desktop.ime == 'fcitx5'
+
+- name: Create /etc/environment.d directory
+  ansible.builtin.file:
+    path: /etc/environment.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  when: desktop.ime == 'fcitx5'
+
+- name: Set IME environment variable (for XWayland X11 apps only)
+  # GTK4 / Qt6 communicate with fcitx5 natively via Wayland text-input-v3,
+  # so GTK_IM_MODULE / QT_IM_MODULE are intentionally not set (setting them causes fcitx5 warnings).
+  # Only XMODIFIERS is kept for X11 apps running via XWayland.
+  ansible.builtin.copy:
+    dest: /etc/environment.d/10-fcitx5.conf
+    content: |
+      XMODIFIERS=@im=fcitx
+    mode: "0644"
+    owner: root
+    group: root
+  become: true
+  when: desktop.ime == 'fcitx5'
+
+- name: Install Qt Wayland support
+  aur:
+    name:
+      - qt5-wayland
+      - qt6-wayland
+    state: present
+    use: paru
+  become: false
+
+- name: Install Wayland common base
+  aur:
+    name:
+      - xorg-xwayland           # compatibility layer to run X11 apps on Wayland
+      - xdg-user-dirs           # standard directories: ~/Documents, ~/Pictures, etc.
+    state: present
+    use: paru
+  become: false
+
+- name: Install Secret / Keyring (required for credential storage by 1Password etc.)
+  aur:
+    name:
+      - gnome-keyring           # keyring daemon
+      - libsecret               # Secret Service API
+    state: present
+    use: paru
+  become: false
+
+- name: Install Bluetooth GUI (only when devices.bluetooth is enabled)
+  aur:
+    name:
+      - blueman
+    state: present
+    use: paru
+  become: false
+  when: devices.bluetooth | default(false)
+
+- name: Install PipeWire mixer GUI (only when devices.audio is enabled, works via pipewire-pulse)
+  aur:
+    name:
+      - pavucontrol
+    state: present
+    use: paru
+  become: false
+  when: devices.audio | default(false)

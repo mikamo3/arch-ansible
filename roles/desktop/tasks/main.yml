@@ -1,72 +1,23 @@
 ---
-# Desktop role main tasks - Desktop environment foundation
-- name: Desktop environment setup
-  block:
-    - name: Install common GUI utilities
-      ansible.builtin.import_tasks: common.yml
-      when: desktop.common.install | default(true)
-      tags: [desktop, common]
+- name: Install common GUI base (fonts / IME / Qt-Wayland / basic utilities)
+  ansible.builtin.import_tasks: common.yml
+  tags: [desktop, common]
 
-    - name: Install Wayland desktop utilities
-      ansible.builtin.import_tasks: wayland.yml
-      when:
-        - desktop.common.install | default(true)
-        - desktop.environment.type in ["gnome", "hyprland"]
-      tags: [desktop, wayland]
+- name: Set up display manager ({{ desktop.display_manager }})
+  ansible.builtin.import_tasks: display_manager.yml
+  tags: [desktop, display_manager]
 
-    - name: Install X11 desktop utilities
-      ansible.builtin.import_tasks: x11.yml
-      when:
-        - desktop.common.install | default(true)
-        - desktop.environment.type in []
-      tags: [desktop, x11]
+- name: Set up Hyprland environment
+  ansible.builtin.import_tasks: hyprland.yml
+  when: desktop.environment == 'hyprland'
+  tags: [desktop, hyprland]
 
-    - name: Install fonts
-      ansible.builtin.import_tasks: fonts.yml
-      tags: [desktop, fonts]
+- name: Set up Openbox environment
+  ansible.builtin.import_tasks: openbox.yml
+  when: desktop.environment == 'openbox'
+  tags: [desktop, openbox]
 
-    - name: Install fcitx5 input method
-      ansible.builtin.import_tasks: fcitx5.yml
-      when: desktop.inputmethod.install | default(true)
-      tags: [desktop, fcitx5, inputmethod]
-
-    - name: Install GNOME desktop environment
-      ansible.builtin.import_tasks: gnome.yml
-      when:
-        - desktop.environment.install | default(false)
-        - desktop.environment.type == "gnome"
-      tags: [desktop, gnome]
-
-    - name: Install Hyprland desktop environment
-      ansible.builtin.import_tasks: hyprland.yml
-      when:
-        - desktop.environment.install | default(false)
-        - desktop.environment.type == "hyprland"
-      tags: [desktop, hyprland]
-
-    - name: Configure GDM display manager
-      ansible.builtin.import_tasks: display_manager_gdm.yml
-      when:
-        - desktop.display_manager.install | default(false)
-        - desktop.display_manager.type == "gdm"
-      tags: [desktop, display-manager]
-
-    - name: Configure ly display manager
-      ansible.builtin.import_tasks: display_manager_ly.yml
-      when:
-        - desktop.display_manager.install | default(false)
-        - desktop.display_manager.type == "ly"
-      tags: [desktop, display-manager]
-
-    - name: Configure greetd display manager
-      ansible.builtin.import_tasks: display_manager_greetd.yml
-      when:
-        - desktop.display_manager.install | default(false)
-        - desktop.display_manager.type == "greetd"
-      tags: [desktop, display-manager]
-
-    - name: Install appearance packages
-      ansible.builtin.import_tasks: appearance.yml
-      when: desktop.appearance.install | default(false)
-      tags: [desktop, appearance]
-  when: desktop.enabled | default(true)
+- name: Set up XFCE environment
+  ansible.builtin.import_tasks: xfce.yml
+  when: desktop.environment == 'xfce'
+  tags: [desktop, xfce]

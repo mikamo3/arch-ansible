@@ -1,0 +1,56 @@
+---
+- name: Install QEMU / libvirt stack
+  aur:
+    name:
+      - qemu-desktop           # QEMU (minimal desktop configuration)
+      - libvirt                # virtualization management API / daemon
+      - virt-manager           # GUI management tool
+      - virt-viewer            # VM console viewer (used internally by virt-manager)
+      - dnsmasq                # DHCP/DNS for default NAT network
+      - edk2-ovmf              # UEFI firmware (for UEFI boot guests)
+      - dmidecode              # DMI information (recommended by Arch Wiki)
+    state: present
+    use: paru
+  become: false
+
+- name: Enable libvirt services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - libvirtd.service
+    - virtlogd.service
+  become: true
+
+- name: Add ansible_user to libvirt group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: libvirt
+    append: true
+  become: true
+
+- name: Configure default network
+  when: virtualization.kvm_default_network | default(true)
+  block:
+    - name: Get default network status
+      ansible.builtin.command: virsh net-info default
+      register: virsh_default_info
+      changed_when: false
+      failed_when: false
+      become: true
+
+    - name: Define default network (only if not defined)
+      ansible.builtin.command: virsh net-define /usr/share/libvirt/networks/default.xml
+      when: virsh_default_info.rc != 0
+      become: true
+
+    - name: Enable default network autostart
+      ansible.builtin.command: virsh net-autostart default
+      when: "virsh_default_info.rc != 0 or 'Autostart:      yes' not in virsh_default_info.stdout"
+      become: true
+
+    - name: Start default network
+      ansible.builtin.command: virsh net-start default
+      when: "virsh_default_info.rc != 0 or 'Active:         yes' not in virsh_default_info.stdout"
+      become: true

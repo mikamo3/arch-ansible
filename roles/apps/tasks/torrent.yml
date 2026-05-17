@@ -1,0 +1,8 @@
+---
+- name: qBittorrent
+  aur:
+    name:
+      - qbittorrent
+    state: present
+    use: paru
+  become: false

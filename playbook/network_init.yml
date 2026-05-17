@@ -1,0 +1,24 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Deploy wired connection profile
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../roles/base/templates/nm-wired.nmconnection.j2"
+        dest: /etc/NetworkManager/system-connections/{{ network.wired.interface }}.nmconnection
+        owner: root
+        group: root
+        mode: "0600"
+      when: network.wired is defined
+
+    - name: Deploy Wi-Fi connection profile
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../roles/base/templates/nm-wifi.nmconnection.j2"
+        dest: /etc/NetworkManager/system-connections/wifi-{{ network.wifi.ssid }}.nmconnection
+        owner: root
+        group: root
+        mode: "0600"
+      when: network.wifi is defined
+      no_log: true

@@ -1,0 +1,10 @@
+---
+- name: Install Firefox and Chromium
+  aur:
+    name:
+      - firefox
+      - firefox-i18n-ja        # Japanese locale
+      - chromium
+    state: present
+    use: paru
+  become: false

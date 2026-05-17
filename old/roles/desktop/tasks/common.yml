@@ -1,0 +1,60 @@
+---
+# Common GUI utilities for all desktop environments
+
+- name: Install common GUI utilities
+  aur:
+    name:
+      - dex
+      # Terminal emulators
+      - kitty # Modern GPU-accelerated terminal
+      - ghostty # Minimal terminal emulator
+
+      # File management
+      - nemo # File manager (Cinnamon-based)
+      - file-roller # Archive manager
+
+      # Text editor (for environments without built-in editor)
+      - featherpad # Qt-based text editor
+
+      # Web browsers
+      - firefox # Firefox browser
+      - firefox-i18n-ja # Japanese language pack for Firefox
+      - chromium # Chromium browser
+      - network-manager-applet # NetworkManager GUI
+
+      # PDF viewer
+      - zathura # Minimal PDF viewer
+      - zathura-pdf-poppler # PDF backend for zathura
+
+      # System utilities
+      - xdg-user-dirs # User directory management
+
+      # Fonts and rendering
+      - fontconfig # Font configuration
+
+      # Theme and appearance
+
+      # File transfer and remote access
+      - filezilla # FTP/SFTP client
+      - remmina # Remote desktop client
+      - freerdp # RDP protocol implementation for remmina
+      - libvncserver # VNC protocol support for remmina
+      - webkit2gtk # Web browser plugin support for remmina
+      - qbittorrent # BitTorrent client
+
+      # Miscellaneous utilities
+      - 1password # 1Password password manager
+      - 1password-cli # 1Password CLI tool
+
+      - localsend-bin # Local file sharing over LAN
+
+    state: present
+  become_user: "{{ ansible_user }}"
+
+- name: Install keyring and secret management
+  pacman:
+    name:
+      - gnome-keyring # GNOME keyring daemon
+      - seahorse # Keyring management GUI
+      - libsecret # Secret service library
+    state: present

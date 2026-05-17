@@ -1,0 +1,19 @@
+---
+# Printer and scanner support
+
+- name: Install printing and scanning system
+  aur:
+    name:
+      - cups
+      - gutenprint
+      - sane
+      - simple-scan
+    state: present
+  become_user: "{{ ansible_user }}"
+
+- name: Enable and start CUPS service
+  ansible.builtin.systemd:
+    name: cups
+    enabled: true
+    state: started
+  become: true

@@ -1,28 +1,20 @@
 ---
-# Devices role main tasks - Hardware driver and device management
+- name: Install GPU drivers
+  ansible.builtin.import_tasks: gpu.yml
+  when: devices.gpu.type | default('none') != 'none'
+  tags: [devices, gpu]
 
-- name: Set device configuration facts
-  set_fact:
-    detected_gpu: "{{ devices.gpu.type | default('generic') }}"
-    is_virtual_machine: "{{ ansible_facts.virtualization_role == 'guest' }}"
-  tags: [devices]
-
-- name: Include GPU driver installation tasks
-  ansible.builtin.import_tasks: gpu_drivers.yml
-  when: devices.gpu.install | default(false)
-  tags: [devices, gpu, graphics]
-
-- name: Include audio system configuration tasks
+- name: Install audio (PipeWire)
   ansible.builtin.import_tasks: audio.yml
-  when: devices.audio.install | default(false)
+  when: devices.audio | default(false)
   tags: [devices, audio]
 
-- name: Include Bluetooth support tasks
+- name: Install Bluetooth
   ansible.builtin.import_tasks: bluetooth.yml
-  when: devices.bluetooth.install | default(false)
+  when: devices.bluetooth | default(false)
   tags: [devices, bluetooth]
 
-- name: Include printer and scanner support tasks
+- name: Install printer support (CUPS)
   ansible.builtin.import_tasks: printer.yml
-  when: devices.printer.install | default(false)
+  when: devices.printer | default(false)
   tags: [devices, printer]

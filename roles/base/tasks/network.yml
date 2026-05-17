@@ -1,0 +1,51 @@
+---
+- name: Install NetworkManager
+  aur:
+    name: networkmanager
+    state: present
+    use: paru
+  become: false
+  when: (network.wired is defined) or (network.wifi is defined)
+
+- name: Enable NetworkManager
+  ansible.builtin.systemd:
+    name: NetworkManager
+    enabled: true
+    state: started
+  become: true
+  when: (network.wired is defined) or (network.wifi is defined)
+
+- name: Disable systemd-networkd (conflicts with NetworkManager)
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  become: true
+  loop:
+    - systemd-networkd
+    - systemd-networkd.socket
+  when: (network.wired is defined) or (network.wifi is defined)
+  failed_when: false
+
+- name: Deploy wired connection profile
+  ansible.builtin.template:
+    src: nm-wired.nmconnection.j2
+    dest: /etc/NetworkManager/system-connections/{{ network.wired.interface }}.nmconnection
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  when: network.wired is defined
+  notify: reload NetworkManager connections
+
+- name: Deploy Wi-Fi connection profile
+  ansible.builtin.template:
+    src: nm-wifi.nmconnection.j2
+    dest: /etc/NetworkManager/system-connections/wifi-{{ network.wifi.ssid }}.nmconnection
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  when: network.wifi is defined
+  notify: reload NetworkManager connections
+  no_log: true

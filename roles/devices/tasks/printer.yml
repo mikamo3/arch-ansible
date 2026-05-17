@@ -1,17 +1,23 @@
 ---
-# Printer and scanner support
-
-- name: Install printing and scanning system
+- name: Install CUPS
   aur:
     name:
-      - cups
-      - gutenprint
-      - sane
-      - simple-scan
+      - cups        # printing system
+      - ghostscript # required by cups-filters universal filter
     state: present
-  become_user: "{{ ansible_user }}"
+    use: paru
+  become: false
 
-- name: Enable and start CUPS service
+- name: Install Canon LBP driver
+  aur:
+    name:
+      - libxml2-legacy # dependency for cndrvcups-lt (ABI compatibility)
+      - cndrvcups-lt # Canon LBP6040 driver
+    state: present
+    use: paru
+  become: false
+
+- name: Enable cups.service
   ansible.builtin.systemd:
     name: cups
     enabled: true

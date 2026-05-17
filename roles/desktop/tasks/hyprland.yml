@@ -1,34 +1,46 @@
 ---
-- name: Install Hyprland desktop environment
+- name: Install Hyprland and utilities
   aur:
     name:
-      # Core Hyprland packages
-      - hyprland # Hyprland compositor
-      - hyprpaper # Wallpaper utility for Hyprland
-      - hypridle # Idle management for Hyprland
-      - swayidle # Alternative idle management daemon for Wayland
-      - hyprlock # Screen locker for Hyprland
-      - hyprpicker # Color picker for Hyprland
-      - hyprcursor # Hyprland cursor theme
+      # core
+      - hyprland                       # compositor
+      - uwsm                           # Universal Wayland Session Manager
+      - xdg-desktop-portal-hyprland    # portal (screen sharing / file picker)
+      - hyprpolkitagent                # PolicyKit agent
 
-      # Hyprland-specific utilities
-      - waybar # Status bar for Wayland
-      - waybar-module-pacman-updates-git # Pacman updates module for waybar
-      - wttrbar # Weather information for waybar
-      - wofi # Application launcher for Wayland
-      - rofi # Alternative application launcher
-      - wlogout # Logout menu
-      - swaync # Notification daemon (swaync)
+      # terminals
+      - ghostty
+      - kitty                          # Hyprland default config launches with SUPER+Q
 
-      # Additional utilities
-      - foot # Alternative terminal emulator
-      - wallutils # Wallpaper utilities
-      - dex # Desktop entry execution (autostart)
-      - hyprls-git # Hyprland language server (development support)
+      # shell UI
+      - waybar                         # status bar
+      - wttrbar                        # weather module for waybar
+      - fuzzel                         # app launcher
+      - swaync                         # notification daemon + notification center
 
-      # Desktop portals and integration
-      - xdg-desktop-portal-hyprland # Desktop portal for Hyprland
-      - hyprpolkitagent # Hyprland-specific policy kit authentication agent
+      # debug/diagnostics
+      - wev                            # Wayland input event inspector
 
+      # lock/idle/wallpaper
+      - hyprlock                       # screen locker
+      - hypridle                       # idle manager
+      - hyprpaper                      # wallpaper
+
+      # screenshots
+      - grim                           # screen capture
+      - slurp                          # region selection
+      - swappy                         # screenshot annotation
+
+      # clipboard
+      - wl-clipboard
+      - cliphist                       # clipboard history
+
+      # hardware control
+      - brightnessctl                  # brightness control
+      - playerctl                      # media keys
+
+      # NetworkManager integration
+      - network-manager-applet
     state: present
-  become_user: "{{ ansible_user }}"
+    use: paru
+  become: false

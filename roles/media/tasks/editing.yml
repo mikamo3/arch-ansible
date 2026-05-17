@@ -1,0 +1,11 @@
+---
+- name: Install media editing apps
+  aur:
+    name:
+      - gimp                   # raster image editor
+      - inkscape               # vector image editor
+      - hyprpicker             # Wayland color picker (Hyprland official)
+      - obs-studio             # screen recording / live streaming
+    state: present
+    use: paru
+  become: false

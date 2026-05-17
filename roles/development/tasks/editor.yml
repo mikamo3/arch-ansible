@@ -1,0 +1,8 @@
+---
+- name: Install Visual Studio Code
+  aur:
+    name:
+      - visual-studio-code-bin   # official binary build (Marketplace available)
+    state: present
+    use: paru
+  become: false

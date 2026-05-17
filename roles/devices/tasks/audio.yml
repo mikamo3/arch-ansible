@@ -1,15 +1,13 @@
 ---
-# PipeWire audio system configuration (simplified)
-
-- name: Install PipeWire audio system
+- name: Install PipeWire stack
   aur:
     name:
-      - pipewire
-      - pipewire-alsa
-      - pipewire-pulse
-      - pipewire-jack
-      - wireplumber
-      - alsa-utils
+      - pipewire           # core
+      - pipewire-alsa      # ALSA compatibility
+      - pipewire-pulse     # PulseAudio compatibility
+      - pipewire-jack      # JACK compatibility
+      - wireplumber        # session manager
+      - alsa-utils         # alsamixer / amixer
     state: present
-  become_user: "{{ ansible_user }}"
-
+    use: paru
+  become: false

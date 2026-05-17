@@ -1,0 +1,51 @@
+---
+- name: Install Xorg
+  community.general.pacman:
+    name:
+      - xorg-server
+      - xorg-xinit
+      - xorg-xrandr
+    state: present
+  become: true
+
+- name: Install XFCE
+  community.general.pacman:
+    name:
+      - xfce4
+      - xfce4-terminal
+    state: present
+  become: true
+
+- name: Deploy .xinitrc for xrdp (Arch uses ~/.xinitrc in startwm.sh)
+  ansible.builtin.copy:
+    content: |
+      fcitx5 -d &
+      exec startxfce4
+    dest: "/home/{{ ansible_user }}/.xinitrc"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+  become: true
+  when: desktop.ime == 'fcitx5'
+
+- name: Deploy .xinitrc for xrdp (no IME)
+  ansible.builtin.copy:
+    content: "exec startxfce4\n"
+    dest: "/home/{{ ansible_user }}/.xinitrc"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+  become: true
+  when: desktop.ime != 'fcitx5'
+
+- name: Set X11 IME environment variables for fcitx5
+  ansible.builtin.copy:
+    content: |
+      GTK_IM_MODULE=fcitx
+      QT_IM_MODULE=fcitx
+    dest: /etc/environment.d/11-fcitx5-x11.conf
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  when: desktop.ime == 'fcitx5'

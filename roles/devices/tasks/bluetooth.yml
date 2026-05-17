@@ -1,19 +1,16 @@
 ---
-# Bluetooth support configuration
-
 - name: Install Bluetooth packages
   aur:
     name:
       - bluez
       - bluez-utils
-      - blueman
     state: present
-  become_user: "{{ ansible_user }}"
+    use: paru
+  become: false
 
-- name: Enable and start Bluetooth service
+- name: Enable bluetooth.service
   ansible.builtin.systemd:
     name: bluetooth
     enabled: true
     state: started
   become: true
-

@@ -1,0 +1,20 @@
+---
+- name: Create btrfs mount directories
+  ansible.builtin.file:
+    path: "{{ item.mountpoint }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  loop: "{{ storage.btrfs_mounts }}"
+
+- name: Mount btrfs subvolumes via fstab
+  ansible.posix.mount:
+    src: "UUID={{ item.uuid }}"
+    path: "{{ item.mountpoint }}"
+    fstype: btrfs
+    opts: "subvol={{ item.subvol }},compress=zstd,noatime"
+    state: mounted
+  become: true
+  loop: "{{ storage.btrfs_mounts }}"

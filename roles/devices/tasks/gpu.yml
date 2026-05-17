@@ -1,0 +1,96 @@
+---
+- name: Install Intel GPU drivers
+  aur:
+    name:
+      - mesa                # OpenGL
+      - vulkan-intel        # Vulkan
+      - intel-media-driver  # VA-API (Gen8+)
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'intel'
+
+- name: Install AMD GPU drivers
+  aur:
+    name:
+      - mesa                    # OpenGL
+      - vulkan-radeon           # Vulkan
+      - libva-mesa-driver       # VA-API
+      - linux-firmware-amdgpu   # amdgpu firmware (split package)
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'amd'
+
+- name: Install NVIDIA GPU drivers
+  aur:
+    name:
+      - nvidia-open-dkms    # Open kernel module for Turing and later
+      - nvidia-utils
+      - nvidia-settings
+      - libva-nvidia-driver # VA-API
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'nvidia'
+
+- name: Install VM GPU drivers (virtio-gpu / mesa)
+  aur:
+    name:
+      - mesa
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type == 'vm'
+
+- name: Install GPU diagnostic utilities (physical machines only)
+  aur:
+    name:
+      - libva-utils
+      - vulkan-tools
+    state: present
+    use: paru
+  become: false
+  when: devices.gpu.type in ['intel', 'amd', 'nvidia']
+
+- name: Install CUDA (NVIDIA + cuda:true only)
+  aur:
+    name:
+      - cuda
+      - nvidia-container-toolkit
+    state: present
+    use: paru
+  become: false
+  when:
+    - devices.gpu.type == 'nvidia'
+    - devices.gpu.cuda | default(false)
+
+- name: Configure NVIDIA runtime for Docker
+  ansible.builtin.command:
+    cmd: nvidia-ctk runtime configure --runtime=docker
+    creates: /etc/docker/daemon.json
+  become: true
+  when:
+    - devices.gpu.type == 'nvidia'
+    - devices.gpu.cuda | default(false)
+  notify: restart docker
+
+- name: Enable and start docker.service (required before NVIDIA runtime is active)
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+  when:
+    - devices.gpu.type == 'nvidia'
+    - devices.gpu.cuda | default(false)
+
+- name: Enable nvidia-persistenced (prevent GPU state reset between uses)
+  ansible.builtin.systemd:
+    name: nvidia-persistenced
+    enabled: true
+    state: started
+  become: true
+  when:
+    - devices.gpu.type == 'nvidia'
+    - devices.gpu.cuda | default(false)

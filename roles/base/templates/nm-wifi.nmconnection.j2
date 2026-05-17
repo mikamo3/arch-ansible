@@ -1,0 +1,19 @@
+[connection]
+id=wifi-{{ network.wifi.ssid }}
+type=wifi
+interface-name={{ network.wifi.interface }}
+autoconnect=true
+
+[wifi]
+mode=infrastructure
+ssid={{ network.wifi.ssid }}
+
+[wifi-security]
+key-mgmt=wpa-psk
+psk={{ network.wifi.password }}
+
+[ipv4]
+method=auto
+
+[ipv6]
+method=ignore

@@ -1,0 +1,15 @@
+---
+- name: Install rclone (cloud storage sync)
+  aur:
+    name:
+      - rclone                  # general-purpose cloud storage CLI sync tool
+    state: present
+    use: paru
+  become: false
+
+- name: Enable FUSE user_allow_other (required for rclone mount)
+  ansible.builtin.lineinfile:
+    path: /etc/fuse.conf
+    regexp: '^#?user_allow_other'
+    line: 'user_allow_other'
+  become: true

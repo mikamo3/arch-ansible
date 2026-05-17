@@ -1,0 +1,78 @@
+---
+- name: Install modern CLI tools
+  aur:
+    name:
+      # file/process utilities
+      - bat               # cat alternative with syntax highlighting
+      - lsd               # ls alternative with icons and colors
+      - fd                # find alternative
+      - ripgrep           # grep alternative
+      - sd                # sed alternative
+      - dust              # du alternative
+      - duf               # df alternative
+      - procs             # ps alternative
+      - htop              # interactive process viewer
+      - btop              # htop with more features
+      - tree              # directory tree display
+
+      # search/navigation
+      - fzf               # fuzzy finder
+      - zoxide            # cd alternative with history learning
+      - atuin             # shell history manager (successor to mcfly)
+      - broot             # tree view + navigation
+      - yazi              # file manager
+
+      # shell/prompt
+      - zsh               # main shell
+      - sheldon           # zsh plugin manager
+      - starship          # cross-shell prompt
+      - bash-completion   # bash completion enhancements
+
+      # git tools
+      - lazygit           # terminal Git UI
+      - git-delta         # git diff/log highlighter
+      - github-cli        # GitHub CLI
+      - ghq               # Git repository manager
+
+      # editors
+      - neovim            # vim successor
+      - helix             # post-modern modal editor
+
+      # network/HTTP
+      - curlie            # curl alternative with improved UX
+      - httpie            # user-friendly HTTP client
+      - bandwhich         # network bandwidth monitor
+      - dog               # dig alternative
+
+      # system info/benchmark
+      - fastfetch         # system info display (neofetch successor)
+      - hyperfine         # command benchmarking
+
+      # archives
+      - ouch              # universal archive tool
+      - unzip
+      - zip
+      - 7zip
+
+      # pagers/viewers
+      - less
+      - glow              # terminal Markdown viewer
+
+      # documentation
+      - tealdeer          # fast tldr client
+
+      # file watching/auto-run
+      - watchexec
+
+      # terminal multiplexer
+      - zellij
+
+      # utilities
+      - ncdu              # NCurses disk usage
+      - gum               # UI toolkit for shell scripts
+
+      # file associations (for Wayland)
+      - handlr-regex
+    state: present
+    use: paru
+  become: false

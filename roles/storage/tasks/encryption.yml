@@ -1,0 +1,8 @@
+---
+- name: Install veracrypt (disk encryption)
+  aur:
+    name:
+      - veracrypt               # disk / container encryption
+    state: present
+    use: paru
+  become: false

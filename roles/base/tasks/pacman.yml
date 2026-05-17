@@ -1,0 +1,13 @@
+---
+- name: Deploy pacman.conf
+  ansible.builtin.template:
+    src: pacman.conf.j2
+    dest: /etc/pacman.conf
+    backup: true
+    mode: "0644"
+  become: true
+
+- name: Update pacman cache
+  community.general.pacman:
+    update_cache: true
+  become: true

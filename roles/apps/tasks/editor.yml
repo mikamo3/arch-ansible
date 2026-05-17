@@ -1,0 +1,8 @@
+---
+- name: Install FeatherPad (lightweight GUI text editor)
+  aur:
+    name:
+      - featherpad
+    state: present
+    use: paru
+  become: false

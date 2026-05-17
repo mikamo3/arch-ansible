@@ -1,0 +1,20 @@
+[connection]
+id={{ network.wired.interface }}
+type=ethernet
+interface-name={{ network.wired.interface }}
+autoconnect=true
+
+[ethernet]
+
+[ipv4]
+method=manual
+addresses={{ network.wired.ip }}
+{% if network.wired.gateway is defined %}
+gateway={{ network.wired.gateway }}
+{% else %}
+never-default=true
+{% endif %}
+dns={{ network.wired.dns | join(';') }};
+
+[ipv6]
+method=ignore

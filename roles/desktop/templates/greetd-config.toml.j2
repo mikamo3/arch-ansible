@@ -1,19 +1,6 @@
-# greetd configuration with tuigreet and UWSM integration
-# Reference: https://man.archlinux.org/man/greetd.1
-
 [terminal]
-# VT to use for TUI display
-vt = {{ desktop.display_manager.greetd.vt | default(1) }}
+vt = 1
 
 [default_session]
-# User to run tuigreet as
+command = "tuigreet --time --time-format '%Y-%m-%d %H:%M' --remember --asterisks --cmd 'uwsm start hyprland.desktop'"
 user = "greeter"
-
-# Session command: tuigreet launching UWSM + Hyprland
-# UWSM ensures all environment.d variables are properly loaded
-# before starting Hyprland, preventing systemd/dbus initialization issues
-command = "cage -s -m last -- regreet"
-
-# Optional: Session to use if no choice is made (fallback)
-# Uncomment to set a default
-# session = "hyprland-uwsm"

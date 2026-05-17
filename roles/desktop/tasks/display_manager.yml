@@ -1,14 +1,74 @@
 ---
-# Display manager installation and configuration
+- name: Install greetd + tuigreet
+  aur:
+    name:
+      - greetd
+      - greetd-tuigreet
+    state: present
+    use: paru
+  become: false
+  when: desktop.display_manager == 'greetd'
 
-- name: Include GDM tasks
-  ansible.builtin.include_tasks: display_manager_gdm.yml
-  when: desktop.display_manager.type == "gdm"
+- name: Configure greetd (launch Hyprland via uwsm)
+  ansible.builtin.template:
+    src: greetd-config.toml.j2
+    dest: /etc/greetd/config.toml
+    mode: "0644"
+    owner: root
+    group: root
+  become: true
+  when: desktop.display_manager == 'greetd'
+  notify: restart greetd
 
-- name: Include ly tasks
-  ansible.builtin.include_tasks: display_manager_ly.yml
-  when: desktop.display_manager.type == "ly"
 
-- name: Include greetd tasks
-  ansible.builtin.include_tasks: display_manager_greetd.yml
-  when: desktop.display_manager.type == "greetd"
+- name: Enable greetd.service
+  ansible.builtin.systemd:
+    name: greetd
+    enabled: true
+  become: true
+  when: desktop.display_manager == 'greetd'
+
+- name: Add gnome-keyring auth to greetd PAM
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/greetd
+    insertafter: "^auth.*include.*system-login"
+    line: "auth       optional   pam_gnome_keyring.so"
+    regexp: "^auth.*pam_gnome_keyring"
+  become: true
+  when: desktop.display_manager == 'greetd'
+
+- name: Add gnome-keyring session to greetd PAM
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/greetd
+    insertafter: "^session.*include.*system-login"
+    line: "session    optional   pam_gnome_keyring.so auto_start"
+    regexp: "^session.*pam_gnome_keyring"
+  become: true
+  when: desktop.display_manager == 'greetd'
+
+- name: Install xrdp
+  aur:
+    name:
+      - xrdp
+      - xorgxrdp
+    state: present
+    use: paru
+  become: false
+  when: desktop.display_manager == 'xrdp'
+
+- name: Allow non-console users to run Xorg (required for xrdp)
+  ansible.builtin.copy:
+    content: "allowed_users=anybody\nneeds_root_rights=yes\n"
+    dest: /etc/X11/Xwrapper.config
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  when: desktop.display_manager == 'xrdp'
+
+- name: Enable xrdp.service
+  ansible.builtin.systemd:
+    name: xrdp
+    enabled: true
+  become: true
+  when: desktop.display_manager == 'xrdp'

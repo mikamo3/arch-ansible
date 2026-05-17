@@ -1,0 +1,62 @@
+---
+- name: Configure systemd-logind power button behavior
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: "^#?HandlePowerKey="
+    line: "HandlePowerKey=suspend"
+    backup: true
+  become: true
+  notify: restart systemd-logind
+
+- name: Configure systemd sleep settings
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/sleep.conf
+    regexp: "^#?{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+    backup: true
+  become: true
+  loop:
+    - { key: "AllowSuspend", value: "yes" }
+    - { key: "AllowHibernation", value: "no" }
+    - { key: "AllowSuspendThenHibernate", value: "no" }
+    - { key: "AllowHybridSleep", value: "no" }
+  notify: restart systemd-logind
+
+- name: Configure journald
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: "^#?{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+    backup: true
+  become: true
+  loop: "{{ base.journald | dict2items }}"
+  notify: restart journald
+
+- name: Enable systemd-oomd
+  ansible.builtin.systemd:
+    name: systemd-oomd
+    enabled: true
+    state: started
+  become: true
+
+- name: Ensure /etc/systemd/system.conf.d exists
+  ansible.builtin.file:
+    path: /etc/systemd/system.conf.d
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Reduce systemd shutdown timeout (prevents long hangs after GPU crash etc.)
+  ansible.builtin.copy:
+    content: "[Manager]\nDefaultTimeoutStopSec=30s\n"
+    dest: /etc/systemd/system.conf.d/timeout.conf
+    mode: "0644"
+  become: true
+
+- name: Enable SysRq (for emergency reboot/sync when system hangs)
+  ansible.builtin.copy:
+    content: "kernel.sysrq = 1\n"
+    dest: /etc/sysctl.d/99-sysrq.conf
+    mode: "0644"
+  become: true
+  notify: reload sysctl

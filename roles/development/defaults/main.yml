@@ -1,7 +1,6 @@
 ---
-# Default variables for development role - Software development environment
-
 development:
-  # Install all development tools and applications
-  install: false           # Install development environment (VS Code, Git tools, Python tools)
-  
+  editor: false            # visual-studio-code-bin
+  git_tools: false         # git-lfs + lazygit + git-delta + difftastic + tokei + gibo + cocogitto
+  cli_tools: false         # jq + yq
+  docker: false            # docker + docker-compose + docker-buildx + lazydocker + ctop

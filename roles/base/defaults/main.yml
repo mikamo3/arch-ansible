@@ -1,6 +1,19 @@
 ---
-# Default variables for base role - using role-scoped naming
-
 base:
-  # Pacman configuration
   parallel_downloads: 5
+  reflector:
+    country: JP
+    latest: 5
+    sort: rate
+  journald:
+    Storage: persistent
+    Compress: "yes"
+    SystemMaxUse: 1G
+    SystemKeepFree: 2G
+    SystemMaxFileSize: 128M
+    MaxRetentionSec: 1month
+    MaxFileSec: 1week
+  fwupd: true
+  extra_kernel_headers: []     # Additional kernel headers (e.g. [linux-zen-headers, linux-lts-headers])
+
+network: {}                    # Define wired/wifi to deploy NM profiles

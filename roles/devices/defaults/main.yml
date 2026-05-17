@@ -1,21 +1,8 @@
 ---
-# Default variables for devices role - Hardware driver and device management
-
 devices:
-  # GPU configuration
   gpu:
-    install: false
-    type: "generic" # intel/amd/nvidia/generic/vm-qemu
-    cuda_support: false # Enable CUDA for LLM inference (nvidia only)
-
-  # Audio configuration
-  audio:
-    install: false
-
-  # Bluetooth configuration
-  bluetooth:
-    install: false
-
-  # Printer configuration
-  printer:
-    install: false
+    type: none          # intel / amd / nvidia / vm / none
+    cuda: false         # only used when type is nvidia
+  audio: false          # pipewire stack
+  bluetooth: false      # bluez + bluetooth.service
+  printer: false        # cups + cups.service

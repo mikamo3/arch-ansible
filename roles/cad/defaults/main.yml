@@ -1,6 +1,3 @@
 ---
-# Default variables for cad role - Computer-aided design and engineering tools
-
-# CAD configuration options
 cad:
-  install: false          # Install CAD applications
+  install: false          # freecad + librecad + kicad (+ libraries)

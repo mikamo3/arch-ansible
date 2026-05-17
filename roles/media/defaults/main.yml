@@ -1,8 +1,5 @@
 ---
-# Default variables for media role - Media editing and playback applications
-
-# Media configuration options
 media:
-  cli_tools: false # Install CLI media processing tools (ffmpeg, imagemagick)
-  playback: false # Install media playback applications
-  editing: false # Install media editing applications
+  cli_tools: false         # ffmpeg + imagemagick
+  playback: false          # mpv + loupe + spotify-adblock + mcomix
+  editing: false           # gimp + inkscape + hyprpicker + obs-studio

@@ -1,0 +1,9 @@
+---
+- name: Install LibreOffice (stable + Japanese)
+  aur:
+    name:
+      - libreoffice-still      # LibreOffice stable release
+      - libreoffice-still-ja   # Japanese UI / dictionary
+    state: present
+    use: paru
+  become: false

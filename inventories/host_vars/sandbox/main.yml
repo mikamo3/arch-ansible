@@ -1,0 +1,49 @@
+---
+devices:
+  gpu:
+    type: vm
+  audio: true
+  bluetooth: false
+  printer: false
+
+desktop:
+  environment: hyprland
+  display_manager: greetd
+  ime: fcitx5
+
+apps:
+  browser: true
+  file_manager: true
+  editor: true
+  pdf: true
+  remote: true
+  torrent: true
+  password_manager: true
+  file_share: true
+
+media:
+  cli_tools: true
+  playback: true
+  editing: true
+
+office:
+  suite: true
+
+development:
+  editor: true
+  git_tools: true
+  cli_tools: true
+  docker: true
+
+virtualization:
+  kvm: true
+  kvm_default_network: false   # Disabled to avoid conflict: host NIC uses 192.168.122.0/24
+  virtualbox: true
+
+storage:
+  cloud_sync: true
+  encryption: true
+  nfs: true
+
+cad:
+  install: true

@@ -1,0 +1,24 @@
+---
+# Handlers for base role
+
+- name: update package database
+  community.general.pacman:
+    update_cache: true
+  become: true
+
+- name: restart systemd-logind
+  ansible.builtin.systemd:
+    name: systemd-logind
+    state: restarted
+  become: true
+
+- name: restart journald
+  ansible.builtin.systemd:
+    name: systemd-journald
+    state: restarted
+  become: true
+
+- name: reload ufw
+  community.general.ufw:
+    state: reloaded
+  become: true

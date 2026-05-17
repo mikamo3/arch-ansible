@@ -1,0 +1,20 @@
+---
+# Builds host modules via DKMS (supports non-standard kernels like linux-zen).
+# Module load may fail in nested VMs, but installation itself succeeds.
+
+- name: Install VirtualBox
+  aur:
+    name:
+      - virtualbox                       # GUI + core
+      - virtualbox-host-dkms             # host modules (DKMS, supports any kernel)
+      - virtualbox-guest-iso             # Guest Additions ISO
+    state: present
+    use: paru
+  become: false
+
+- name: Add ansible_user to vboxusers group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: vboxusers
+    append: true
+  become: true

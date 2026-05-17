@@ -1,14 +1,8 @@
 ---
-# CUI role main tasks - Modern command line interface
+- name: Install shell tools
+  ansible.builtin.import_tasks: packages.yml
+  tags: [shell, packages]
 
-- name: Include CLI tools installation
-  ansible.builtin.import_tasks: cli_tools.yml
-  tags: [cui, cli-tools]
-
-- name: Include editor configuration
-  ansible.builtin.import_tasks: editor.yml
-  tags: [cui, editor]
-
-- name: Include dotfiles management
+- name: Set up dotfiles manager (chezmoi)
   ansible.builtin.import_tasks: dotfiles.yml
-  tags: [cui, dotfiles]
+  tags: [shell, dotfiles]

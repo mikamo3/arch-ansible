@@ -1,222 +1,164 @@
-# Arch Linux Ansible
+# arch-ansible
 
-Arch Linux環境の初期構築・設定を自動化するAnsibleプロジェクトです。
+Personal Arch Linux setup automation for mainpc / nucbox / sandbox.
 
-## 概要
+## Phase 1: OS インストール (archinstall)
 
-- Arch Linuxインストールディスクから自動パーティショニング・初期構築
-- UEFI + btrfs + サブボリューム構成をサポート
-- 複数マシン（mainpc, portable, ai）の管理
+Arch Linux インストール USB で対象マシンを起動してから実行する。
 
-## 使い方
-
-### 1. インストールディスクでの準備
-
-Arch Linuxインストールディスクで起動後、以下を実行してAnsible環境を準備：
-
-#### 方法1: ホストマシンからHTTP経由でダウンロード（推奨）
-
-**ホストマシン側：**
-```bash
-# プロジェクトディレクトリでHTTPサーバーを起動
-cd /home/mikamo/src/github.com/mikamo3/arch-ansible
-python -m http.server 8000
-# サーバーが http://0.0.0.0:8000 で起動します
-```
-
-**VM/インストールディスク側：**
-```bash
-# ホストマシンのIPアドレスを確認（例: 192.168.1.100）
-curl -O http://192.168.1.100:8000/init.sh
-chmod +x init.sh
-./init.sh
-```
-
-#### 方法2: GitHub経由でダウンロード
+### Wi-Fi 接続 (有線 LAN が使えない場合)
 
 ```bash
-curl -L https://raw.githubusercontent.com/mikamo3/arch-ansible/master/init.sh -o init.sh
-chmod +x init.sh
-./init.sh
-```
-
-#### 方法3: IPアドレス指定での直接実行
-
-```bash
-# ホストマシンで実行（IPアドレスを指定して自動インベントリ生成）
-./install_system.sh -t 192.168.1.100
-
-# または対話的にインベントリファイルを選択
-./install_system.sh
-```
-
-### 2. ネットワーク設定（必要に応じて）
-
-```bash
-# 有線接続（DHCP）
-systemctl start dhcpcd
-
-# WiFi接続
 iwctl
-# [iwd]# station wlan0 scan
-# [iwd]# station wlan0 get-networks  
-# [iwd]# station wlan0 connect SSID
 ```
 
-### 3. パスワード設定ファイルの生成
+```
+device list                        # インターフェース名を確認 (例: wlan0)
+station wlan0 scan
+station wlan0 get-networks         # SSID 一覧表示
+station wlan0 connect <SSID>       # パスワードを求められたら入力
+exit
+```
 
-システム設定前に、ユーザーパスワードの設定ファイルを生成：
+接続確認:
 
 ```bash
-# パスワード設定ファイルを生成
-./generate_secret.sh
-
-# 既存ファイルを上書きする場合
-./generate_secret.sh --force
+ping -c 1 archlinux.org
 ```
 
-### 4. Ansibleでのパーティショニング・初期構築
-
-別のマシンから、またはVM環境でAnsibleを実行：
+### インストール実行
 
 ```bash
-# community.generalコレクションをインストール
-ansible-galaxy collection install community.general
+# 1. git を入手
+pacman -S git
 
-# システム設定の実行
-./run_playbook.sh
+# 2. このリポジトリを clone
+git clone https://github.com/mikamo3/arch-ansible.git
+cd arch-ansible
 
-# または直接実行
-ansible-playbook -i inventories/sandbox.yml playbook/configure.yml --extra-vars "@vars/secret.yml"
+# 3. インストール実行
+./init.sh
 ```
 
-## ファイル構成
+起動後、対象マシンをメニューから選択してパスワードを入力すると archinstall が実行される。
+設定ファイルは `inventories/archinstall/<hostname>.json`。
 
-```
-├── init.sh                    # インストールディスク用環境準備スクリプト
-├── install_system.sh          # システムインストール実行スクリプト
-├── run_playbook.sh           # システム設定実行スクリプト
-├── inventories/
-│   ├── sandbox.yml           # 実験用VM設定
-│   ├── nucbox.yml           # NUCBox設定
-│   └── ai.yml               # AI環境設定
-├── playbook/
-│   ├── install.yml          # システムインストール用（init roleのみ）
-│   ├── configure.yml        # システム設定用（init以外の全role）
-│   └── main.yml            # レガシー統合playbook
-├── generate_secret.sh        # パスワード設定ファイル生成スクリプト
-├── vars/
-│   └── secret.yml          # 生成される機密情報（gitignore対象）
-└── roles/
-    ├── init/               # システムインストール（パーティション・chroot）
-    ├── base/              # 基本システム・パッケージ管理
-    ├── shell/             # シェル環境・CLI ツール
-    ├── desktop/           # デスクトップ環境・GUI基盤
-    ├── devices/           # ハードウェア固有ドライバー
-    ├── storage/           # ストレージ・バックアップ・暗号化
-    ├── office/            # オフィス・ドキュメント生産性
-    ├── media/             # メディア編集・再生
-    ├── development/       # ソフトウェア開発環境
-    ├── cad/              # CAD・エンジニアリング設計
-    ├── container/         # コンテナランタイム
-    ├── virtualization/    # 仮想マシン環境
-    └── home/             # ユーザーホームディレクトリ・dotfiles
-```
+### ネットワーク事前設定 (chroot)
 
-## パーティション構成
-
-UEFI + btrfs + サブボリューム構成：
-
-- `/dev/sdaX1`: EFI システムパーティション (1GB, fat32) → `/boot`
-- `/dev/sdaX2`: btrfs ルートパーティション
-  - `@`: ルートサブボリューム（/）
-  - `@home`: ホームサブボリューム（/home）
-  - `@.snapshots`: スナップショット用（/.snapshots）
-  - `@pkg`: pacmanキャッシュ用（/var/cache/pacman/pkg）
-  - `@log`: ログ用（/var/log）
-
-## 変数設定
-
-inventory（例：inventories/sandbox.yml）で以下を設定：
-
-```yaml
----
-sandbox:
-  hosts:
-    sandboxvm:
-      ansible_host: 192.168.122.100
-      ansible_port: 22
-      ansible_user: ansible
-  vars:
-    # Init role - システムインストール設定
-    init:
-      timezone: "Asia/Tokyo"
-      locale:
-        enabled:
-          - "en_US.UTF-8 UTF-8"
-          - "ja_JP.UTF-8 UTF-8"
-        lang: "ja_JP.UTF-8"
-      hostname: "sandboxvm"
-      target_disk: /dev/vda
-      main_user:
-        name: testuser
-        groups: [wheel, users]
-        shell: /bin/bash
-
-    # 各役割の設定（必要に応じて有効化）
-    devices:
-      gpu:
-        install: true
-        type: "vm-qemu"
-      audio:
-        install: true
-      bluetooth:
-        install: false
-      printer:
-        install: false
-
-    desktop:
-      environment:
-        install: true
-        type: "gnome"        # または "hyprland"
-      display_manager:
-        install: true
-        type: "gdm"          # または "ly"
-      fonts:
-        install: "full"      # または "minimal"
-      inputmethod:
-        install: true
-        method: "fcitx5"
-
-    # container, development, virtualization等も同様に設定可能
-```
-
-## 注意事項
-
-- `target_disk`に指定したディスクは**完全に初期化**されます
-- 実行前にデータのバックアップを確実に行ってください
-- テスト環境（sandbox）での動作確認を推奨
-
-## トラブルシューティング
-
-### SSH接続エラー
+archinstall 完了後、reboot する前に chroot 内で NM プロファイルを配置しておくと、
+初回起動時から自動接続される（Phase 1.5 の手動接続が不要になる）。
 
 ```bash
-# VM側でSSH状態確認
-systemctl status sshd
-ss -tlnp | grep :22
+arch-chroot /mnt
 
-# パスワード確認
-passwd ansible
+git clone https://github.com/mikamo3/arch-ansible.git
+cd arch-ansible
+./init_network.sh    # .vault_pass がない場合は Vault パスワードの入力を求められる
 ```
 
-### パーティショニングエラー
+完了後は `exit` で chroot を抜けて `reboot`。
+
+## Phase 1.5: 初回ネットワーク接続 (nucbox)
+
+archinstall 完了後、`reboot` で再起動する。nucbox はネットワーク設定を Ansible で行うため、
+初回のみ手動で接続する（永続化不要）。
 
 ```bash
-# ディスク状態確認
-lsblk
-fdisk -l
+# Wi-Fi
+nmtui    # → "ネットワークへの接続" → SSID を選択してパスワード入力
 
-# btrfs-progsインストール確認
-pacman -Q btrfs-progs
+# 有線 (固定 IP で一時接続)
+nmcli con add type ethernet con-name tmp ifname enp1s0 \
+  ipv4.method manual ipv4.addresses 192.168.100.20/24 \
+  ipv4.gateway 192.168.100.1 ipv4.dns 192.168.100.1
+nmcli con up tmp
 ```
+
+Ansible 実行後は `/etc/NetworkManager/system-connections/` に永続プロファイルが配置される。
+
+## Phase 2: Ansible による設定適用
+
+Ansible 実行前に `inventories/host_vars/nucbox/secret.yml` に Wi-Fi 認証情報を登録する。
+
+```bash
+ansible-vault edit inventories/host_vars/nucbox/secret.yml
+# 以下を追記:
+# wifi_ssid: "your-ssid"
+# wifi_password: "your-password"
+```
+
+archinstall 完了後、`reboot` で再起動する。
+
+### リモート実行 (コントロールマシンから)
+
+SSH 疎通を確認してから実行する。
+
+```bash
+ansible all -m ping          # 疎通確認
+./run.sh                     # 対話的実行 (fzf)
+```
+
+### ローカル実行 (対象マシン上で直接)
+
+対象マシンにログインし、このリポジトリを clone して実行する。
+
+```bash
+git clone https://github.com/mikamo3/arch-ansible.git
+cd arch-ansible
+ansible-playbook playbook/configure.yml --limit $(hostname) -c local
+```
+
+### Phase 2 完了後
+
+dotfiles リポジトリの `init.sh` を実行してユーザー環境を構築する。
+
+```bash
+git clone https://github.com/mikamo3/dotfiles.git
+cd dotfiles
+./init.sh
+```
+
+## Vault キー一覧
+
+各ホストの `inventories/host_vars/<hostname>/secret.yml` に以下のキーを定義する。
+編集: `ansible-vault edit inventories/host_vars/<hostname>/secret.yml`
+
+| キー | 対象ホスト | 説明 |
+|---|---|---|
+| `ansible_become_password` | 全ホスト | sudo パスワード |
+| `wifi_ssid` | nucbox | Wi-Fi SSID |
+| `wifi_password` | nucbox | Wi-Fi パスワード |
+
+`.vault_pass` にはVault パスワードを平文で記載する（gitignore 済み）。
+
+## Tips
+
+### Bluetooth マウスのペアリング (GUI セットアップ前)
+
+GUI 起動前など、ターミナルのみの環境でペアリングする場合は `bluetoothctl` を使う。
+
+```bash
+bluetoothctl
+```
+
+```
+power on
+agent on
+default-agent
+scan on          # マウスをペアリングモードにしてから実行 → MAC アドレスが表示される
+scan off
+pair XX:XX:XX:XX:XX:XX
+trust XX:XX:XX:XX:XX:XX
+connect XX:XX:XX:XX:XX:XX
+exit
+```
+
+GUI 起動後は Bluetooth 設定画面から通常通り操作できる。
+
+## ホスト一覧
+
+| ホスト | 用途 | IP |
+|---|---|---|
+| mainpc | メイン作業機 | 192.168.100.100 |
+| nucbox | ブラウジング / 持ち出し用 (Intel N100) | 192.168.100.20 |
+| sandbox | 検証用 VM | 192.168.122.222 |

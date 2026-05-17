@@ -1,0 +1,14 @@
+---
+# Display manager installation and configuration
+
+- name: Include GDM tasks
+  ansible.builtin.include_tasks: display_manager_gdm.yml
+  when: desktop.display_manager.type == "gdm"
+
+- name: Include ly tasks
+  ansible.builtin.include_tasks: display_manager_ly.yml
+  when: desktop.display_manager.type == "ly"
+
+- name: Include greetd tasks
+  ansible.builtin.include_tasks: display_manager_greetd.yml
+  when: desktop.display_manager.type == "greetd"

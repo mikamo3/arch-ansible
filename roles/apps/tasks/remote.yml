@@ -1,0 +1,10 @@
+---
+- name: Install Remmina (remote desktop)
+  aur:
+    name:
+      - remmina                # remote desktop client (RDP/VNC/SSH)
+      - freerdp                # RDP protocol
+      - libvncserver           # VNC protocol
+    state: present
+    use: paru
+  become: false

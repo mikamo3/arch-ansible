@@ -1,18 +1,24 @@
 ---
-# Base role main tasks
+- name: Configure pacman and update cache
+  ansible.builtin.import_tasks: pacman.yml
+  tags: [base, pacman]
 
-- name: Include system configuration (user creation)
-  ansible.builtin.import_tasks: config.yml
-  tags: [base, config]
-
-- name: Include package management tasks
+- name: Install base packages
   ansible.builtin.import_tasks: packages.yml
   tags: [base, packages]
 
-- name: Include system services configuration
-  ansible.builtin.import_tasks: services.yml
-  tags: [base, services]
+- name: Set up AUR helper (paru)
+  ansible.builtin.import_tasks: aur.yml
+  tags: [base, aur]
 
-- name: Include security configuration
-  ansible.builtin.import_tasks: security.yml
-  tags: [base, security]
+- name: Configure systemd (logind/journald/oomd)
+  ansible.builtin.import_tasks: systemd.yml
+  tags: [base, systemd]
+
+- name: Set up maintenance automation (reflector/paccache/fwupd)
+  ansible.builtin.import_tasks: maintenance.yml
+  tags: [base, maintenance]
+
+- name: Configure network (NetworkManager)
+  ansible.builtin.import_tasks: network.yml
+  tags: [base, network]

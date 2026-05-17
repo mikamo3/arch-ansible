@@ -1,0 +1,10 @@
+---
+apps:
+  browser: false           # firefox + firefox-i18n-ja + chromium
+  file_manager: false      # nautilus + file-roller
+  editor: false            # featherpad
+  pdf: false               # zathura
+  remote: false            # remmina
+  torrent: false           # qbittorrent
+  password_manager: false  # 1password
+  file_share: false        # localsend

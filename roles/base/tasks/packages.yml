@@ -1,125 +1,60 @@
 ---
-# Package management configuration
-
-- name: Update pacman configuration
-  ansible.builtin.template:
-    src: pacman.conf.j2
-    dest: /etc/pacman.conf
-    backup: true
-    mode: "0644"
-  become: true
-
-- name: update package database
-  community.general.pacman:
-    update_cache: true
-  become: true
-
-- name: Install essential packages
+- name: Install base packages
   community.general.pacman:
     name:
-      # Core system
+      # build/kernel
       - base-devel
       - linux-headers
-      - archlinux-keyring
 
-      # Network
-      - networkmanager
-      - openssh
-      - wget
-      - curl
-      - inetutils
-      - openbsd-netcat
-      - ldns
-      - aria2
+      # filesystem
+      - btrfs-progs
+      - dosfstools
 
-      # Essential tools
-      - git
-      - git-crypt
-      - ghq
-      - vim
-      - nano
+      # documentation
       - man-db
-      - tree
-      - htop
-      - less
-      - which
-      - sudo
-      - rsync
-      - bc
-      - mise
+      - man-pages
 
-      # Archive handling
-      - unzip
-      - zip
-      - 7zip
-      - unrar
-      - atool
-      # tar, gzip are in base group
-
-      # System tools
-      - lsof
-      - strace
-      - smartmontools
+      # package management
+      - pacman-contrib
       - reflector
 
-      # Hardware information
-      - lshw
-      - hwinfo
-      - pciutils
-      - usbutils
-      - dmidecode
+      # network/transfer
+      - curl
+      - wget
+      - rsync
 
-      # File systems
-      - dosfstools
-      - ntfs-3g
-      - btrfs-progs
+      # firewall (nftables backend + iptables CLI compatibility)
+      - iptables-nft
 
-      # Security tools
-      - logwatch
-      - rkhunter
-      - firejail
+      # misc tools
+      - git-crypt
     state: present
   become: true
-  register: essential_packages_result
 
-- name: Run reflector to optimize mirrorlist
-  ansible.builtin.command: reflector --country 'JP' --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
-  become: true
-  when: essential_packages_result.changed
-
-- name: Setup reflector hook for automatic mirror updates
-  block:
-    - name: Create pacman hooks directory
-      ansible.builtin.file:
-        path: /etc/pacman.d/hooks
-        state: directory
-        owner: root
-        group: root
-        mode: "0755"
-      become: true
-
-    - name: Install mirrorupgrade hook
-      ansible.builtin.copy:
-        src: mirrorupgrade.hook
-        dest: /etc/pacman.d/hooks/mirrorupgrade.hook
-        owner: root
-        group: root
-        mode: "0644"
-      become: true
-
-- name: Install AUR helper (yay) with makepkg
-  aur:
-    name: yay
-    use: makepkg
-  become_user: "{{ ansible_user }}"
-
-- name: Install AUR packages (optional)
-  aur:
-    name:
-      # Add AUR packages here if needed
-      # - openssh-askpass  # Currently broken due to CMake compatibility
-      # - yay-bin  # Alternative to building yay
-      # - google-chrome
+- name: Install CPU microcode (AMD)
+  community.general.pacman:
+    name: amd-ucode
     state: present
-  become_user: "{{ ansible_user }}"
-  when: false
+  become: true
+  when: devices.cpu.vendor == 'amd'
+
+- name: Install CPU microcode (Intel)
+  community.general.pacman:
+    name: intel-ucode
+    state: present
+  become: true
+  when: devices.cpu.vendor == 'intel'
+
+- name: Install extra kernel headers (for DKMS etc.)
+  community.general.pacman:
+    name: "{{ base.extra_kernel_headers }}"
+    state: present
+  become: true
+  when: base.extra_kernel_headers | length > 0
+
+- name: Install fwupd
+  community.general.pacman:
+    name: fwupd
+    state: present
+  become: true
+  when: base.fwupd | default(true)

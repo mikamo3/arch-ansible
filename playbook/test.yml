@@ -1,0 +1,25 @@
+---
+- hosts: "{{ target | default('sandbox') }}"
+  gather_facts: false
+  tasks:
+    - name: ping
+      ansible.builtin.ping:
+
+    - name: whoami (before become)
+      ansible.builtin.command: whoami
+      register: whoami_result
+      changed_when: false
+
+    - name: Show whoami result
+      ansible.builtin.debug:
+        msg: "Connected user: {{ whoami_result.stdout }}"
+
+    - name: whoami (after become)
+      ansible.builtin.command: whoami
+      become: true
+      register: whoami_become_result
+      changed_when: false
+
+    - name: Show become result
+      ansible.builtin.debug:
+        msg: "Become user: {{ whoami_become_result.stdout }}"

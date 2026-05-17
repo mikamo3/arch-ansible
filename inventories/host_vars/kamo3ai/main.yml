@@ -1,0 +1,60 @@
+---
+devices:
+  cpu:
+    vendor: amd # AMD Ryzen (Cezanne)
+  gpu:
+    type: nvidia
+    cuda: true # RTX 3060 — used for Stable Diffusion
+  audio: true
+  bluetooth: true
+  printer: false
+
+desktop:
+  environment: xfce
+  display_manager: xrdp
+  ime: fcitx5
+
+apps:
+  browser: true
+  file_manager: false
+  editor: false
+  pdf: false
+  remote: false
+  torrent: false
+  password_manager: false
+  file_share: false
+
+media:
+  cli_tools: true
+  playback: true
+  editing: false
+
+development:
+  editor: false
+  git_tools: true
+  cli_tools: true
+  docker: true
+
+storage:
+  cloud_sync: false
+  encryption: false
+  nfs: true
+  btrfs_mounts:
+    - subvol: "@stable_diffusion_data"
+      mountpoint: /sd_data
+      uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
+    - subvol: "@stable_diffusion_output"
+      mountpoint: /sd_output
+      uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
+
+network:
+  wired:
+    interface: enp7s0
+    ip: 192.168.100.10/24
+    gateway: 192.168.100.1
+    dns:
+      - 192.168.100.1
+  wifi:
+    interface: wlp6s0
+    ssid: "{{ wifi_ssid }}"
+    password: "{{ wifi_password }}"

@@ -1,0 +1,9 @@
+---
+- name: Install Nautilus and archive manager
+  aur:
+    name:
+      - nautilus               # GNOME default file manager (GTK4/libadwaita)
+      - file-roller            # archive extraction/creation GUI
+    state: present
+    use: paru
+  become: false

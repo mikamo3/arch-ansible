@@ -1,0 +1,9 @@
+---
+- name: Install media processing CLI tools
+  aur:
+    name:
+      - ffmpeg                 # general-purpose video/audio codec tool
+      - imagemagick            # image conversion CLI
+    state: present
+    use: paru
+  become: false
