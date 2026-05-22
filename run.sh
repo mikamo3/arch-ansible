@@ -29,6 +29,12 @@ dry_run=$(printf "run\ndry-run (--check)" | fzf \
   --height=~6 --border=rounded --info=hidden) \
   || { echo "Cancelled."; exit 0; }
 
+current_host=$(cat /etc/hostname)
+if [[ "$connection" == "local" && "$target" != "$current_host" ]]; then
+  echo "Error: local connection requested but target '$target' != current host '$current_host'." >&2
+  exit 1
+fi
+
 args=("ansible-playbook" "$PLAYBOOK" "--limit" "$target")
 [[ "$connection" == "local" ]] && args+=("-c" "local")
 if [[ -n "$selected_tags" ]]; then

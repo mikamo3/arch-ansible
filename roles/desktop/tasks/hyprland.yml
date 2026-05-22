@@ -26,6 +26,10 @@
       - hypridle                       # idle manager
       - hyprpaper                      # wallpaper
 
+      # appearance
+      - bibata-cursor-theme            # cursor theme
+      - archlinux-wallpaper            # official Arch Linux wallpapers
+
       # screenshots
       - grim                           # screen capture
       - slurp                          # region selection

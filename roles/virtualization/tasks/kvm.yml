@@ -35,6 +35,8 @@
   block:
     - name: Get default network status
       ansible.builtin.command: virsh net-info default
+      environment:
+        LANG: C
       register: virsh_default_info
       changed_when: false
       failed_when: false
@@ -47,10 +49,12 @@
 
     - name: Enable default network autostart
       ansible.builtin.command: virsh net-autostart default
-      when: "virsh_default_info.rc != 0 or 'Autostart:      yes' not in virsh_default_info.stdout"
+      when: virsh_default_info.rc != 0 or not (virsh_default_info.stdout is search('Autostart:\s+yes'))
+      changed_when: false
       become: true
 
     - name: Start default network
       ansible.builtin.command: virsh net-start default
-      when: "virsh_default_info.rc != 0 or 'Active:         yes' not in virsh_default_info.stdout"
+      when: virsh_default_info.rc != 0 or not (virsh_default_info.stdout is search('Active:\s+yes'))
+      changed_when: false
       become: true

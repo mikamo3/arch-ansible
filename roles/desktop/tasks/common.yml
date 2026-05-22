@@ -95,6 +95,20 @@
   become: false
   when: devices.bluetooth | default(false)
 
+- name: Install python-psutil (required for dconf module)
+  ansible.builtin.package:
+    name: python-psutil
+    state: present
+  become: true
+  when: devices.bluetooth | default(false)
+
+- name: Disable blueman connection notifications
+  community.general.dconf:
+    key: /org/blueman/general/show-notifications
+    value: "false"
+    state: present
+  when: devices.bluetooth | default(false)
+
 - name: Install PipeWire mixer GUI (only when devices.audio is enabled, works via pipewire-pulse)
   aur:
     name:
