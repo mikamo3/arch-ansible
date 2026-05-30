@@ -8,3 +8,17 @@
     state: present
     use: paru
   become: false
+
+- name: Deploy firefox-private script
+  ansible.builtin.copy:
+    src: firefox-private
+    dest: /usr/local/bin/firefox-private
+    mode: "0755"
+  become: true
+
+- name: Deploy firefox-private desktop entry
+  ansible.builtin.template:
+    src: firefox-private.desktop.j2
+    dest: /usr/share/applications/firefox-private.desktop
+    mode: "0644"
+  become: true

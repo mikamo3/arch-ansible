@@ -41,6 +41,7 @@
       # network/HTTP
       - curlie            # curl alternative with improved UX
       - httpie            # user-friendly HTTP client
+      - aria2             # multi-protocol download utility
       - bandwhich         # network bandwidth monitor
       - dog               # dig alternative
 

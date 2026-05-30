@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+profile=$(mktemp -d /tmp/firefox-private-XXXXXX)
+trap 'rm -rf "$profile"' EXIT
+firefox --profile "$profile" --no-remote "$@"

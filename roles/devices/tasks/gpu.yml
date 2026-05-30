@@ -58,6 +58,8 @@
     name:
       - cuda
       - nvidia-container-toolkit
+      - nvtop                    # GPU process monitor
+      - python-huggingface-hub   # huggingface-cli
     state: present
     use: paru
   become: false

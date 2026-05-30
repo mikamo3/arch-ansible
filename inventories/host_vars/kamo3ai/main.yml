@@ -43,9 +43,9 @@ storage:
     - subvol: "@stable_diffusion_data"
       mountpoint: /sd_data
       uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
-    - subvol: "@stable_diffusion_output"
+    - subvol: "@sd_output"
       mountpoint: /sd_output
-      uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
+      uuid: de0a22c6-a075-4d31-ab97-fe64843377ed
 
 network:
   wired:
