@@ -67,26 +67,6 @@
     - devices.gpu.type == 'nvidia'
     - devices.gpu.cuda | default(false)
 
-- name: Configure NVIDIA runtime for Docker
-  ansible.builtin.command:
-    cmd: nvidia-ctk runtime configure --runtime=docker
-    creates: /etc/docker/daemon.json
-  become: true
-  when:
-    - devices.gpu.type == 'nvidia'
-    - devices.gpu.cuda | default(false)
-  notify: restart docker
-
-- name: Enable and start docker.service (required before NVIDIA runtime is active)
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: true
-  become: true
-  when:
-    - devices.gpu.type == 'nvidia'
-    - devices.gpu.cuda | default(false)
-
 - name: Enable nvidia-persistenced (prevent GPU state reset between uses)
   ansible.builtin.systemd:
     name: nvidia-persistenced

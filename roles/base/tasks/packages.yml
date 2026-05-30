@@ -36,14 +36,14 @@
     name: amd-ucode
     state: present
   become: true
-  when: devices.cpu.vendor == 'amd'
+  when: devices.cpu.vendor | default('none') == 'amd'
 
 - name: Install CPU microcode (Intel)
   community.general.pacman:
     name: intel-ucode
     state: present
   become: true
-  when: devices.cpu.vendor == 'intel'
+  when: devices.cpu.vendor | default('none') == 'intel'
 
 - name: Install extra kernel headers (for DKMS etc.)
   community.general.pacman:

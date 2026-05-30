@@ -8,6 +8,16 @@
     state: present
   become: true
 
+- name: Configure NVIDIA runtime for Docker
+  ansible.builtin.command:
+    cmd: nvidia-ctk runtime configure --runtime=docker
+    creates: /etc/docker/daemon.json
+  become: true
+  when:
+    - devices.gpu.type == 'nvidia'
+    - devices.gpu.cuda | default(false)
+  notify: restart docker
+
 - name: Install Docker TUI tools
   aur:
     name:
@@ -24,10 +34,11 @@
     append: true
   become: true
 
-- name: Enable docker.service
+- name: Enable and start docker.service
   ansible.builtin.systemd:
     name: docker
     enabled: true
+    state: started
   become: true
 
 - name: Install distrobox

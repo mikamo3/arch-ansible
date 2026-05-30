@@ -1,12 +1,12 @@
 ---
 - import_tasks: editor.yml
-  when: development.editor
+  when: development.editor | default(false)
 
 - import_tasks: git_tools.yml
-  when: development.git_tools
+  when: development.git_tools | default(false)
 
 - import_tasks: cli_tools.yml
-  when: development.cli_tools
+  when: development.cli_tools | default(false)
 
 - import_tasks: docker.yml
-  when: development.docker | default(true)
+  when: development.docker | default(false)
