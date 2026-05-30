@@ -1,10 +1,10 @@
 ---
 apps:
-  browser: false           # firefox + firefox-i18n-ja + chromium
-  file_manager: false      # nautilus + file-roller
-  editor: false            # featherpad
-  pdf: false               # zathura
-  remote: false            # remmina
-  torrent: false           # qbittorrent
-  password_manager: false  # 1password
-  file_share: false        # localsend
+  browser: false           # Web browsers
+  file_manager: false      # Graphical file manager
+  editor: false            # Graphical text editor
+  pdf: false               # PDF viewer
+  remote: false            # Remote desktop and file transfer tools
+  torrent: false           # BitTorrent client
+  password_manager: false  # Password manager
+  file_share: false        # LAN file sharing

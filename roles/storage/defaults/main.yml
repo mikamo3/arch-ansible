@@ -1,5 +1,5 @@
 ---
 storage:
-  cloud_sync: false       # rclone (cloud storage sync)
-  encryption: false       # veracrypt (disk encryption)
-  nfs: false              # nfs-utils (NFS client)
+  cloud_sync: false       # Cloud storage sync
+  encryption: false       # Disk encryption
+  nfs: false              # NFS client support

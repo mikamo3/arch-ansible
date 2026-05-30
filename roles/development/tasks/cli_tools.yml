@@ -4,6 +4,8 @@
     name:
       - jq                       # JSON processor
       - yq                       # YAML processor
+      - openai-codex-bin         # OpenAI Codex CLI
+      - claude-code              # Anthropic Claude Code CLI
     state: present
     use: paru
   become: false

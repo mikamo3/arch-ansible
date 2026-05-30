@@ -3,6 +3,6 @@ devices:
   gpu:
     type: none          # intel / amd / nvidia / vm / none
     cuda: false         # only used when type is nvidia
-  audio: false          # pipewire stack
-  bluetooth: false      # bluez + bluetooth.service
-  printer: false        # cups + cups.service
+  audio: false          # Audio support
+  bluetooth: false      # Bluetooth support
+  printer: false        # Printer support

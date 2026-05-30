@@ -1,5 +1,5 @@
 ---
 media:
-  cli_tools: false         # ffmpeg + imagemagick
-  playback: false          # mpv + loupe + spotify-adblock + mcomix
-  editing: false           # gimp + inkscape + hyprpicker + obs-studio
+  cli_tools: false         # Media processing CLI tools
+  playback: false          # Media playback and viewing apps
+  editing: false           # Media editing apps

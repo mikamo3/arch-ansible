@@ -1,6 +1,6 @@
 ---
 development:
-  editor: false            # visual-studio-code-bin
-  git_tools: false         # git-lfs + lazygit + git-delta + difftastic + tokei + gibo + cocogitto
-  cli_tools: false         # jq + yq
-  docker: false            # docker + docker-compose + docker-buildx + lazydocker + ctop
+  editor: false            # Graphical code editor
+  git_tools: false         # Git development tools
+  cli_tools: false         # Development CLI tools
+  docker: false            # Docker development tools
