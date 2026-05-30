@@ -17,3 +17,6 @@ base:
   extra_kernel_headers: []     # Additional kernel headers (e.g. [linux-zen-headers, linux-lts-headers])
 
 network: {}                    # Define wired/wifi to deploy NM profiles
+
+aur_sudo_users:                # Users allowed to install packages through paru
+  - "{{ ansible_user }}"

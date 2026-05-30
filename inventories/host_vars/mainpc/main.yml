@@ -1,4 +1,8 @@
 ---
+aur_sudo_users:
+  - ansible
+  - mikamo
+
 devices:
   cpu:
     vendor: amd

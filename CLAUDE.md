@@ -29,7 +29,7 @@ ansible all -m ping                                                      # 疎�
 
 - ヘルパー: **paru** (`base` ロールが makepkg で bootstrap)。
 - `base` 以外のロールは `library/ansible-aur` (git submodule, Collection 構造) の `aur` モジュールを使う。`pacman` モジュールは使わない。
-- `base` ロールが `ansible_user` に `/usr/bin/pacman` の NOPASSWD sudo (`/etc/sudoers.d/10-aur-builder`) を付与。後続ロールの全 AUR ビルドはこれに依存。
+- `base` ロールが `aur_sudo_users` に `/usr/bin/pacman` の NOPASSWD sudo (`/etc/sudoers.d/10-aur-builder`) を付与。既定値は `ansible_user`。ローカル実行も許可するホストではログインユーザーを追加する。後続ロールの全 AUR ビルドはこれに依存。
 - `-git` パッケージのインストール確認は `ansible.builtin.package_facts` を使う (例: `'kawazu-git' in ansible_facts.packages`)。ファイル存在チェックやビルドキャッシュには頼らない。
 
 ## Style

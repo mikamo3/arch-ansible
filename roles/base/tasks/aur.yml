@@ -2,12 +2,16 @@
 - name: Grant NOPASSWD sudo for pacman to allow AUR builds
   ansible.builtin.copy:
     dest: /etc/sudoers.d/10-aur-builder
-    content: "{{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman\n"
+    content: |
+      {% for user in aur_sudo_users %}
+      {{ user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman
+      {% endfor %}
     mode: "0440"
     owner: root
     group: root
     validate: "/usr/sbin/visudo -cf %s"
   become: true
+  tags: [always]
 
 - name: Install paru
   aur:
