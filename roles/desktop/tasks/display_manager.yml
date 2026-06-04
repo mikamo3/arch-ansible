@@ -20,6 +20,24 @@
   when: desktop.display_manager == 'greetd'
   notify: restart greetd
 
+- name: Ensure greetd systemd drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/greetd.service.d
+    state: directory
+    mode: "0755"
+  become: true
+  when: desktop.display_manager == 'greetd'
+
+- name: Configure greetd VT systemd conflicts
+  ansible.builtin.template:
+    src: greetd-service-override.conf.j2
+    dest: /etc/systemd/system/greetd.service.d/override.conf
+    mode: "0644"
+    owner: root
+    group: root
+  become: true
+  when: desktop.display_manager == 'greetd'
+  notify: restart greetd
 
 - name: Enable greetd.service
   ansible.builtin.systemd:

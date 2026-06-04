@@ -2,4 +2,5 @@
 desktop:
   environment: hyprland       # hyprland (future: gnome / sway / ...)
   display_manager: greetd     # greetd (future: gdm / ly)
+  greetd_vt: 7                # Keep tuigreet away from boot/status messages on tty1
   ime: fcitx5                 # fcitx5 / none

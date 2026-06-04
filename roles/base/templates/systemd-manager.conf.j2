@@ -1,0 +1,4 @@
+[Manager]
+{% for item in base.systemd_manager | dict2items %}
+{{ item.key }}={{ item.value }}
+{% endfor %}

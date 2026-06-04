@@ -13,6 +13,8 @@ base:
     SystemMaxFileSize: 128M
     MaxRetentionSec: 1month
     MaxFileSec: 1week
+  systemd_manager:
+    ShowStatus: error
   fwupd: true
   extra_kernel_headers: []     # Additional kernel headers (e.g. [linux-zen-headers, linux-lts-headers])
 

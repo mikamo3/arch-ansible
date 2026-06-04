@@ -1,5 +1,5 @@
 [terminal]
-vt = 1
+vt = {{ desktop.greetd_vt | default(7) }}
 
 [default_session]
 command = "tuigreet --time --time-format '%Y-%m-%d %H:%M' --remember --asterisks --cmd 'uwsm start hyprland.desktop'"
