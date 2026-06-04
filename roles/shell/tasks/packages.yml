@@ -17,6 +17,7 @@
 
       # search/navigation
       - fzf               # fuzzy finder
+      - television        # channel-based fuzzy finder
       - zoxide            # cd alternative with history learning
       - atuin             # shell history manager (successor to mcfly)
       - broot             # tree view + navigation
