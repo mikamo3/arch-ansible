@@ -1,7 +1,5 @@
 ---
-- name: restart greetd
+- name: reload systemd daemon
   ansible.builtin.systemd:
-    name: greetd
     daemon_reload: true
-    state: restarted
   become: true

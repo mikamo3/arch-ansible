@@ -18,7 +18,6 @@
     group: root
   become: true
   when: desktop.display_manager == 'greetd'
-  notify: restart greetd
 
 - name: Ensure greetd systemd drop-in directory exists
   ansible.builtin.file:
@@ -37,7 +36,7 @@
     group: root
   become: true
   when: desktop.display_manager == 'greetd'
-  notify: restart greetd
+  notify: reload systemd daemon
 
 - name: Enable greetd.service
   ansible.builtin.systemd:
