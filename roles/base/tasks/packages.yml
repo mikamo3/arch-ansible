@@ -28,6 +28,7 @@
 
       # misc tools
       - git-crypt
+      - usbutils # lsusb
     state: present
   become: true
 
