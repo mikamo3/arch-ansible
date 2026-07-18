@@ -3,3 +3,4 @@ storage:
   cloud_sync: false       # Cloud storage sync
   encryption: false       # Disk encryption
   nfs: false              # NFS client support
+  iscsi: false            # iSCSI initiator (open-iscsi)

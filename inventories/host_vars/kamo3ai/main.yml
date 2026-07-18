@@ -37,8 +37,9 @@ development:
 
 storage:
   cloud_sync: false
-  encryption: false
+  encryption: true
   nfs: true
+  iscsi: true
   btrfs_mounts:
     - subvol: "@stable_diffusion_data"
       mountpoint: /sd_data

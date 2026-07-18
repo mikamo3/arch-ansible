@@ -10,3 +10,6 @@
 
 - import_tasks: nfs.yml
   when: storage.nfs
+
+- import_tasks: iscsi.yml
+  when: storage.iscsi

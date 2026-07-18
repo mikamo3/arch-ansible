@@ -1,0 +1,8 @@
+---
+- name: Install open-iscsi (iSCSI initiator)
+  aur:
+    name:
+      - open-iscsi              # iSCSI initiator utilities
+    state: present
+    use: paru
+  become: false
