@@ -1,5 +1,6 @@
 .vault_pass
 secret.yml
+.claude/
 *.retry
 __pycache__/
 *.pyc

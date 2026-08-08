@@ -1,0 +1,8 @@
+---
+- name: Install SSHFS client
+  aur:
+    name:
+      - sshfs                    # FUSE client for remote filesystems over SFTP
+    state: present
+    use: paru
+  become: false

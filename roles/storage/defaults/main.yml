@@ -4,3 +4,5 @@ storage:
   encryption: false       # Disk encryption
   nfs: false              # NFS client support
   iscsi: false            # iSCSI initiator (open-iscsi)
+  sshfs_client: false     # Mount remote filesystems over SSH
+  sshfs_server: false     # Serve files through OpenSSH/SFTP

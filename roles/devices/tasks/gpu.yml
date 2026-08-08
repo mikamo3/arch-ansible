@@ -66,13 +66,3 @@
   when:
     - devices.gpu.type == 'nvidia'
     - devices.gpu.cuda | default(false)
-
-- name: Enable nvidia-persistenced (prevent GPU state reset between uses)
-  ansible.builtin.systemd:
-    name: nvidia-persistenced
-    enabled: true
-    state: started
-  become: true
-  when:
-    - devices.gpu.type == 'nvidia'
-    - devices.gpu.cuda | default(false)

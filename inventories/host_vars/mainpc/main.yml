@@ -50,6 +50,7 @@ storage:
   cloud_sync: true
   encryption: true
   nfs: true
+  sshfs_client: true
 
 cad:
   install: true

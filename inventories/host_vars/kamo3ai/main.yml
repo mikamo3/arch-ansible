@@ -17,7 +17,7 @@ desktop:
 apps:
   browser: true
   file_manager: false
-  editor: false
+  editor: true
   pdf: false
   remote: false
   torrent: false
@@ -40,13 +40,14 @@ storage:
   encryption: true
   nfs: true
   iscsi: true
+  sshfs_server: true
   btrfs_mounts:
     - subvol: "@stable_diffusion_data"
       mountpoint: /sd_data
-      uuid: f224ad68-9e75-4345-83d1-ca6a9e0aa60f
+      uuid: 35a691a7-7d8c-424d-b179-95444aa59e6b
     - subvol: "@sd_output"
       mountpoint: /sd_output
-      uuid: de0a22c6-a075-4d31-ab97-fe64843377ed
+      uuid: 86fa44b7-d1a9-4641-a3d3-ab4eb9990cca
 
 network:
   wired:

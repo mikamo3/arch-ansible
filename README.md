@@ -53,7 +53,26 @@ arch-chroot /mnt
 
 git clone https://github.com/mikamo3/arch-ansible.git
 cd arch-ansible
-./init_network.sh    # .vault_pass がない場合は Vault パスワードの入力を求められる
+
+# op CLI が使えない chroot 環境では、先に Vault パスワードを配置しておく
+printf '%s\n' 'your-vault-password' > .vault_pass
+chmod 600 .vault_pass
+
+# 対象ホストの secret.yml を事前に作成する
+ANSIBLE_VAULT_PASSWORD_FILE=.vault_pass \
+  ansible-vault create inventories/host_vars/$(cat /etc/hostname)/secret.yml
+```
+
+`secret.yml` には以下の形式で値を入れる。
+
+```yaml
+ansible_become_password: "your-sudo-password"
+wifi_ssid: "your-ssid"
+wifi_password: "your-wifi-password"
+```
+
+```bash
+ANSIBLE_VAULT_PASSWORD_FILE=.vault_pass ./init_network.sh
 ```
 
 完了後は `exit` で chroot を抜けて `reboot`。
@@ -78,13 +97,15 @@ Ansible 実行後は `/etc/NetworkManager/system-connections/` に永続プロ�
 
 ## Phase 2: Ansible による設定適用
 
-Ansible 実行前に `inventories/host_vars/nucbox/secret.yml` に Wi-Fi 認証情報を登録する。
+Ansible 実行前に `inventories/host_vars/<hostname>/secret.yml` に認証情報を登録する。
 
 ```bash
-ansible-vault edit inventories/host_vars/nucbox/secret.yml
-# 以下を追記:
+ANSIBLE_VAULT_PASSWORD_FILE=.vault_pass \
+  ansible-vault edit inventories/host_vars/$(hostname)/secret.yml
+# 以下を追記または更新:
+# ansible_become_password: "your-sudo-password"
 # wifi_ssid: "your-ssid"
-# wifi_password: "your-password"
+# wifi_password: "your-wifi-password"
 ```
 
 archinstall 完了後、`reboot` で再起動する。
@@ -126,8 +147,8 @@ cd dotfiles
 | キー | 対象ホスト | 説明 |
 |---|---|---|
 | `ansible_become_password` | 全ホスト | sudo パスワード |
-| `wifi_ssid` | nucbox | Wi-Fi SSID |
-| `wifi_password` | nucbox | Wi-Fi パスワード |
+| `wifi_ssid` | Wi-Fi を使うホスト | Wi-Fi SSID |
+| `wifi_password` | Wi-Fi を使うホスト | Wi-Fi パスワード |
 
 `.vault_pass` にはVault パスワードを平文で記載する（gitignore 済み）。
 
@@ -162,3 +183,4 @@ GUI 起動後は Bluetooth 設定画面から通常通り操作できる。
 | mainpc | メイン作業機 | 192.168.100.100 |
 | nucbox | ブラウジング / 持ち出し用 (Intel N100) | 192.168.100.20 |
 | sandbox | 検証用 VM | 192.168.122.222 |
+| kamo3ai | Stable Diffusion / AI ワークロード | 192.168.100.10 |

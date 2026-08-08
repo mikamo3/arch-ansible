@@ -1,0 +1,15 @@
+---
+- name: Install OpenSSH for SSHFS access
+  aur:
+    name:
+      - openssh                  # SSH/SFTP server used by SSHFS clients
+    state: present
+    use: paru
+  become: false
+
+- name: Enable SSH server for SSHFS access
+  ansible.builtin.systemd:
+    name: sshd
+    enabled: true
+    state: started
+  become: true

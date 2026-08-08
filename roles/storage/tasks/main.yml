@@ -12,4 +12,14 @@
   when: storage.nfs
 
 - import_tasks: iscsi.yml
-  when: storage.iscsi
+  when: storage.iscsi | default(false)
+
+- name: Configure SSHFS client
+  ansible.builtin.import_tasks: sshfs_client.yml
+  when: storage.sshfs_client | default(false)
+  tags: [sshfs]
+
+- name: Configure SSHFS server
+  ansible.builtin.import_tasks: sshfs_server.yml
+  when: storage.sshfs_server | default(false)
+  tags: [sshfs]
