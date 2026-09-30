@@ -48,6 +48,9 @@ storage:
     - subvol: "@sd_output"
       mountpoint: /sd_output
       uuid: 86fa44b7-d1a9-4641-a3d3-ab4eb9990cca
+    - subvol: "@sd_assets"
+      mountpoint: /sd_assets
+      uuid: 86fa44b7-d1a9-4641-a3d3-ab4eb9990cca
 
 network:
   wired:
