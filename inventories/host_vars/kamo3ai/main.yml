@@ -55,6 +55,15 @@ storage:
       mountpoint: /sd_assets
       uuid: 86fa44b7-d1a9-4641-a3d3-ab4eb9990cca
 
+security:
+  # Default-deny internet egress (sensitive generated assets on this host).
+  egress_guard:
+    lan: 192.168.100.0/24
+    dns: 192.168.100.1
+    internet_users: [mikamo]
+    # sd_reforge_docker "ai-download" network (downloader container).
+    download_subnet: 10.89.250.0/24
+
 network:
   wired:
     interface: enp7s0

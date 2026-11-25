@@ -1,0 +1,106 @@
+---
+# Default-deny internet egress for hosts holding sensitive data.
+# Internet is allowed only for root, the "internet" group (net wrapper:
+# git/paru always, others via `net CMD`) and whitelisted container subnets.
+- name: Install nftables CLI
+  community.general.pacman:
+    name: nftables
+    state: present
+  become: true
+
+- name: Create internet group
+  ansible.builtin.group:
+    name: internet
+    system: true
+  become: true
+
+- name: Add users to internet group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: internet
+    append: true
+  become: true
+  loop: "{{ security.egress_guard.internet_users }}"
+
+- name: Install net wrapper and egress-open
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /usr/local/bin/{{ item }}
+    mode: "0755"
+  become: true
+  loop:
+    - net
+    - egress-open
+
+- name: Route git/paru through net wrapper
+  ansible.builtin.copy:
+    src: net-wrap
+    dest: /usr/local/bin/{{ item }}
+    mode: "0755"
+  become: true
+  loop:
+    - git
+    - paru
+
+- name: Allow internet group to use net wrapper and egress-open
+  ansible.builtin.copy:
+    content: |
+      # net: run as self with primary group "internet" (see /usr/local/bin/net)
+      Defaults!/usr/bin/env !use_pty, !pam_session, !log_allowed
+      %internet ALL=(:internet) NOPASSWD:SETENV: /usr/bin/env
+      %internet ALL=(root) NOPASSWD: /usr/local/bin/egress-open
+    dest: /etc/sudoers.d/20-egress-guard
+    mode: "0440"
+    validate: visudo -cf %s
+  become: true
+
+- name: Create nftables.d
+  ansible.builtin.file:
+    path: /etc/nftables.d
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Deploy egress guard ruleset
+  ansible.builtin.template:
+    src: egress-guard.nft.j2
+    dest: /etc/nftables.d/egress-guard.nft
+    mode: "0644"
+    validate: nft -c -f %s
+  become: true
+  notify: reload egress-guard
+
+- name: Deploy egress-guard.service
+  ansible.builtin.template:
+    src: egress-guard.service.j2
+    dest: /etc/systemd/system/egress-guard.service
+    mode: "0644"
+  become: true
+  notify: reload egress-guard
+
+# Fail closed: Docker (where untrusted custom nodes run) must not start
+# without the guard, and stops/restarts with it.
+- name: Create docker.service drop-in directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    mode: "0755"
+  become: true
+
+- name: Require egress guard for docker.service
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Requires=egress-guard.service
+      After=egress-guard.service
+    dest: /etc/systemd/system/docker.service.d/egress-guard.conf
+    mode: "0644"
+  become: true
+
+- name: Enable egress-guard.service
+  ansible.builtin.systemd:
+    name: egress-guard
+    enabled: true
+    state: started
+    daemon_reload: true
+  become: true

@@ -1,0 +1,9 @@
+#!/bin/bash
+# Run a command with internet access (egress_guard allows group "internet").
+# Usage: net COMMAND [ARGS...]   e.g. net pip install foo
+# Switches the primary gid via sudo (/etc/sudoers.d/20-egress-guard).
+[[ $# -gt 0 ]] || { echo "usage: net COMMAND [ARGS...]" >&2; exit 2; }
+if (( EUID == 0 )) || [[ "$(id -gn)" == internet ]]; then
+    exec "$@"
+fi
+exec sudo -n -E -g internet -- /usr/bin/env PATH="$PATH" "$@"

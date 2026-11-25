@@ -22,3 +22,8 @@
 - name: Configure network (NetworkManager)
   ansible.builtin.import_tasks: network.yml
   tags: [base, network]
+
+- name: Restrict internet egress (egress guard)
+  ansible.builtin.import_tasks: egress_guard.yml
+  tags: [base, egress_guard]
+  when: security.egress_guard is defined

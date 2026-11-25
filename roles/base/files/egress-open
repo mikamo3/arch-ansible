@@ -1,0 +1,30 @@
+#!/bin/bash
+# Temporarily let a container or a whole Docker network reach the internet
+# (egress_guard ctr_open set; entries expire automatically).
+# Usage: egress-open TARGET [DURATION]   DURATION: 30m (default), 2h, ...
+#        egress-open TARGET close
+# TARGET: container name/id, or network name (opens its IPv4 subnets).
+set -euo pipefail
+target=${1:?usage: egress-open CONTAINER|NETWORK [DURATION|close]}
+dur=${2:-30m}
+[[ $dur == close || $dur =~ ^[0-9]+[smh]$ ]] || { echo "invalid duration: $dur" >&2; exit 2; }
+
+ipv4='^[0-9]+(\.[0-9]+){3}(/[0-9]+)?$'
+if docker network inspect -- "$target" >/dev/null 2>&1; then
+    mapfile -t addrs < <(docker network inspect -f '{{range .IPAM.Config}}{{println .Subnet}}{{end}}' -- "$target" \
+        | grep -E "$ipv4" || true)
+else
+    mapfile -t addrs < <(docker inspect -f '{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}' -- "$target" \
+        | grep -E "$ipv4" || true)
+fi
+(( ${#addrs[@]} )) || { echo "no IPv4 address/subnet for: $target" >&2; exit 1; }
+
+for addr in "${addrs[@]}"; do
+    nft delete element inet egress_guard ctr_open "{ $addr }" 2>/dev/null || true
+    if [[ $dur == close ]]; then
+        echo "closed $target ($addr)"
+    else
+        nft add element inet egress_guard ctr_open "{ $addr timeout $dur }"
+        echo "opened $target ($addr) for $dur"
+    fi
+done

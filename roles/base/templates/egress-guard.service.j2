@@ -1,0 +1,17 @@
+[Unit]
+Description=Egress guard (default-deny internet egress)
+DefaultDependencies=no
+After=local-fs.target
+Wants=network-pre.target
+Before=network-pre.target docker.service shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/nft -f /etc/nftables.d/egress-guard.nft
+ExecReload=/usr/bin/nft -f /etc/nftables.d/egress-guard.nft
+ExecStop=/usr/bin/nft delete table inet egress_guard
+
+[Install]
+WantedBy=multi-user.target

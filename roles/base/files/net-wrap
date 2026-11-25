@@ -1,0 +1,3 @@
+#!/bin/bash
+# Installed as /usr/local/bin/<cmd>: always run /usr/bin/<cmd> with internet access.
+exec /usr/local/bin/net "/usr/bin/${0##*/}" "$@"

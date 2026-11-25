@@ -19,6 +19,13 @@
   ansible.builtin.command: nmcli con reload
   become: true
 
+- name: reload egress-guard
+  ansible.builtin.systemd:
+    name: egress-guard
+    state: reloaded
+    daemon_reload: true
+  become: true
+
 - name: reload sysctl
   ansible.builtin.command: sysctl --system
   become: true
