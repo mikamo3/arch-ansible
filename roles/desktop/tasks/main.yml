@@ -21,3 +21,8 @@
   ansible.builtin.import_tasks: xfce.yml
   when: desktop.environment == 'xfce'
   tags: [desktop, xfce]
+
+- name: Set up remote desktop server
+  ansible.builtin.import_tasks: remote.yml
+  when: desktop.display_manager == 'xrdp'
+  tags: [desktop, remote]

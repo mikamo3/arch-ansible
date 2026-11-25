@@ -1,10 +1,11 @@
 ---
-- name: Install Remmina (remote desktop)
+- name: Install remote desktop clients
   aur:
     name:
       - remmina                # remote desktop client (RDP/VNC/SSH)
       - freerdp                # RDP protocol
       - libvncserver           # VNC protocol
+      - moonlight-qt           # Sunshine remote desktop client
     state: present
     use: paru
   become: false

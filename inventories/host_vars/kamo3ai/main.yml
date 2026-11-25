@@ -1,10 +1,11 @@
 ---
 devices:
   cpu:
-    vendor: amd # AMD Ryzen (Cezanne)
+    vendor: amd
   gpu:
     type: nvidia
-    cuda: true # RTX 3060 — used for Stable Diffusion
+    cuda: true
+    integrated: amd
   audio: true
   bluetooth: true
   printer: false

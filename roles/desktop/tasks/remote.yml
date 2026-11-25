@@ -1,0 +1,29 @@
+---
+- name: Install Sunshine (remote desktop server evaluation)
+  aur:
+    name:
+      - sunshine                # alternative to xrdp for evaluation (AUR)
+    state: present
+    use: paru
+  become: false
+
+- name: Get remote desktop user ID
+  ansible.builtin.command:
+    argv: [id, -u, "{{ ansible_user }}"]
+  register: remote_desktop_uid
+  changed_when: false
+  check_mode: false
+  become: false
+
+- name: Enable and start Sunshine user service
+  ansible.builtin.systemd_service:
+    name: app-dev.lizardbyte.app.Sunshine.service
+    scope: user
+    daemon_reload: true
+    enabled: true
+    state: started
+  become: true
+  become_user: "{{ ansible_user }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ remote_desktop_uid.stdout }}"
+    DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ remote_desktop_uid.stdout }}/bus"

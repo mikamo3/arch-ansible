@@ -3,7 +3,7 @@ devices:
   cpu:
     vendor: intel
   gpu:
-    type: intel # Intel integrated graphics
+    type: intel
   audio: true
   bluetooth: true # Enabled for portable use
   printer: true

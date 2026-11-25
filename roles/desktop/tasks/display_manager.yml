@@ -83,6 +83,16 @@
   become: true
   when: desktop.display_manager == 'xrdp'
 
+# xrdp.ini drops privileges to runtime_group=xrdp; session sockets must be accessible to it
+- name: Set sesman session socket directory group to xrdp
+  ansible.builtin.lineinfile:
+    path: /etc/xrdp/sesman.ini
+    regexp: '^#?SessionSockdirGroup='
+    line: SessionSockdirGroup=xrdp
+    insertafter: '^\[Security\]'
+  become: true
+  when: desktop.display_manager == 'xrdp'
+
 - name: Enable xrdp.service
   ansible.builtin.systemd:
     name: xrdp

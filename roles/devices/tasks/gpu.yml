@@ -20,7 +20,7 @@
     state: present
     use: paru
   become: false
-  when: devices.gpu.type == 'amd'
+  when: devices.gpu.type == 'amd' or devices.gpu.integrated | default('none') == 'amd'
 
 - name: Install NVIDIA GPU drivers
   aur:

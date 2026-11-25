@@ -7,7 +7,7 @@ devices:
   cpu:
     vendor: amd
   gpu:
-    type: amd # AMD Radeon 680M (integrated)
+    type: amd
   audio: true
   bluetooth: true
   printer: true

@@ -129,6 +129,53 @@ cd arch-ansible
 ansible-playbook playbook/configure.yml --limit $(hostname) -c local
 ```
 
+### Sunshine / Moonlight の検証用インストール
+
+既存のリモートデスクトップ設定に合わせて導入する。
+
+- 配信側: `desktop/tasks/remote.yml`。`desktop.display_manager: xrdp` のホスト
+  （kamo3ai）に Sunshine を追加する。
+- 接続側: `apps/tasks/remote.yml`。`apps.remote: true` のホスト
+  （mainpc / nucbox / sandbox）に Remmina と Moonlight を導入する。
+
+```bash
+ansible-playbook playbook/configure.yml --limit kamo3ai --tags remote
+ansible-playbook playbook/configure.yml --limit mainpc,nucbox,sandbox --tags remote
+```
+
+`base` ロールによる paru / sudo 設定が前提。`./run.sh` では `desktop` / `apps` に含まれる。
+
+Ansible はパッケージの導入と Sunshine ユーザーサービスの有効化・起動を行う。
+kamo3ai は `devices.gpu.integrated: amd` で
+NVIDIA と AMD のドライバーを併用する。初回は `--tags gpu,remote` で適用する。
+
+Sunshine の個人設定は dotfiles 側で管理する。
+AMD エンコードの設定例（`~/.config/sunshine/sunshine.conf`）:
+
+```ini
+encoder = vaapi
+adapter_name = /dev/dri/by-path/pci-0000:09:00.0-render
+```
+
+kamo3ai 上での起動状態の確認:
+
+```bash
+systemctl --user status app-dev.lizardbyte.app.Sunshine.service
+journalctl --user -u app-dev.lizardbyte.app.Sunshine.service -b
+```
+
+Ansible はホーム配下への設定ファイル配置を行わない。
+サービス有効化に伴う systemd のリンクは作成する。
+適用時は対象ユーザーの systemd ユーザーマネージャーが動作している必要がある。
+独自の仮想画面・自動ログイン・起動スクリプトは追加しない。
+`enable` だけでデスクトップセッションが作られるわけではなく、
+再起動後の RDP 未接続状態で配信できるかは別途検証する。
+AMD のエンコード指定はデスクトップの描画先を変更しない。
+Moonlight との初回ペアリングも別途必要。
+
+参考: [Sunshine 起動手順](https://docs.lizardbyte.dev/projects/sunshine/latest/md_docs_2getting__started.html)、
+[Sunshine 設定](https://docs.lizardbyte.dev/projects/sunshine/latest/md_docs_2configuration.html)。
+
 ### Phase 2 完了後
 
 dotfiles リポジトリの `init.sh` を実行してユーザー環境を構築する。
