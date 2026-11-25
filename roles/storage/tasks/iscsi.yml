@@ -6,3 +6,14 @@
     state: present
     use: paru
   become: false
+
+- name: Install iSCSI connection script
+  ansible.builtin.template:
+    src: iscsi.sh.j2
+    dest: /usr/local/bin/iscsi.sh
+    owner: root
+    group: root
+    mode: '0755'
+  when:
+    - storage.iscsi_portal is defined
+    - storage.iscsi_target is defined

@@ -41,6 +41,8 @@ storage:
   encryption: true
   nfs: true
   iscsi: true
+  iscsi_portal: 192.168.100.70
+  iscsi_target: iqn.2005-10.org.freenas.ctl:temp
   sshfs_server: true
   btrfs_mounts:
     - subvol: "@stable_diffusion_data"

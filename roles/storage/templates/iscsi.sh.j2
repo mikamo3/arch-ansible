@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sudo iscsiadm -m discovery -t sendtargets -p {{ storage.iscsi_portal | quote }}
+sudo iscsiadm -m node --targetname {{ storage.iscsi_target | quote }} -p {{ storage.iscsi_portal | quote }} --login
